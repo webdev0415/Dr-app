@@ -1,0 +1,28 @@
+@import "../../../../../provider-documents/src/lib/shared";
+
+.discharge-disposition {
+  table {
+    margin-top: 1rem;
+    width: 100%;
+    tr {
+      text-align: left;
+      width: 100%;
+      :first-child {
+        width: 15%;
+      }
+      :last-child {
+        width: 85%;
+      }
+    }
+    td {
+      padding-left: 5px;
+    }
+    thead {
+      background: none !important;
+      text-align: center;
+      td {
+        width: 100% !important;
+      }
+    }
+  }
+}

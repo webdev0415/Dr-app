@@ -1,0 +1,36 @@
+@charset "UTF-8";
+
+@import "~ng-uikit-pro-standard/assets/scss/core/colors";
+@import "~ng-uikit-pro-standard/assets/scss/core/variables";
+@import "~ng-uikit-pro-standard/assets/scss/core/variables-pro";
+
+@import "~ng-uikit-pro-standard/assets/scss/addons-pro/_timelines-pro.scss";
+@import "~ng-uikit-pro-standard/assets/scss/addons-pro/_timeline-pro.scss";
+
+@import "../../../../node_modules/ng-uikit-pro-standard/assets/scss/core/colors";
+@import "../../../../node_modules/ng-uikit-pro-standard/assets/scss/core/variables";
+@import "../../../../node_modules/ng-uikit-pro-standard/assets/scss/core/variables-pro";
+
+
+@import 'theme';
+@import 'shared/variables';
+@import 'shared/functions';
+@import 'shared/mixins';
+
+// MDB CORE
+@import '../../../../node_modules/ng-uikit-pro-standard/assets/scss/core/global';
+@import '../../../../node_modules/ng-uikit-pro-standard/assets/scss/core/helpers';
+@import '../../../../node_modules/ng-uikit-pro-standard/assets/scss/core/typography';
+@import '../../../../node_modules/ng-uikit-pro-standard/assets/scss/core/masks';
+@import '../../../../node_modules/ng-uikit-pro-standard/assets/scss/core/waves';
+
+// Reboot
+@import '../../../../node_modules/ng-uikit-pro-standard/assets/scss/bootstrap/root';
+@import 'reboot';
+@import 'mdb/buttons';
+@import 'mdb/progress';
+@import "mdb/toasts";
+@import "mdb/switches";
+
+// Custom styles
+@import 'drapp';

@@ -1,0 +1,59 @@
+@import '../../../../../../styles/shared/colors';
+
+.collapse-header {
+  align-items: center;
+  button {
+    color: #0277bd !important;
+    border-color: #0277bd !important;
+    border-style: solid;
+    border-width: thin;
+    max-width: 125px;
+  }
+}
+
+.expansion-body {
+  border-radius: 4px;
+  &.expanded:not(.ng-animating) {
+    overflow: visible !important;
+  }
+}
+
+mat-divider {
+  border-top: 1px solid #ABABAB !important;
+}
+
+.good-message {
+  background-color: $success-color !important;
+}
+
+.require-message {
+  background-color: #dc5b5a !important;
+}
+
+.message {
+  color: white;
+  background-color: $primary-color;
+}
+
+h5 {
+  min-width: 24px;
+  padding-left: 6px;
+}
+
+fa-icon {
+  min-width: 24px;
+  padding-left: 5px;
+}
+
+.hint {
+  white-space: nowrap;
+}
+
+:host::ng-deep .tooltip-inner {
+  width: 370px;
+  max-width: 370px;
+}
+
+.more-info {
+  cursor: pointer;
+}

@@ -1,0 +1,49 @@
+<div class="dialog-wrapper d-flex flex-column">
+  <div class="dialog-wrapper-title">
+    <p>{{data.name}}</p>
+  </div>
+  <h3>
+    {{ data.parsedSymptoms ? data.parsedSymptoms[0].name : ''}}
+  </h3>
+  <div class="dialog-wrapper-content" #contentWrapper>
+    <div class="row w-100">
+      <cdk-virtual-scroll-viewport itemSize="20" minBufferPx="700" maxBufferPx="700" class="virtual-scroll-viewport" *ngIf="data.parsedSymptoms && data.parsedSymptoms.length !== 0">
+        <div class="py-1 col-12 list-item d-flex" role="group" [ngClass]="{'flex-column': !desktopLayout, 'flex-row flex-wrap': desktopLayout}">
+          <mat-checkbox mdbCheckbox mdbWavesEffect class="longnames d-flex" color="primary" [class.w-50]="desktopLayout" *ngFor="let s of data.symptomDescriptions; let index = index;" [checked]="selected.includes(index)" (change)="toggleItem(index)">
+            {{s.name}}
+          </mat-checkbox>
+        </div>
+      </cdk-virtual-scroll-viewport>
+    </div>
+  </div>
+
+  <div class="w-100 d-flex flex-column" *ngIf="selected.length">
+    <h3 class="text-left">When did this start?</h3>
+    <div class="d-flex inline-flex flex-row w-100 justify-content-center flex-wrap duration-buttons-group" *ngIf="!rangeSelection">
+      <button type="button" color="primary" size="md" class="mx-2 mb-2 rounded my-0" [class.btn-green]="buttonSelected(button.value)" *ngFor="let button of startedButtons" mdbWavesEffect mdbBtn (click)="buttonClick(button.value)">{{button.label}}</button>
+    </div>
+    <div class="d-flex flex-row w-100 justify-content-between" *ngIf="rangeSelection">
+      <mdb-range-input min="90" max="365" [(ngModel)]="rangeSelected" class="w-75" *ngIf="rangeType === 'days'"></mdb-range-input>
+      <mdb-range-input min="4" max="12" [(ngModel)]="rangeSelected" class="w-75" *ngIf="rangeType === 'months'"></mdb-range-input>
+      <mdb-range-input min="12" max="52" [(ngModel)]="rangeSelected" class="w-75" *ngIf="rangeType === 'weeks'"></mdb-range-input>
+      <mdb-range-input min="1" max="{{this.data.patientAge}}" [(ngModel)]="rangeSelected" class="w-75" *ngIf="rangeType === 'years'"></mdb-range-input>
+      <mdb-select [options]="rangeOptions" [(ngModel)]="rangeType" (selected)="adjustRange($event.value)"></mdb-select>
+    </div>
+    <div class="d-flex flex-row range-controls" *ngIf="rangeSelection">
+      <button type="button" color="green" size="sm" mdbBtn mdbWavesEffect (click)="buttonClick([rangeSelected, rangeType])">Done</button>
+      <button type="button" color="red" size="sm" (click)="rangeSelection = false" mdbBtn mdbWavesEffect>Cancel</button>
+    </div>
+  </div>
+
+  <div class="popup-btn-group d-flex flex-column justify-content-end">
+    <div class="d-flex justify-content-center">
+      <button mdbBtn type="button" color="primary" class="mx-2 my-0" [outline]="true" size="md" mdbWavesEffect
+              matDialogClose (click)="cancelDialog()">Cancel
+      </button>
+      <button mdbBtn type="button" color="primary" class="mx-2 my-0" size="md" mdbWavesEffect
+              (click)="confirmSelected()"
+              [disabled]="confirmButtonDisabled">Confirm
+      </button>
+    </div>
+  </div>
+</div>

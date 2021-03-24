@@ -1,0 +1,91 @@
+<div class="dialog-wrapper d-flex flex-column">
+  <div class="dialog-wrapper-title d-flex justify-content-between ">
+    <p>{{data.name}}</p>
+    <div *ngIf="data.isTablet" class="popup-btn-group d-flex flex-row flex-wrap justify-content-end">
+      <ng-container [ngTemplateOutlet]="buttons"></ng-container>
+    </div>
+  </div>
+  <div class="dialog-wrapper-header">
+    <div class="search p-2">
+      <div class="md-form input-group">
+        <ng-container *ngIf="data.search">
+          <input matInput class="form-control input-with-border mt-0 p-2" placeholder="Search"
+                 [formControl]="formInputControl" (keyup.enter)="onClickSearch()"/>
+          <div class="input-group-append">
+          <span class="input-group-text span-clickable" (click)="onClickSearch()">
+            <fa-icon icon="search"></fa-icon>
+          </span>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="data.showOtherInput">
+          <input matInput class="form-control input-with-border ml-2 mt-0 p-2" placeholder="Other"
+                 [formControl]="otherInputControl" />
+          <div class="input-group-append">
+            <span class="input-group-text span-clickable" (click)="removeOtherInfo()">
+              <fa-icon icon="times"></fa-icon>
+            </span>
+          </div>
+          <mdb-error *ngIf="otherInputControl.errors?.maxlength" class="mdb-error-other-input">This field can't be more than 40 characters long.</mdb-error>
+          <mdb-error *ngIf="otherInputControl.errors?.pattern" class="mdb-error-other-input">Field invalid.</mdb-error>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+  <div class="dialog-wrapper-content" [class.no-overflow]="data.type === 'drugs'" #contentWrapper>
+    <div id="loading-spinner" *ngIf="waitingCounter > 0">
+      <div id="loading-hourglass"></div>
+    </div>
+    <div class="result-placeholder-container" *ngIf="waitingCounter === 0 && !formInputControl.valid && !data.list.length && data.search">
+      <div>
+        <p class="result-placeholder faded">Start by Typing In The Search Box</p>
+        <p class="faded">(3 letters are minimum)</p>
+      </div>
+    </div>
+    <div class="result-placeholder-container" *ngIf="formInputControl.valid && !data.list.length && waitingCounter === 0">
+      <div>
+        <p class="result-placeholder faded">No results found</p>
+      </div>
+    </div>
+    <div class="w-100 d-flex flex-wrap">
+      <ng-content *ngTemplateOutlet="data.type === 'drugs' ? drug : list; context: {list: data.list}"></ng-content>
+    </div>
+
+
+    <ng-template let-list="list" #drug>
+      <cdk-virtual-scroll-viewport itemSize="20" minBufferPx="700" maxBufferPx="700" class="virtual-scroll-viewport">
+        <div class="w-100 row">
+          <div *cdkVirtualFor="let drug of list; let index = index;" class="col-xl-6 text-left list-item">
+            <mat-checkbox class="longnames" color="primary" [checked]="selected.includes(index)"
+                          (change)="toggleItem(index)">
+              {{drug.name}}
+            </mat-checkbox>
+          </div>
+        </div>
+      </cdk-virtual-scroll-viewport>
+    </ng-template>
+
+    <ng-template let-list="list" #list>
+      <div *ngFor="let s of list; let index = index;" class="w-50">
+        <div class="py-1 px-2 list-item d-flex flex-row justify-content-between">
+          <mat-checkbox class="longnames text-left" color="primary" [checked]="selected.includes(s.index)" (change)="toggleItem(index)">
+            {{s.name}}
+          </mat-checkbox>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+
+  <div class="popup-btn-group d-flex flex-column justify-content-end" *ngIf="!data.isTablet">
+    <div class="d-flex justify-content-center">
+      <ng-container [ngTemplateOutlet]="buttons"></ng-container>
+    </div>
+  </div>
+</div>
+
+<ng-template #buttons>
+  <button mdbBtn type="button" color="primary" class="mx-2 mt-0 mb-1" [outline]="true" size="sm" mdbWavesEffect
+          matDialogClose (click)="cancelDialog()">Cancel</button>
+  <button mdbBtn type="button" color="primary" class="mx-2 my-0" size="sm" mdbWavesEffect (click)="confirmSelected()"
+          [disabled]="confirmButtonDisabled">Confirm</button>
+</ng-template>

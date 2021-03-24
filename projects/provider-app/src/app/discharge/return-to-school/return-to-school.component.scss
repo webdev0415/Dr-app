@@ -1,0 +1,11 @@
+@import '../../../../src/styles/shared/variables';
+@import '../discharge';
+
+.buttons-group {
+  display: grid;
+  grid-template-columns: repeat(3, calc(100%/3));
+  button {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}

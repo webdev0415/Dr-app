@@ -1,0 +1,207 @@
+<mat-expansion-panel [expanded]="patientsEntity.isExpanded" [hidden]="patientsEntity.isHiddenOnEmpty ? !patientsEntity.patients.length : false">
+  <mat-expansion-panel-header>
+    <span class="d-flex align-items-center w-25">{{ patientsEntity.panelHeaderLabel }}</span>
+    <div class="d-flex justify-content-end w-75" *ngIf="patientsEntity.type === 'completed'">
+      <button mdbBtn type="button" color="primary" size="sm" class="mr-4" mdbWavesEffect (click)="searchCompletedPatients($event)">Search</button>
+    </div>
+  </mat-expansion-panel-header>
+  <div class="table-responsive">
+    <table mdbTable #patientsTable="mdbTable" class="mb-0">
+      <div *ngIf="!isTablet">
+        <thead>
+        <tr>
+          <th *ngFor="let header of headers; trackBy:trackByIndex" scope="col"
+              [mdbTableSort]="header.sortable ? patientsEntity.patients: []"
+              [sortBy]="header.sortable ? header.value : ''"
+              (sorted)="onTableSort($event)"
+
+              [class.name-column]="header.label === 'Name'" [class.id-column]="header.label === 'ID'"
+              [class.complaint-column]="header.label === 'Complaint'" [class.location-column]="header.label === 'Location' || header.label === 'State'"
+              [class.telemedecine-url-column]="header.value === 'telemedecine_url'" [class.exam-room-column]="header.label === 'Exam room' || header.label === 'Appointment Time'"
+              [class.completed-column]="header.label === 'Completed'" [class.ehr-column]="header.label === 'EHR Status'"
+              [class.provider-column]="header.label === 'Provider'" [class.waiting-column]="header.label === 'Waiting time' || header.label === 'Appointment Time'">
+            <div [class.table-header-clickable]="header.sortable">
+              <span class="mr-1">{{header.label}}</span>
+              <mdb-icon *ngIf="header.sortable" fas icon="sort"></mdb-icon>
+            </div>
+          </th>
+        </tr>
+        </thead>
+
+        <tbody>
+          <ng-container *ngFor="let patient of patientsEntity.patients; let i = index; trackBy:trackByIndex">
+            <tr *ngIf="i+1 >= pagination.firstItemIndex && i < pagination.lastItemIndex"
+                [ngClass]="getPatientRowClass(patient)"
+            >
+              <td>
+                <div class="d-flex justify-content-start">
+                  <div class="mr-3">{{patient.patient_id}}</div>
+                  <div [matTooltip]="patient.gender | titlecase" matTooltipPosition="above">
+                    <fa-icon [icon]="['fal', getGenderIcon(patient.gender)]" class="gender-icon"></fa-icon>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <fa-duotone-icon *ngIf="isFastMed && patient.telemedecine_url !== '' && patient.is_virtual_doctor" [icon]="['fad', 'tv']" size="md"
+                                 class="icon" primaryColor="green" title="Telemedicine">
+                </fa-duotone-icon>
+              </td>
+              <td>{{patient.patient_name}}</td>
+              <td>{{chiefComplaint(patient.detail_visit_reason, patient.covid_19_possible)}}</td>
+              <td>
+                <div class="d-flex">
+                  <div class="w-100 d-flex align-items-center">{{ isPICBusiness ? patient.clinicName + ', ' + (patient.ehr_location | titlecase) : patient.locationNameToDisplay }}</div>
+                  <div class="d-flex justify-content-end patient-status-icon-container">
+                    <ng-container *ngFor="let icon of patientStatusIconGroups">
+                      <img *ngIf="patient[icon + '_ordered'] || patient[icon + '_completed']"
+                           [matTooltip]="patient[icon + '_ordered'] ? 'Ordered ' + icon : 'Completed ' + icon" matTooltipPosition="above"
+                           [src]="getPatientStatusIcon(icon, patient)" [alt]="icon"
+                           class="patient-status-icon" [ngClass]="patient[icon + '_ordered'] ? 'patient-status-ordered-icon' : 'patient-status-completed-icon'">
+                    </ng-container>
+                  </div>
+                </div>
+              </td>
+              <td *ngIf="isTelemedicinePatient(patient)">{{ patient | appointmentTime }}</td>
+              <td *ngIf="!isTelemedicinePatient(patient)">{{ isWithProviderPatient(patient) &&  patient.treatment_complete ? 'completed'
+                : isCompletedPatient(patient) ? patient.completedTime : patient.waitingTime }}</td>
+              <td *ngIf="isWithProviderPatient(patient) && isRoomActive">{{ patient.room }}</td>
+              <td *ngIf="isWaitingOrRegisteredPatient(patient) && !isTelemedicinePatient(patient)">
+                <div class="d-flex justify-content-start">
+                  <mat-form-field class="room-select">
+                    <mat-label [ngClass]="{'text-dark': patient.room}">{{patient.room ? patient.room : 'Choose the room'}}</mat-label>
+                    <mat-select [(value)]="patient.room">
+                      <mat-option *ngFor="let room of roomValues[patient.location_name]" [value]="room" (onSelectionChange)="onRoomChange($event, patient)">
+                        {{ room }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <div *ngIf="patient.room" class="d-flex align-items-center float-right room-controls">
+                    <mat-divider [vertical]="true" class="mx-2 divider"></mat-divider>
+                    <mat-icon (click)="removeRoom(patient)" class="remove">close</mat-icon>
+                  </div>
+                </div>
+              </td>
+              <td *ngIf="isWithProviderPatient(patient) || isCompletedPatient(patient)">{{ patient.provider }}</td>
+              <td>
+                <div *ngIf="patient.edb_state">
+                  <fa-icon [icon]="['fad', 'pennant']" size="lg" [class]="'ehr-icon ' + ehrStateClass(patient.edb_state)">
+                  </fa-icon>
+                </div>
+              </td>
+              <td class="p-1">
+                <div class="d-flex align-items-end" [class.flex-column]="!(isOMUserRole && isWithProviderPatient(patient))">
+                  <button *ngIf="isOMUserRole && isWithProviderPatient(patient)" mdbBtn type="button" color="light" size="sm" class="px-3 my-0" (click)="removePatientAssignment(patient)">Unassign</button>
+                  <button mdbBtn type="button" color="primary" size="sm" class="px-3 m-0 select-button" [class.select-patient-button]="isWaitingOrRegisteredPatient(patient)"
+                          (click)="onPatientRowClick(patient)" [class.disabled]="isWithProviderPatient(patient) ? getIsRowDisabled(patient) : false">
+                    {{ isCompletedPatient(patient) ? 'Review' : 'Select' }}
+                  </button>
+                  <ng-container *ngIf="isWaitingOrRegisteredPatient(patient)">
+                    <button mdbBtn size="sm" [matMenuTriggerFor]="menu" class="select-button close-patient-button mx-0 mb-0">Close</button>
+                    <mat-menu #menu="matMenu">
+                      <button mat-menu-item *ngFor="let reason of closePatientReason" (click)="closePatient(patient ,reason)">
+                        {{reason.icd10_name}}
+                      </button>
+                    </mat-menu>
+                  </ng-container>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </div>
+      <!-- Tablet Pharmacist view -->
+      <tbody *ngIf="isTablet">
+        <ng-container *ngFor="let patient of patientsEntity.patients; let i = index">
+          <tr *ngIf="i+1 >= pagination.firstItemIndex && i < pagination.lastItemIndex"
+              [ngClass]="patient.status.toLowerCase()">
+            <td class="icons-column">
+              <div [matTooltip]="patient.gender | titlecase" matTooltipPosition="above" class="d-flex flex-column align-items-center">
+                <div class="d-flex flex-row">
+                  <fa-icon [icon]="['fal', getGenderIcon(patient.gender)]" class="gender-icon"></fa-icon>
+                  <fa-duotone-icon [icon]="['fad', 'tv']" size="md"
+                                   *ngIf="isFastMed && patient.telemedecine_url !== '' && patient.is_virtual_doctor"
+                                   class="icon ml-2" primaryColor="green" title="Telemedicine">
+                  </fa-duotone-icon>
+                </div>
+                <div style="font-size: .8rem">
+                  {{patient.patient_id}}
+                </div>
+              </div>
+            </td>
+            <td *ngIf="i+1 >= pagination.firstItemIndex && i < pagination.lastItemIndex">
+              <div class="d-flex justify-content-start flex-column">
+                <div class="d-flex flex-row">
+                  <div class="mr-3">
+                    <span class="font-weight-bold">{{patient.patient_name}}</span>
+                    ({{patient.waitingTime}} ) {{chiefComplaint(patient.detail_visit_reason, patient.covid_19_possible)}}
+                  </div>
+                </div>
+                <div class="d-flex justify-content-start" *ngIf="!isWaitingOrRegisteredPatient(patient)">
+                  {{ patient.room }}
+                </div>
+                <div class="d-flex justify-content-start" *ngIf="isWaitingOrRegisteredPatient(patient)">
+                  <mat-form-field class="room-select">
+                    <mat-label [ngClass]="{'text-dark': patient.room}">{{patient.room ? patient.room : 'Choose the room'}}</mat-label>
+                    <mat-select [(value)]="patient.room">
+                      <mat-option *ngFor="let room of roomValues[patient.location_name]" [value]="room" (onSelectionChange)="onRoomChange($event, patient)">
+                        {{ room }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <div *ngIf="patient.room" class="d-flex align-items-center float-right room-controls">
+                    <mat-divider [vertical]="true" class="mx-2 divider"></mat-divider>
+                    <mat-icon (click)="removeRoom(patient)" class="remove">close</mat-icon>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex justify-content-start" *ngIf="!isWaitingOrRegisteredPatient(patient)">
+                Provider:
+                <span class="ml-1 font-weight-bold">
+                  {{ patient.provider }}
+                </span>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex justify-content-end">
+                <div class="d-flex align-items-center patient-status-icon-container flex-row">
+                  <ng-container *ngFor="let icon of patientStatusIconGroups">
+                    <img *ngIf="patient[icon + '_ordered'] || patient[icon + '_completed']" #tooltip="matTooltip"
+                         [matTooltip]="patient[icon + '_ordered'] ? 'Ordered ' + icon : 'Completed ' + icon" matTooltipPosition="above"
+                         [src]="getPatientStatusIcon(icon, patient)" [alt]="icon" (click)="tooltip.toggle()"
+                         class="patient-status-icon" [ngClass]="patient[icon + '_ordered'] ? 'patient-status-ordered-icon' : 'patient-status-completed-icon'">
+                  </ng-container>
+                </div>
+              </div>
+            </td>
+            <td class="p-1 buttons-column">
+              <div class="d-flex flex-column align-items-end">
+                <button mdbBtn type="button" color="primary" size="sm" class="px-3 m-0 select-button select-patient-button"
+                        (click)="onPatientRowClick(patient)" [class.disabled]="isWithProviderPatient(patient) ? getIsRowDisabled(patient) : false">
+                  {{ isCompletedPatient(patient) ? 'Review' : 'Select' }}
+                </button>
+                <ng-container *ngIf="isWaitingOrRegisteredPatient(patient)">
+                  <button mdbBtn size="sm" [matMenuTriggerFor]="menu" class="select-button close-patient-button mx-0 mb-0">Close</button>
+                  <mat-menu #menu="matMenu">
+                    <button mat-menu-item *ngFor="let reason of closePatientReason" (click)="closePatient(patient ,reason)">
+                      {{reason.icd10_name}}
+                    </button>
+                  </mat-menu>
+                </ng-container>
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+      <!-- Tablet Pharmacist view end -->
+      <tfoot class="grey lighten-5 w-100">
+      <tr>
+        <td colspan="10">
+          <mdb-table-pagination #paginator [tableEl]="patientsTable" [searchDataSource]="patientsEntity.patients"></mdb-table-pagination>
+        </td>
+      </tr>
+      </tfoot>
+    </table>
+  </div>
+</mat-expansion-panel>

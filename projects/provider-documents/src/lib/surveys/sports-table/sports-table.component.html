@@ -1,0 +1,142 @@
+<div class="d-flex flex-wrap justify-content-around w-100" *ngIf="question">
+  <table class="sports-table">
+    <tr>
+      <th></th>
+      <th>sprain / tear</th>
+      <th>fracture / dislocation</th>
+      <th>procedure</th>
+    </tr>
+    <tr *ngFor="let item of question.first">
+      <td><span>{{item}}</span></td>
+      <td class="text-center"><mat-checkbox [disabled]="true" [checked]="question.data.sprain.includes(item)"></mat-checkbox></td>
+      <td class="text-center"><mat-checkbox [disabled]="true" [checked]="question.data.fracture.includes(item)"></mat-checkbox></td>
+      <td class="text-center"><mat-checkbox [disabled]="true" [checked]="question.data.procedure.includes(item)"></mat-checkbox></td>
+    </tr>
+  </table>
+  <table class="sports-table">
+    <tr>
+      <th></th>
+      <th>sprain / tear</th>
+      <th>fracture / dislocation</th>
+      <th>procedure</th>
+    </tr>
+    <tr *ngFor="let item of question.second">
+      <td><span>{{item}}</span></td>
+      <td class="text-center"><mat-checkbox [disabled]="true" [checked]="question.data.sprain.includes(item)"></mat-checkbox></td>
+      <td class="text-center"><mat-checkbox [disabled]="true" [checked]="question.data.fracture.includes(item)"></mat-checkbox></td>
+      <td class="text-center"><mat-checkbox [disabled]="true" [checked]="question.data.procedure.includes(item)"></mat-checkbox></td>
+    </tr>
+  </table>
+</div>
+
+<mat-table class="w-100" #table [dataSource]="sportsPhysical" matSort *ngIf="!question">
+
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef><span>Name</span></mat-header-cell>
+    <mat-cell *matCellDef="let row">
+      <span [class.group]="row.normal === undefined">{{row.name}}</span>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="normal">
+    <mat-header-cell *matHeaderCellDef><span>Normal</span></mat-header-cell>
+    <mat-cell *matCellDef="let row">
+      <mat-checkbox *ngIf="(!isPdf && row.normal !== undefined) || (isPdf && row.normal !== undefined && !row.normal)"
+                    [class.black-checkmark]="isPdf"
+                    [checked]="row.normal"
+                    [(ngModel)]="row.normal"
+                    (change)="onNormalClick($event, row)"
+                    [disabled]="viewOnly">
+      </mat-checkbox>
+      <svg *ngIf="isPdf && row.normal" width="24" height="24"
+           fill="black">
+        <path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"></path>
+      </svg>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="abnormal">
+    <mat-header-cell *matHeaderCellDef><span>Abnormal findings</span></mat-header-cell>
+    <mat-cell *matCellDef="let row">
+      <mat-form-field *ngIf="row.abnormal !== undefined" class="w-100">
+        <input matInput [value]="row.abnormal" [formControl]="abnormalControl" (keyup)="onAbnormalEnter(row)">
+        <mat-error *ngIf="abnormalControl.invalid && isAbnormalValid(row)">This field can't be more than 127 characters long.</mat-error>
+      </mat-form-field>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="['name', 'normal', 'abnormal']"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: ['name', 'normal', 'abnormal']"></mat-row>
+</mat-table>
+<form class="px-3 mt-2" [formGroup]="sportsClearedControls" *ngIf="!question">
+
+  <mat-checkbox *ngIf="!isPdf || (isPdf && sportsCleared.cleared !== 'cleared'); else pdfCheckmark"
+                [checked]="sportsCleared.cleared === 'cleared'"
+                (click)="onClearedChange($event, 'cleared')" [disabled]="viewOnly">
+  </mat-checkbox>
+  <span class="ml-1">Cleared without restriction</span>
+
+  <div class="d-flex" [class.flex-column]="isPdf">
+    <div class="d-flex" [ngClass]="{'w-25': !isPdf, 'align-items-center': !isPdf, 'justify-content-between': !isPdf, 'flex-column': isPdf, 'align-items-start': isPdf}">
+      <div>
+        <mat-checkbox *ngIf="!isPdf"
+                      class="pr-1" [checked]="['all', 'specific'].includes(sportsCleared.cleared)"
+                      (click)="onClearedChange($event, 'all')" [disabled]="viewOnly">
+        </mat-checkbox>
+        <svg *ngIf="isPdf && ['all', 'specific'].includes(sportsCleared.cleared)" width="24" height="24" class="mr-2"
+             fill="black">
+          <path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"></path>
+        </svg>
+        <span>Not Cleared For</span>
+      </div>
+
+      <div>
+        <mat-checkbox class="px-1" *ngIf="!isPdf || (isPdf && sportsCleared.cleared !== 'all'); else pdfCheckmark"
+                      [checked]="sportsCleared.cleared === 'all'" (click)="onClearedChange($event, 'all')"
+                      [disabled]="viewOnly">
+        </mat-checkbox>
+        <span>All Sports</span>
+      </div>
+
+      <div>
+        <mat-checkbox class="px-1" *ngIf="!isPdf || (isPdf && sportsCleared.cleared !== 'specific'); else pdfCheckmark"
+                      [checked]="sportsCleared.cleared === 'specific'"
+                      (click)="onClearedChange($event, 'specific')"
+                      [disabled]="viewOnly">
+
+        </mat-checkbox>
+        <span>Certain Sports:</span>
+      </div>
+
+    </div>
+    <div [ngClass]="{'w-100': isPdf, 'w-75': !isPdf}" >
+      <mat-form-field class="w-100">
+      <input matInput class="bottom-input" [value]="sportsCleared.sports" formControlName="sports" (keyup)="onSportsClearedEnter(sportsCleared, 'sports')" (input)="onClearedChange($event, 'specific')">
+      <mat-error *ngIf="sportsClearedControls.invalid">This field can't be more than 255 characters long.</mat-error>
+    </mat-form-field>
+    </div>
+  </div>
+  <div class="d-flex flex-wrap">
+    <div class="mr-3 d-inline-flex align-items-center flex-grow-1">
+      <span class="mr-2">Reason: </span>
+      <mat-form-field class="flex-grow-1">
+        <input matInput [value]="sportsCleared.reason" (keyup)="onSportsClearedEnter(sportsCleared, 'reason')" formControlName="reason">
+        <mat-error *ngIf="sportsClearedControls.invalid">This field can't be more than 255 characters long.</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="d-inline-flex align-items-center flex-grow-1">
+      <span class="mr-2">Recommendations: </span>
+      <mat-form-field class="flex-grow-1">
+        <input matInput [value]="sportsCleared.recommendations" (keyup)="onSportsClearedEnter(sportsCleared, 'recommendations')" formControlName="recommendations">
+        <mat-error *ngIf="sportsClearedControls.invalid">This field can't be more than 255 characters long.</mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+</form>
+<mat-divider></mat-divider>
+
+<ng-template #pdfCheckmark>
+  <svg *ngIf="isPdf" width="24" height="24" fill="black" class="mr-2">
+    <path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"></path>
+  </svg>
+</ng-template>

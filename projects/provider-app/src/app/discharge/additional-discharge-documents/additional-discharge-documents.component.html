@@ -1,0 +1,66 @@
+<div class="w-100 d-flex flex-column mt-2">
+  <p class="align-self-center mt-3"><strong>Add Discharge Information</strong></p>
+
+  <div class="d-flex flex-column w-100">
+    <div class="d-flex flex-row w-100 justify-content-between md-form">
+      <input mdbInput placeholder="Search by ICD or Keyword. Min of 5 characters for keyword" class="w-100 form-control" [disabled]="viewOnly" [(ngModel)]="searchInput"/>
+      <fa-icon icon="search" class="search-icon"></fa-icon>
+    </div>
+    <span>Results for: {{searchKey}}</span>
+    <div class="d-flex flex-row w-100 justify-content-between align-items-baseline">
+      <div class="d-flex flex-row">
+        <span class="align-self-center">Page {{pageNumber + 1}} of {{(totalArticlePagesAmount$ | async) || 1}}</span>
+        <ul class="pagination pagination-circle d-flex align-self-end mb-0 ml-4">
+          <li class="page-item" [class.disabled]="!pageNumber"><a (click)="changePage(false, true)" aria-label="Previous"
+                                                                  class="page-link" mdbWavesEffect>
+            <span>«</span></a>
+          </li>
+          <li class="page-item" [class.disabled]="!pageNumber"><a (click)="changePage()" aria-label="Previous"
+                                                                  class="page-link" mdbWavesEffect>
+            <span aria-hidden="true">‹</span></a>
+          </li>
+          <li class="page-item" [class.disabled]="pageNumber >= (totalArticlePagesAmount$ | async) - 1"><a
+            (click)="changePage(true)"
+            aria-label="Previous" class="page-link" mdbWavesEffect>
+            <span aria-hidden="true">›</span></a>
+          </li>
+          <li class="page-item" [class.disabled]="pageNumber >= (totalArticlePagesAmount$ | async) - 1"><a
+            (click)="changePage(true, true)"
+            aria-label="Previous" class="page-link" mdbWavesEffect>
+            <span aria-hidden="true">»</span></a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="d-flex flex-row flex-wrap align-items-baseline justify-content-end">
+        <button mdbBtn mdbWavesEffect [disabled]="viewOnly" (click)="addCustomArticle()" class="btn btn-primary btn-sm one-line-button">Add Custom</button>
+        <div class="d-flex flex-row">
+          <span class="mr-1">Show</span>
+          <mdb-select (ngModelChange)="articlesPerPage = $event" [options]="articlesPerPageOptions"
+                      [ngModel]="articlesPerPage$ | async"></mdb-select>
+        </div>
+      </div>
+    </div>
+
+    <span *ngIf="searchKey && !(searchResult$ | async).length">
+      No results.
+    </span>
+
+    <div class="d-flex flex-row w-100 justify-content-between align-items-center" *ngFor="let result of (searchResult$ | async); trackBy: trackByLink">
+      <a class="link" [href]="(result.link)" target="_blank"><span>{{result.title}}</span></a>
+      <button mdbBtn mdbWavesEffect class="btn btn-primary btn-sm doc-button" (click)="addDocument(result)">add</button>
+    </div>
+  </div>
+
+  <div class="divider triple my-1"></div>
+
+  <div class="w-100 d-flex flex-column added-documents">
+    <div class="w-100 d-flex flex-row justify-content-between align-items-center">
+      <span class="fs-18"><b>Added Documents</b></span>
+    </div>
+    <div class="w-100 d-flex flex-row justify-content-between align-items-center" *ngFor="let instruction of addedDocuments; let index=index">
+      <a class="link" [href]="(instruction.link)" target="_blank"><span>{{instruction.title}}</span></a>
+      <button mdbBtn mdbWavesEffect class="btn btn-primary btn-sm doc-button" (click)="removeDocument(instruction.link)" [disabled]="viewOnly">remove</button>
+    </div>
+  </div>
+</div>

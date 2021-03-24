@@ -1,0 +1,24 @@
+<div class="d-flex flex-row justify-content-center">
+    <h4 class="text-center">{{ title }}</h4>
+    <span *ngIf="!isEditable" class="link primary fs-14 ml-2" (click)="editNotes(); $event.stopPropagation()">EDIT</span>
+    <span *ngIf="isEditable" class="link primary fs-14 ml-2" (click)="saveNotes(); $event.stopPropagation()">SAVE</span>
+</div>
+<span class="w-100">
+    <div class="d-flex" [ngClass]="'justify-content-between'" *ngIf="!isEditable">
+        <div class="d-flex flex-column text-column">
+            <span *ngIf="hasData" [ngClass]="'text-data'">{{ notesText }}</span>
+            <span *ngIf="!hasData" [ngClass]="'text-data'">No information available.</span>
+        </div>
+    </div>
+    <div *ngIf="isEditable" class="input-group input-group-sm mb-2">
+        <textarea #textInput class="form-control fs-16" cdkTextareaAutosize
+                placeholder="No information available.">{{ notesText }}</textarea>
+        <div class="input-group-append">
+            <button mdbBtn (click)="cancel(); $event.stopPropagation()" type="button"
+                class="btn-outline-blue-grey m-0 px-2 py-1 z-depth-0" outline="true" size="lg">
+                <fa-icon icon="times" aria-hidden="true"></fa-icon>
+            </button>
+        </div>
+    </div>
+</span>
+<br>

@@ -1,0 +1,132 @@
+@import '../../../../../../../src/styles/shared/variables';
+@import '../../../../../../styles/theme';
+
+.mediatitleheader {
+  font-size: 20px;
+  margin-bottom: 10px;
+  font-weight: 900;
+}
+
+.exam-text {
+  padding: 15px;
+  border: 1px solid #ABABAB;
+  border-radius: 2px;
+  &:focus-within {
+    box-shadow: 0 0 0 0.1rem rgba(0, 123, 255, 0.5);
+    border-color: rgba(0, 123, 255, 0.5);
+  }
+  textarea {
+    padding: 0px;
+    border: 0px;
+    outline: none;
+  }
+}
+
+.list {
+  width: 230px;
+  .list-item {
+    min-height: 48px;
+    height: auto;
+    display: flex;
+    span {
+      font-size: 18px;
+      padding: 8px 0px;
+    }
+  }
+}
+
+.exam-panel-container {
+  padding: 30px 20px;
+  width: 700px;
+  .header {
+    font-size: 24px;
+    margin-bottom: 30px;
+  }
+}
+
+.panel-content {
+  max-height: calc( 100vh - 310px);
+  overflow: auto;
+}
+
+.desc-list {
+  .list-item {
+    border: 1px solid $primary-color;
+    color: $primary-color;
+    &.default {
+      border-bottom-width: 4px;
+    }
+    &.normal {
+      background-color: #E7F4E8;
+      color: #84C889;
+
+      ::ng-deep .mat-list-item-content {
+        .add-icon {
+          color: #84C889;
+        }
+      }
+    }
+    &.selected {
+      background-color: rgb(244, 231, 231);
+      color: rgb(200, 132, 132);
+
+      ::ng-deep .mat-list-item-content {
+        .add-icon {
+          color: rgb(200, 132, 132);
+        }
+      }
+    }
+    &.head {
+      background-color: $primary-color;
+      color: #ffffff;
+      height: 70px;
+      ::ng-deep .mat-list-item-content {
+        justify-content: start;
+      }
+    }
+
+    ::ng-deep .mat-list-item-content {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      .add-icon {
+        margin-right: -8px;
+        margin-left: 8px;
+        color: #2BB6F4;
+        &.warn {
+          color: #F8A72A;
+        }
+      }
+    }
+
+  }
+}
+
+.exam-list {
+  .list-item {
+    background-color: $primary-color;
+    color: #ffffff;
+    border-bottom: 1px solid #E4E4E4;
+    &:hover {
+      background: mat-color($primary, 700) !important;
+    }
+  }
+}
+
+textarea {
+  resize: none;
+  width: 100%;
+}
+
+.panel-close {
+  font-size: 18px;
+  width: 135px;
+}
+
+.close-divider {
+  margin: 45px 25px 14px 10px;
+}
+
+.subheader {
+  margin-top: .5rem;
+}

@@ -1,0 +1,17 @@
+<mat-sidenav-container class="fh" autosize>
+  <mat-sidenav #exampanel opened="false" [mode]="'side'" position="end" [autoFocus]="false" (closed)="panelOpened=false">
+    <pa-pe-findings-panel
+      [store]="store" [system]="system$ | async" [bodyPartIndex]="bodyPartIndex"
+      [activeSubsystemIndex]="PENavigationTree$ | async"
+      [separateDisplay]="true" [viewOnly]="viewOnly">
+      <pa-findings-editable-card class="mx-2" *ngIf="physicalExamResult$ | async as results"
+                                 [examName]="examPanelSection"
+                                 [PESystem]="results"></pa-findings-editable-card>
+    </pa-pe-findings-panel>
+  </mat-sidenav>
+  <mat-sidenav-content class="fh">
+    <pa-ppviewmedia [panelOpened]="panelOpened">
+      <pa-pe-normal-button *ngIf="data.showButtons" (abnormalClick)="togglePanel($event)" [bodyPart]="bodyPart"></pa-pe-normal-button>
+    </pa-ppviewmedia>
+  </mat-sidenav-content>
+</mat-sidenav-container>

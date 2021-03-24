@@ -1,0 +1,209 @@
+<div *ngIf="drug">
+  <div class="d-flex justify-content-end header-fields">
+    <span *ngIf="!viewOnly" class="link warning" (click)="remove.emit()">Remove</span>
+  </div>
+  <div class="d-flex justify-content-start header-fields justify-content-between" *ngIf="!isFastmed || viewOnly">
+    <div class="section-header flex-1 text-capitalize drug-name">
+      <span class="drug-name">{{drug.daw ? drug.drugName : drug.description}}</span>
+      <span class="drug-description">({{!drug.daw ? drug.drugName : drug.description}})</span>
+    </div>
+    <div class="switch">
+      <label>
+        Generic
+        <input type="checkbox" [checked]="drug.daw" [disabled]="viewOnly" [(ngModel)]="drug.daw" (ngModelChange)="updateInfoOnNextTick()">
+        <span class="lever"></span>
+        No Substitution
+      </label>
+    </div>
+  </div>
+  <ng-container *ngIf="isFastmed && !viewOnly">
+    <div class="d-flex justify-content-start flex-column md-form my-1" *ngIf="drug.similarDrugs?.length">
+      <mdb-select #drugSelect [ngModel]="drug.description" [options]="drugSwitchOptions" [placeholder]="'Select Specific Drug'" (selected)="switchDrug($event.label)"></mdb-select>
+      <mdb-error *ngIf="!drugSpecified">Drug Is Not Specified</mdb-error>
+    </div>
+    <div class="d-flex flex-column md-form my-1 header-fields" *ngIf="!drug.similarDrugs?.length">
+      <label for="drug-search" class="active text-capitalize">{{drug.drugName}}</label>
+      <pa-treatments-search-bar id="drug-search" [initialAutocompleteList]="[]" [searchFunction]="drugSearch()" (optionSelected)="switchDrug($event.text)" [placeholder]="'No Drug Match Found'"></pa-treatments-search-bar>
+      <mdb-error class="mt-3">Drug Is Not Specified</mdb-error>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="!isFastmed || viewOnly">
+    <div class="d-flex align-items-center justify-content-start header-fields">
+      <div class="md-form mr-3 mb-0 strength-field">
+        <div class="d-flex justify-content-end reset-container">
+          <span *ngIf="!viewOnly" class="link warning reset" (click)="reset()">Reset</span>
+        </div>
+        <pa-mdb-wrapper *ngIf="strengthOptions.length" [disabledRule]="viewOnly">
+          <ng-template #mdbContent>
+            <mdb-select [options]="strengthOptions" placeholder="Select strength" label="Strength"
+                [(ngModel)]="drug.strength" class="drug-select strength mr-1 mb-0" [class.w-100]="formOptions.length" (ngModelChange)="updateInfo('strength')"></mdb-select>
+          </ng-template>
+          <ng-template #disabledContent>
+            <input type="text" mdbInput [mdbValidate]="false"
+                  class="form-control"
+                  [(ngModel)]="drug.strength" [disabled]="true"/>
+          </ng-template>
+        </pa-mdb-wrapper>
+
+        <pa-mdb-wrapper [disabledRule]="viewOnly" *ngIf="!strengthOptions.length">
+          <ng-template #mdbContent>
+            <input type="text" mdbInput [mdbValidate]="false"
+                  class="form-control"
+                  [(ngModel)]="drug.strength"/>
+          </ng-template>
+        </pa-mdb-wrapper>
+
+        <mdb-error *ngIf="!drug.strength && !viewOnly">Field required</mdb-error>
+      </div>
+
+      <div class="md-form mr-3 mb-0 dosage-field">
+        <pa-mdb-wrapper [disabledRule]="viewOnly" *ngIf="dosageFormOptions.length">
+          <ng-template #mdbContent>
+            <mdb-select [options]="dosageFormOptions" placeholder="Select Dosage Form" label="Dosage Form"
+                        [(ngModel)]="drug.form" class="drug-select dosage mr-1 mb-0" [class.w-100]="formOptions.length"
+                        (ngModelChange)="updateInfo('form')"></mdb-select>
+          </ng-template>
+          <ng-template #disabledContent>
+            <input type="text" mdbInput [mdbValidate]="false"
+                   class="form-control"
+                   [(ngModel)]="drug.form" [disabled]="true"/>
+          </ng-template>
+        </pa-mdb-wrapper>
+        <pa-mdb-wrapper [disabledRule]="viewOnly" *ngIf="!dosageFormOptions.length">
+          <ng-template #mdbContent>
+            <input type="text" mdbInput [mdbValidate]="false"
+                  class="form-control"
+                  [(ngModel)]="drug.form"/>
+          </ng-template>
+        </pa-mdb-wrapper>
+        <mdb-error *ngIf="!drug.form && !viewOnly">Field required</mdb-error>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="prescription">
+    <div class="pt-1 d-flex justify-content-between" [class.flex-wrap]="formOptions.length">
+      <div class="md-form mr-1 mb-0 pv-field" *ngIf="formOptions.length">
+        <pa-mdb-wrapper [disabledRule]="viewOnly">
+          <ng-template #mdbContent>
+            <mdb-select [options]="amountOptions" placeholder="Select Amount" label="Amount"
+                        [ngModel]="drug.amount" (ngModelChange)="updateDirection('amount', $event)"
+                        class="drug-select route mr-1 mb-0" [class.w-100]="formOptions.length"></mdb-select>
+          </ng-template>
+          <ng-template #disabledContent>
+            <label [class.label-active]="true">Amount</label>
+            <input type="text" mdbInput [mdbValidate]="false"
+                   class="form-control"
+                   [(ngModel)]="drug.amount" [disabled]="true"/>
+          </ng-template>
+        </pa-mdb-wrapper>
+        <mdb-error *ngIf="!drug.amount?.length && !viewOnly">Field required</mdb-error>
+      </div>
+      <div class="md-form mr-1 mb-0 pv-field">
+        <pa-mdb-wrapper [disabledRule]="viewOnly">
+          <ng-template #mdbContent>
+            <mdb-select [options]="formOptions" placeholder="Select Unit" label="Unit"
+                        [ngModel]="drug.unit" class="drug-select route mr-1 mb-0" [class.w-100]="formOptions.length"
+                        (ngModelChange)="updateDirection('unit', $event)"></mdb-select>
+          </ng-template>
+          <ng-template #disabledContent>
+            <input type="text" mdbInput [mdbValidate]="false"
+                   class="form-control"
+                   [(ngModel)]="drug.unit" [disabled]="true"/>
+          </ng-template>
+        </pa-mdb-wrapper>
+        <mdb-error *ngIf="!drug.unit && !viewOnly">Field required</mdb-error>
+      </div>
+      <div class="md-form mr-3 mb-0 pv-field">
+        <pa-mdb-wrapper *ngIf="pvRouteOptions.length" [disabledRule]="viewOnly">
+          <ng-template #mdbContent>
+            <mdb-select [options]="pvRouteOptions" placeholder="Select Route" label="Route"
+                [(ngModel)]="drug.route" class="drug-select route mr-1 mb-0" [class.w-100]="formOptions.length" (selected)="updateInfo('route')"></mdb-select>
+          </ng-template>
+          <ng-template #disabledContent>
+            <input type="text" mdbInput [mdbValidate]="false"
+                  class="form-control"
+                  [(ngModel)]="drug.route" [disabled]="true"/>
+          </ng-template>
+        </pa-mdb-wrapper>
+
+        <pa-mdb-wrapper [disabledRule]="viewOnly" *ngIf="!pvRouteOptions.length">
+          <ng-template #mdbContent>
+            <input type="text" mdbInput [mdbValidate]="false"
+                  class="form-control"
+                  [(ngModel)]="drug.route"/>
+          </ng-template>
+        </pa-mdb-wrapper>
+
+        <mdb-error *ngIf="!drug.route && !viewOnly">Field required</mdb-error>
+      </div>
+    </div>
+    <div class="pt-1 d-flex">
+      <div class="md-form mr-3 mb-0" [class.pv-field]="formOptions.length">
+        <pa-mdb-wrapper [disabledRule]="viewOnly">
+          <ng-template #mdbContent>
+            <mdb-select [options]="frequencyOptions" placeholder="Frequency" label="Frequency"
+                        [ngModel]="drug.frequency" class="drug-select unit mr-1 mb-0" [class.w-100]="formOptions.length"
+                        (ngModelChange)="updateDirection('frequency', $event)"></mdb-select>
+          </ng-template>
+          <ng-template #disabledContent>
+            <label [class.label-active]="true">Frequency</label>
+            <input type="text" mdbInput [mdbValidate]="false"
+                   class="form-control"
+                   [(ngModel)]="drug.frequency" [disabled]="true"/>
+          </ng-template>
+        </pa-mdb-wrapper>
+        <mdb-error *ngIf="!drug.frequency?.length && !viewOnly">Field required</mdb-error>
+      </div>
+    </div>
+    <div class="pt-1 d-flex" [class.flex-wrap]="formOptions.length">
+      <div class="md-form mr-4 mb-0" [class.pv-field]="formOptions.length">
+        <label for="input-quantity-{{drug.drugName}}" [class.label-active]="viewOnly">Quantity</label>
+        <input #quantity id="input-quantity-{{drug.drugName}}" mdbInput [disabled]="viewOnly" [mdbValidate]="false"
+               class="form-control quantity" type="number" pattern="[0-9]*" inputmode="numeric" min="1"
+               [(ngModel)]="drug.quantity"
+               (input)="onNumberInput($event)" (ngModelChange)="updateInfo()"/>
+        <mdb-error *ngIf="!drug.quantity && !viewOnly">Field invalid</mdb-error>
+      </div>
+      <div class="md-form ml-3 mb-0" [class.pv-field]="formOptions.length">
+        <pa-mdb-wrapper [disabledRule]="viewOnly">
+          <ng-template #mdbContent>
+            <mdb-select [options]="dispenseOptions" placeholder="Dispense Form" label="Dispense Form"
+                        [(ngModel)]="drug.dispenseForm" class="drug-select unit mr-1 mb-0"
+                        [class.w-100]="formOptions.length" (selected)="updateInfo()"></mdb-select>
+          </ng-template>
+          <ng-template #disabledContent>
+            <label [class.label-active]="true">Dispense Form</label>
+            <input type="text" mdbInput [mdbValidate]="false"
+                   class="form-control"
+                   [(ngModel)]="drug.dispenseForm" [disabled]="true"/>
+          </ng-template>
+        </pa-mdb-wrapper>
+        <mdb-error *ngIf="!drug.dispenseForm?.length && !viewOnly">Field required</mdb-error>
+      </div>
+    </div>
+  </ng-container>
+
+  <div id="9b760ec6-2ec4-4106-94f5-c2a4f08e1511" class="md-form mt-4 d-flex flex-row">
+    <label for="input-directions-{{drug.drugName}}" class="w-100" [class.label-active]="viewOnly">Directions</label>
+    <input id="input-directions-{{drug.drugName}}"
+           #directions
+           mdbInput class="form-control pr-4"
+           type="text" [mdbValidate]="false"
+           [formControl]="directionsFormControl"/>
+    <span *ngIf="!viewOnly" class="directions-edit" (click)="toggleDirectionsEdit(!directionsEditable)">
+      {{directionsEditable ? 'Save' : 'Edit'}}
+    </span>
+    <mat-icon class="closecross align-self-center" *ngIf="!viewOnly && directionChangedByUser" (click)="buildDirections()">close</mat-icon>
+    <mdb-error *ngIf="directionsFormControl.dirty && directionsFormControl.errors?.required"
+               class="restriction-error">
+      Field Required
+    </mdb-error>
+    <mdb-error *ngIf="directionsFormControl.dirty && directionsFormControl.errors?.maxlength"
+               class="restriction-error">
+      This field can't be more than {{directionsFormControl.errors.maxlength.requiredLength}} characters long.
+    </mdb-error>
+    <mdb-error *ngIf="directionsInvalid" class="restriction-error" >Field invalid!</mdb-error>
+  </div>
+</div>

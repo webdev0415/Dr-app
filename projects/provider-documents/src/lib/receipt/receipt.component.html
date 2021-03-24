@@ -1,0 +1,33 @@
+<!--  receipt section { -->
+<div class="docbody doc">
+  <br><br><br>
+  {{date}}
+  <h3 class="text-center">Receipt</h3>
+  <hr class="hard">
+  <div *ngIf="paymentInfo.customer_copay || paymentInfo.kiosk_copay" class="section">
+    <div *ngIf="paymentInfo.customer_copay" class="row full">
+      <span>Office Visit</span><span>Basic Cost {{paymentInfo.kiosk_copay}}</span>
+    </div>
+    <div class="row full" *ngIf="paymentInfo.kiosk_copay">
+      <span>Co-Pay Amount</span><span>Adjusted {{paymentInfo.customer_copay}}</span>
+    </div>
+  </div>
+  <br>
+  <div class="section">
+    <div *ngIf="paymentInfo.type === 'CASH'" class="row full">
+      <div><span>Cash-Payment</span></div>
+      <span>{{paymentInfo.kiosk_payment}}</span>
+    </div>
+    <div *ngIf="paymentInfo.type === 'CARD'" class="row full">
+      <div><span>Credit Card Payment</span></div>
+      <span>{{paymentInfo.kiosk_payment}}</span>
+    </div>
+  </div>
+  <hr class="hard">
+  <div class="section">
+    <div class="row full">
+      <span>Amount Due</span><span>{{paymentInfo.due}}</span>
+    </div>
+  </div>
+</div>
+<!-- } receipt section  -->

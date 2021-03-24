@@ -1,0 +1,155 @@
+@import "../shared";
+
+.vitals {
+  justify-content: space-between;
+}
+
+hr {
+  align-self: center;
+  width: 80%;
+}
+
+.visit {
+  flex-direction: row;
+  :first-child {
+    padding-right: 50px;
+  }
+
+  table {
+    border: none;
+    tr, td, th {
+      border: none;
+    }
+    th {
+      min-width: 200px;
+      font-weight: bold;
+      vertical-align: top;
+      font-size: 14px;
+    }
+    td {
+      font-weight: 400;
+      font-size: 14px;
+    }
+  }
+}
+
+.vitals {
+  width: 50%;
+  padding-right: 30px;
+  display: flex;
+  div {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.history-block {
+  display: flex;
+  flex-direction: row;
+  div {
+    width: 50%;
+  }
+  ul, li, h5 {
+    width: 100% !important;
+  }
+  ul {
+    padding-inline-start: 15px;
+  }
+}
+
+.physical {
+  hr {
+    width: 100%;
+  }
+  :first-child {
+    width: 20%;
+    padding-right: 50px;
+  }
+  .description {
+    width: 75%;
+    :first-child {
+      width: 100%;
+      padding-right: 0;
+    }
+    span {
+      white-space: inherit;
+    }
+  }
+}
+
+.ros {
+  :first-child {
+    strong {
+      width: 100%;
+      padding-right: 0;
+    }
+  }
+  :not(:first-child) {
+    width: 80%;
+    white-space: inherit;
+  }
+}
+
+.history-block.hpi-block {
+  display: flex;
+  flex-direction: row;
+  div {
+    width: 100%;
+  }
+  u {
+    margin-top: 1rem;
+  }
+}
+
+.lab :last-child {
+  padding-left: 15px;
+}
+
+.contributors {
+  flex-wrap: wrap;
+  div {
+    width: 50%;
+    justify-content: space-between;
+    padding-right: 15px;
+  }
+}
+
+.treatments {
+  table {
+    margin-top: 1rem;
+    width: 100%;
+    tr {
+      text-align: left;
+      width: 100%;
+      :first-child {
+        width: 15%;
+      }
+      :last-child {
+        width: 85%;
+      }
+    }
+    td {
+      padding-left: 5px;
+    }
+    thead {
+      background: none !important;
+      text-align: center;
+      td {
+        width: 100% !important;
+      }
+    }
+  }
+}
+
+.presenting {
+  padding-left: 15px;
+}
+
+.summary {
+  white-space: inherit;
+  width: 100%;
+}
+
+img {
+  max-width: 698px;
+}

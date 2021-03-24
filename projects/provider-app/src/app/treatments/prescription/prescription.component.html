@@ -1,0 +1,88 @@
+<div class="prescription-container">
+  <div class="left">
+    <div class="class-search">
+      <div class="md-form">
+        <input
+          #searchInput
+          type="text"
+          class="completer-input form-control mdb-autocomplete mb-0"
+          [ngModel]="searchText | async"
+          (ngModelChange)="searchText.next($event)"
+          [mdbAutoCompleter]="auto"
+          placeholder="Search for drugs"
+        />
+        <mdb-auto-completer #auto="mdbAutoCompleter" textNoResults="No Results" (select)="onSearchOptionSelected($event)" [clearButton]="true">
+          <mdb-option *ngFor="let option of searchResults | async" [value]="option">
+            <div class="d-flex flex-column">{{ option.label || option }}</div>
+          </mdb-option>
+        </mdb-auto-completer>
+      </div>
+    </div>
+    <div class="class-list">
+      <mdb-accordion>
+        <mdb-accordion-item *ngFor="let micaGroup of micaTreatmentGroups">
+          <mdb-accordion-item-head>{{micaGroup.groupName}}</mdb-accordion-item-head>
+          <mdb-accordion-item-body>
+            <div class="list-group">
+              <button
+                href="#"
+                *ngFor="let drug of micaGroup.drugNames"
+                class="list-group-item list-group-item-action waves-light"
+                [ngClass]="drug.isSelected ? 'active' : ''"
+                mdbWavesEffect
+                (click)="onTreatmentSelected(drug.name, $event)"
+              >
+                {{ drug.name }}
+              </button>
+            </div>
+          </mdb-accordion-item-body>
+        </mdb-accordion-item>
+      </mdb-accordion>
+    </div>
+  </div>
+  <div class="right">
+    <div class="dose-container">
+      <div class="drug-section-title">
+        <h5>{{ isRx ? 'Rx Treatments' : 'OTC Treatments' }}</h5>
+      </div>
+      <div *ngFor="let rxPrescribingItem of rxPrescribingItems">
+        <pa-rx-row
+          *ngIf="rxPrescribingItem.isSelected"
+          [item]="rxPrescribingItem"
+          [favoritePrescriptions]="favoritePrescriptions"
+          (removeItem)="onTreatmentSelected($event.prescription.drugName)"
+        ></pa-rx-row>
+      </div>
+    </div>
+
+<!--  Commented out until it is working properly to not confuse customer  -->
+
+<!--    <div class="current-medication-container">-->
+<!--      <div class="current-med-title">-->
+<!--        <h5>Current Medications</h5>-->
+<!--      </div>-->
+<!--      <div class="current-med-name">-->
+<!--        <input type="text" id="current-med-name-input" class="form-control" placeholder="Drug Name">-->
+<!--      </div>-->
+<!--      <div class="current-med-strength">-->
+<!--        <input type="text" id="current-med-strength-input" class="form-control" placeholder="Strength">-->
+<!--      </div>-->
+<!--      <div class="current-med-form">-->
+<!--        <input type="text" id="current-med-form-input" class="form-control" placeholder="Form">-->
+<!--      </div>-->
+<!--      <div class="current-med-sig">-->
+<!--        <input type="text" id="current-med-sig-input" class="form-control" placeholder="SIG or Key">-->
+<!--      </div>-->
+<!--      <div class="current-med-quantity">-->
+<!--        <input type="text" id="current-med-quantity-input" class="form-control" placeholder="Quantity">-->
+<!--      </div>-->
+<!--      <div class="current-med-refills">-->
+<!--        <input type="text" id="current-med-refills-input" class="form-control" placeholder="Refills">-->
+<!--      </div>-->
+<!--      <div class="current-med-refill-req">-->
+<!--        <mdb-checkbox [default]="false">Refill</mdb-checkbox>-->
+<!--      </div>-->
+<!--    </div>-->
+    <pa-dme *ngIf="isRx"></pa-dme>
+  </div>
+</div>

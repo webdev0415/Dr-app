@@ -1,0 +1,185 @@
+<ng-container *ngIf="socialCard">
+  <mat-panel-description class="patient-profile" (click)="panelToggle.emit(); $event.stopPropagation();">
+
+
+    <div class="d-flex flex-row p-content">
+      <div id="15b6fa48-9330-409a-b9e9-90bd55e922e8" class="mr-1 d-flex flex-column align-items-center">
+        <img [src]="photo" alt="Patient photo" class="header-image">
+        <div class="d-flex flex-row justify-content-around mt-1 patient-documents-buttons">
+          <button mdbBtn mdbWavesEffect (click)="showFullImg('patientIdCard'); $event.stopPropagation()" type="button"
+                  class="mx-1 btn-outline-white m-0 px-2 py-1 z-depth-0" outline="true" size="lg">
+            <fa-icon class="fs-18" [icon]="['fal','address-card']" size="lg" ></fa-icon>
+            License
+          </button>
+          <mat-divider [vertical]="true" class="mx-1"></mat-divider>
+          <button mdbBtn mdbWavesEffect (click)="showFullImg('patientInsurance'); $event.stopPropagation()" type="button"
+                  class="mx-1 btn-outline-white m-0 px-2 py-1 z-depth-0" outline="true" size="lg">
+            <fa-icon class="fs-16" [icon]="['fal','user-shield']" size="lg"></fa-icon>
+            Insurance
+          </button>
+        </div>
+      </div>
+
+      <mat-divider [vertical]="true"></mat-divider>
+      <div class="d-flex flex-column">
+        <div class="d-flex flex-row above-item patient-name">
+          <strong class="header-warning">Name:&nbsp;</strong>
+          <span>{{ patientProfile | fullName }}</span>
+          <fa-icon class="ml-1 info-text" *ngIf="!viewOnly && isOM" icon="pen" aria-hidden="true" (click)="onEditPatientName(); $event.stopPropagation();"></fa-icon>
+        </div>
+        <div class="d-flex flex-row above-item">
+          <strong class="header-warning">Visitation Reason:&nbsp;</strong>
+          <span>{{detailVisitReason}}</span>
+        </div>
+        <div class="d-flex flex-row flex-wrap">
+          <div class="d-flex flex-column mb-4 item">
+            <div class="d-flex flex-column">
+              <span>
+                <strong>Gender:&nbsp;</strong>
+                <span *ngIf="!isEditable.gender" class="info-text">{{patientProfile?.gender}} <fa-icon *ngIf="!viewOnly && isOM" class="ml-1 icon-style" icon="pen" (click)="editField('gender'); $event.stopPropagation()" ></fa-icon></span>
+                <span id="cbd0c00a-e1d2-4d79-b155-3fcc1820ba12" *ngIf="isEditable.gender">
+                  <mat-form-field class="mat-select-content">
+                    <mat-select [value]="patientProfile.gender" (valueChange)="editableOptions.gender = $event" (click)="$event.stopPropagation()">
+                      <mat-option [value]="genderEnum.MALE">Male</mat-option>
+                      <mat-option [value]="genderEnum.FEMALE">Female</mat-option>
+                      <mat-option [value]="genderEnum.TRANSGENDER">Transgender</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <fa-icon icon="check" class="icon-style" aria-hidden="true" (click)="saveFieldChange('gender'); $event.stopPropagation()"></fa-icon>
+                  <fa-icon icon="times" class="icon-style ml-2" aria-hidden="true" (click)="cancelFieldChange('gender'); $event.stopPropagation()"></fa-icon>
+                </span>
+              </span>
+              <span><strong>Ethnicity:&nbsp;</strong><span class="info-text">{{patientProfile?.ethnicity}}</span></span>
+              <span><strong>Age:&nbsp;</strong><span class="info-text">{{patientProfile?.age.years}}</span></span>
+              <span>
+                <strong>D.O.B.:&nbsp;</strong>
+                <span class="info-text" *ngIf="!isEditable.birthDate">{{convertDate(patientProfile?.birthDate)}} <fa-icon *ngIf="!viewOnly && isOM" class="ml-1 icon-style" icon="pen" (click)="editField('birthDate'); $event.stopPropagation()"></fa-icon></span>
+                <span *ngIf="isEditable.birthDate" class="col-10">
+                  <mdb-date-picker class="DOB-date-picker-style w-50" name="date-of-birth" [options]="dateOptions" [ngModel]="convertDate(patientProfile.birthDate)" (ngModelChange)="editableOptions.birthDate = convertToDefisDate($event)" (click)="$event.stopPropagation()"
+                                   #datePicker="ngModel" required ></mdb-date-picker>
+                  <mdb-error *ngIf="datePicker.errors && datePicker.errors.required" class="ml-3">This field cannot be blank</mdb-error>
+                  <fa-icon icon="check" class="icon-style" aria-hidden="true" [class.disabled-icon]="datePicker.errors" (click)="saveFieldChange('birthDate'); $event.stopPropagation()"></fa-icon>
+                  <fa-icon icon="times" class="icon-style ml-2" aria-hidden="true" (click)="cancelFieldChange('birthDate'); $event.stopPropagation()"></fa-icon>
+                </span>
+              </span>
+              <span><strong>Height:&nbsp;</strong><span class="info-text">{{socialCard?.patientHeight}}</span></span>
+              <span><strong>Weight:&nbsp;</strong><span class="info-text">{{socialCard?.patientWeight}}</span></span>
+              <span *ngIf="bmiValue"><strong>BMI: </strong><span class="info-text">{{bmiValue}}</span></span>
+            </div>
+          </div>
+          <div class="d-flex flex-column mb-4 item" *ngIf="socialCard.gender.toLowerCase() !== 'male'">
+            <div *ngIf="socialCard.pregnancyStatus">
+              <strong>Pregnancy status: </strong>
+              <span class="info-text">{{ socialCard.pregnancyStatus }}</span>
+            </div>
+            <div *ngIf="socialCard.patientOtherMenstrualStatus">
+              <strong>Reason for no Menstruation: </strong>
+              <span class="info-text">{{ socialCard.patientOtherMenstrualStatus }}</span>
+            </div>
+            <div *ngIf="socialCard.patientLastPeriodDate && !socialCard.patientOtherMenstrualStatus">
+              <strong>Last Menstruation Date: </strong>
+              <span class="info-text">{{ socialCard.patientLastPeriodDate }}</span>
+            </div>
+            <div *ngIf="socialCard.currentBreastFeeding">
+              <strong>Breast Feeding: </strong>
+              <span class="info-text"> Yes</span>
+            </div>
+          </div>
+
+          <div class="d-flex flex-column mb-4 item">
+            <strong class="header-warning">Drug Allergies:</strong>
+            <div class="d-flex flex-column info-text">
+              <span *ngFor="let item of getSection('Medication Allergies')">-&nbsp;{{item | reaction}}</span>
+              <span *ngIf="!getSection('Medication Allergies').length">No Information</span>
+            </div>
+          </div>
+
+          <div class="d-flex flex-column mb-4 item">
+            <strong>Medications:</strong>
+            <div class="d-flex flex-column info-text">
+              <span *ngFor="let item of getSection('Medications')">-&nbsp;{{item.historyItem}}</span>
+              <span *ngIf="!getSection('Medications').length">No Information</span>
+            </div>
+          </div>
+
+          <div class="d-flex flex-column mb-4 item">
+            <strong>Non Drug Allergies:</strong>
+            <div class="d-flex flex-column info-text">
+              <span *ngFor="let item of getSection('Allergies')">-&nbsp;{{item.historyItem}}</span>
+              <span *ngIf="!getSection('Allergies').length">No Information</span>
+            </div>
+          </div>
+
+          <div class="d-flex flex-column mb-4 item">
+            <div>
+              <strong>Caffeine Drinker: </strong>
+              <span class="info-text">{{ socialCard.caffeineConsumption ? 'Yes' : 'No'}}</span>
+            </div>
+            <div>
+              <strong>Smoking: </strong>
+              <span class="info-text">{{ socialCard.currentSmoking }}</span>
+            </div>
+            <div>
+              <strong>Drinking: </strong>
+              <span class="info-text">{{ socialCard.alcoholConsumption ? 'Yes' : 'No' }}</span>
+            </div>
+            <div *ngIf="socialCard.drugUser">
+              <strong>Drug User: </strong>
+              <ng-container *ngFor="let drug of socialCard.drugTypes; let idx = index">
+                <span *ngIf="idx != 0">, </span>
+                <span>{{ drug }}</span>
+              </ng-container>
+              <span>{{socialCard.drugTypes.length ? ', ' : ''}}{{ socialCard.patientHealthHistory.otherDrugs || '' }}</span>
+            </div>
+          </div>
+        </div>
+        <div  class="d-flex flex-row justify-content-between flex-wrap">
+
+          <div class="d-flex flex-column col-7 mb-4 mx-0 px-0">
+            <div class="d-flex flex-row item">
+              <div class="d-flex flex-column">
+                <span><strong>Address:&nbsp;</strong><span class="info-text">{{socialCard.patientAddress.address}}</span></span>
+                <span><strong>City:&nbsp;</strong>
+                  <span class="info-text">
+                    {{socialCard.patientAddress.city}},
+                    {{socialCard.patientAddress.state}},
+                    {{socialCard.patientAddress.zip}}
+                  </span>
+                </span>
+                <span><strong>Phone Number:&nbsp;</strong>
+                  <span class="info-text">
+                    {{ showPhoneNumber(patientProfile.phoneNumberList[0]?.CELL) }}
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex flex-column mx-0 px-0 col-5">
+            <span>
+              <strong>Pharmacies:</strong>
+            </span>
+            <span *ngIf="!socialCard.patientHealthHistory?.pharmacies?.length">No pharmacy has been selected by the patient</span>
+            <div class="d-flex flex-row" *ngIf="socialCard.patientHealthHistory?.pharmacies?.length">
+              <div class="d-flex flex-column" *ngFor="let pharmacy of socialCard.patientHealthHistory.pharmacies">
+                <span><strong>Name:&nbsp;</strong><span class="info-text">{{pharmacy.StoreName}}</span></span>
+                <span><strong>Address:&nbsp;</strong><span class="info-text">{{pharmacy.Address1}}</span></span>
+                <span><strong>City:&nbsp;</strong>
+                  <span class="info-text">
+                    {{pharmacy.City}},
+                    {{pharmacy.State}},
+                    {{pharmacy.ZipCode}}
+                  </span>
+                </span>
+                <span><strong>Phone:&nbsp;</strong><span class="info-text">{{pharmacy.PrimaryPhone}}</span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex flex-column item">
+          <span><strong>Clinic Location:&nbsp;</strong><span class="info-text">{{patientLocation}}</span></span>
+        </div>
+      </div>
+    </div>
+  </mat-panel-description>
+</ng-container>

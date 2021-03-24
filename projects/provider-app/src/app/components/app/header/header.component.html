@@ -1,0 +1,156 @@
+<mat-expansion-panel [disabled]="!currentPatient" hideToggle="true" class="patient-panel" [expanded]="expansionPanel">
+
+  <mat-expansion-panel-header [collapsedHeight]="'auto'" [expandedHeight]="'auto'"  (click)="panelToggle()">
+
+    <div class="container-fluid">
+      <div class="row">
+
+        <div id="59f668cd-05cd-4f97-be17-eb4a87ad5cd0" class="col-xl-2 col-sm-1 pl-0 hdr-part-1 flex flex-row align-items-center"
+          [matTooltip]="patient && currentPatient ? 'Click to toggle patient details' : null" matTooltipPosition="below">
+          <div id="locfilterarea">
+            <!--Location Filter-->
+            <ng-container *ngIf="!currentPatient">
+              <span id="activelocations-label">Active Locations:</span>
+              <div id="locationfilter">
+                <mat-form-field class="filterfiller" id="filterselector">
+                  <mat-select (selectionChange)="selectLoc($event)" [value]="selectedLocations" multiple
+                    disableOptionCentering #filter (openedChange)="onFilterStateChanged($event)"
+                    [panelClass]="'TESTPANELKLASS'">
+                    <mat-select-trigger>
+                      {{selectedLocations ? selectedLocations[0] : ''}}
+                      <span *ngIf="selectedLocations && selectedLocations.length > 1"
+                        class="example-additional-selection">
+                        (+{{selectedLocations.length - 1}})
+                      </span>
+                    </mat-select-trigger>
+                    <mat-option *ngFor="let loc of allLocations" [value]="loc">{{loc}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </ng-container>
+            <!--Patient Image-->
+            <ng-container *ngIf="patient && currentPatient && patientLoaded">
+              <div id="15b6fa48-9330-409a-b9e9-90bd55e922e8" class="photo">
+                <svg height="45px" version="1.1" width="45px" class="photo">
+                  <defs>
+                    <clipPath id="thumbnail-clip">
+                      <rect width="40" height="40" rx="28" ry="28"></rect>
+                    </clipPath>
+                  </defs>
+                  <image [attr.xlink:href]="photo" class="patient-photo-thumbnail" width="50" height="50" x="-5" y="-5">
+                  </image>
+                  <circle r="20" cx="20" cy="20" fill="none" stroke="white" stroke-width="2"></circle>
+                </svg>
+                <span class="patient-name">
+                  {{ patient | fullName }}
+                  <fa-icon class="ml-1" *ngIf="!viewOnly && isOperationManagerUserRole" icon="pen" aria-hidden="true" (click)="editPatientName(); $event.stopPropagation();"></fa-icon>
+                </span>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+        <div class="col-xl-2 col-sm-3 pl-0 d-flex align-items-center">
+          <div class="btn-group" mdbDropdown>
+            <button
+              type="button"
+              size="sm"
+              mdbBtn
+              color="success"
+              class="waves-light"
+              mdbWavesEffect
+              *ngIf="telemedicineUrl | async as url"
+              [disabled]="telemedicineCallOpened"
+              (click)="openInWindow(url); $event.stopPropagation();"
+            >
+              Start Telemed
+            </button>
+            <button
+              type="button"
+              size="sm"
+              mdbBtn
+              color="blue-grey"
+              class="waves-light"
+              mdbWavesEffect
+              *ngIf="!(telemedicineUrl | async) && patientTelemedicineMode === TelemedicineModeEnum.ADVINOW"
+              [disabled]="telemedicineCallOpened"
+              (click)="sendTelemedicineLinkToPatient(); $event.stopPropagation();"
+            >
+              Text Link
+            </button>
+            <button
+              *ngIf="(telemedicineUrl | async) !== undefined && patientTelemedicineMode === TelemedicineModeEnum.ADVINOW"
+              type="button"
+              size="sm"
+              mdbDropdownToggle
+              mdbBtn
+              [color]="(telemedicineUrl | async) ? 'success' : 'blue-grey'"
+              class="dropdown-toggle dropdown-toggle-split px-3 waves-light"
+              mdbWavesEffect
+              (click)="$event.stopPropagation();"
+            >
+            </button>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="#" (click)="openTestConnectionDialog(); $event.stopPropagation(); $event.preventDefault();">Test Connection</a>
+            </div>
+          </div>
+        </div>
+
+        <!--Logo-->
+        <div id="5d22c097-134f-40ef-bc23-344a843ab276"
+          class="col-4 d-flex flex-fill justify-content-center align-items-center hdr-part-2">
+          <a role="button" (click)="returnToPatients(); $event.stopPropagation();">
+            <img src="/DoctorApp/assets/img/sys/advinowlogo.svg" class="logo">
+          </a>
+        </div>
+
+        <!--Button Options-->
+        <mat-menu #userMenu="matMenu">
+          <button mat-menu-item class="menu-item" (click)="goToPasswordChange()">Change password</button>
+          <button mat-menu-item class="menu-item" (click)="quit()">Logout</button>
+        </mat-menu>
+
+        <div id="ee677eac-6e3f-40fc-a869-9833988c2ebb" class="col-4 pr-0 text-right flex hdr-part-3">
+          <button class="menu-button ml-1 mat-button d-flex align-items-center" (click)="$event.stopPropagation();"
+            [matMenuTriggerFor]="userMenu">
+            <div class="avatar-block">
+              <div class="avatar">
+                <fa-icon [icon]="avatarIcon"></fa-icon>
+              </div>
+            </div>
+            <div class="full-name-block ml-2" [class.text-truncate]="name && name.length > 30" [class.text-nowrap]="name && name.length > 30">
+              <span>{{name}}</span>
+            </div>
+            <i class="material-icons ml-1">expand_more</i>
+          </button>
+          <button *ngIf="isDevbarAvailable" mat-button class="menu-button ml-1 mat-button"
+                  (click)="toggleDevBar('devbarPanel'); $event.stopPropagation(); $event.view.blur(); $event.target.blur()">
+            <fa-icon [icon]="['fad','bug']" size="lg" [ngStyle]="{'--fa-secondary-color': 'white', '--fa-secondary-opacity':'1.0'}"></fa-icon>
+          </button>
+          <button *ngIf="isDevbarAvailable" mat-button class="menu-button ml-1 mat-button"
+                  (click)="toggleDevBar('userSettingsPanel'); $event.stopPropagation(); $event.view.blur(); $event.target.blur()">
+            <fa-icon [icon]="['fad','cog']" size="lg" [ngStyle]="{'--fa-secondary-color': 'white', '--fa-secondary-opacity':'1.0'}"></fa-icon>
+          </button>
+          <span class="version-text">
+            v.{{version}}
+          </span>
+        </div>
+      </div>
+    </div>
+
+  </mat-expansion-panel-header>
+
+  <pa-patient-panel #patientPanel *ngIf="patient && currentPatient && socialCard$ | async" [triage]="triage"
+                    [photo]="photo" [isOM]="isOperationManagerUserRole"
+                    [detailVisitReason]="currentPatient.detail_visit_reason"
+                    [patientProfile]="patient" [patientInsurance]="patientInsurance$ | async"
+                    [patientIdCard]="patientIdCard$ | async"
+                    [socialCard]="socialCard$ | async" [viewOnly]="viewOnly"
+                    [patientLocation]="isPICBusiness ? currentPatient.clinicName + ', ' + (currentPatient.ehr_location | titlecase) : currentPatient.locationNameToDisplay"
+                    (panelToggle)="panelToggle()"
+                    (changeEvent)="saveChanges($event)" (editPatientName)="editPatientName()">
+  </pa-patient-panel>
+
+</mat-expansion-panel>
+
+<pa-navbar *ngIf="patient && currentPatient && patientLoaded"></pa-navbar>

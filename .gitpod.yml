@@ -1,0 +1,18 @@
+image:
+  file: .gitpod.Dockerfile
+
+vscode:
+  extensions:
+    - johnpapa.angular-essentials@0.6.3:kn6MdE8GXp3Nplq14ISQWg==
+    - bierner.github-markdown-preview@0.0.2:/2y3s+rxTHIQLjFnQusowg==
+    - humao.rest-client@0.23.0:JNawNa9Juht3Bl5xY2refg==
+    - 2gua.rainbow-brackets@0.0.6:Tbu8dTz0i+/bgcKQTQ5b8g==
+    - WakaTime.vscode-wakatime@2.2.1:5pOtrx5Q2i2UzuEg6Qu0Ug==
+    - asvetliakov.vscode-neovim@0.0.49:gNwuFH7vMPrlA9u3m4fkpQ==
+    - eamodio.gitlens@10.2.0:GNDO73Cmp0fYDiLNxVkbsQ==
+
+
+tasks:
+  - before: printf "\n[settings]\napi_key = $WAKA_TIME_API_KEY\n" > ~/.wakatime.cfg
+    init: npm install && echo ". ~/.nmv/nvm.sh" >> ~/.zshrc
+    command: zsh

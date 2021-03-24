@@ -1,0 +1,82 @@
+@import "docs-shared";
+
+.prescription-form {
+  display: inline-grid;
+  grid-template-columns: 75% 25%;
+}
+
+.left-container {
+  display: contents;
+  label {
+    white-space: nowrap;
+  }
+}
+
+.right-container {
+  max-width: 30%;
+  label {
+    white-space: nowrap;
+  }
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.prescription-information {
+  background-repeat: no-repeat;
+  background-size: 150px;
+  background-position-y: 4rem;
+  background-position-x: 3rem;
+}
+
+.questionnaire-prescription-container {
+  border: 1px solid #000;
+}
+
+[type=checkbox]:checked, [type=checkbox]:not(:checked) {
+  opacity: 1;
+  position: inherit;
+}
+
+.default-radio-button {
+  opacity: inherit;
+  position: inherit;
+  pointer-events: auto;
+}
+
+.w-30 {
+  width: 30% !important;
+}
+
+.w-65 {
+  width: 65%;
+}
+
+.w-70 {
+  width: 70% !important;
+}
+
+@media (min-width: 1000px) {
+  .birth-refill-table-container {
+    flex-direction: row;
+  }
+
+  .birth-refill-table-border {
+    border-left: hidden;
+  }
+}
+
+@media (max-width: 1000px) {
+  .birth-refill-table-container {
+    flex-direction: column;
+  }
+
+  .birth-refill-table {
+    width: 100% !important;
+  }
+}

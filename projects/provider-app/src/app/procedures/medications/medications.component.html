@@ -1,0 +1,41 @@
+<mat-card>
+  <mat-card-title>
+    <div id="c434a097-20da-47aa-bd94-04095a212b4d" class="d-flex justify-content-end">
+      <span class="h5 mr-auto">{{title}}</span>
+    </div>
+    <div class="avatar-block">
+      <div class="avatar">
+        <fa-icon [icon]="avatarIcon"></fa-icon>
+      </div>
+    </div>
+  </mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="orderForm" (ngSubmit)="saveProcedures()">
+      <ng-container formArrayName="procedures" *ngFor="let item of patientProcedures; let index=index">
+        <pa-medication-row *ngIf="item.name !== 'GI Cocktail'"
+                           [businessProcedure]="orderedProceduresDataDictionary[item.name]"
+                           [formControlName]="index"></pa-medication-row>
+        <pa-gi-cocktail *ngIf="item.name === 'GI Cocktail'"
+                        [businessProcedure]="orderedProceduresDataDictionary[item.name]"
+                        [formControlName]="index"></pa-gi-cocktail>
+      </ng-container>
+      <ng-container formArrayName="orders" *ngIf="userRole === UserRolesEnum.PRACTITIONER">
+        <div class="d-flex flex-row w-100 py-2 my-2 order-row justify-content-between px-4">
+          <div><span></span></div>
+          <div><span class="fs-18">Drug</span></div>
+          <div><span class="fs-18">Dosage</span></div>
+          <div><span class="fs-18">Route</span></div>
+          <div><span class="fs-18">Form</span></div>
+        </div>
+        <ng-container *ngFor="let item of unusedProcedures; let index=index">
+          <pa-medication-order-row *ngIf="item.name !== 'GI Cocktail'"
+                                   [businessProcedure]="item"
+                                   [formControlName]="index"></pa-medication-order-row>
+          <pa-gi-cocktail-order *ngIf="item.name === 'GI Cocktail'"
+                                [businessProcedure]="item"
+                                [formControlName]="index"></pa-gi-cocktail-order>
+        </ng-container>
+      </ng-container>
+    </form>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,66 @@
+<!-- Timeline -->
+<div class="row mt-5">
+  <div class="col-md-12">
+    <div class="timeline-main">
+      <!-- Timeline Wrapper -->
+      <ul class="stepper stepper-vertical timeline colorful-timeline">
+
+        <li class="timeline-inverted">
+            <!--Section Title -->
+            <a>
+                <span class="circle darken-2 z-depth-1-half" [class]="currentTestingStep === 1 ? 'red fade-animation' : 'green'">
+                  <fa-icon *ngIf="currentTestingStep > 1" icon="check" class="icon-style" aria-hidden="true"></fa-icon>
+                  <div *ngIf="currentTestingStep === 1">1</div>
+                </span>
+            </a>
+
+            <!-- Section Description -->
+            <div class="step-content ml-xl-0 p-0 mt-4 d-flex align-items-center">
+              <h4 class="ml-3">CAMERA</h4>
+              <button *ngIf="error === 'allow' && currentTestingStep === 1" class="ml-5" (click)="testConnection()">Request Access</button>
+            </div>
+        </li>
+        <li class="timeline-inverted">
+            <!--Section Title -->
+            <a>
+                <span class="circle darken-2 z-depth-1-half" [class]="(currentTestingStep <= 2 ? 'red' : 'green') + (currentTestingStep === 2 ? ' fade-animation' : '')">
+                  <fa-icon *ngIf="currentTestingStep > 2" icon="check" class="icon-style" aria-hidden="true"></fa-icon>
+                  <div *ngIf="currentTestingStep <= 2">2</div>
+                </span>
+            </a>
+
+            <!-- Section Description -->
+            <div class="step-content ml-xl-0 p-0 mt-4 d-flex align-items-center">
+              <h4 class="ml-3">MICROPHONE</h4>
+              <button *ngIf="error === 'allow' && currentTestingStep === 2" class="ml-5" (click)="testConnection()">Request Access</button>
+            </div>
+        </li>
+        <li class="timeline-inverted">
+            <!--Section Title -->
+            <a>
+                <span class="circle darken-2 z-depth-1-half" [class]="(currentTestingStep <= 3 ? 'red' : 'green') + (currentTestingStep === 3 ? ' fade-animation' : '')">
+                  <fa-icon *ngIf="currentTestingStep > 3" icon="check" class="icon-style" aria-hidden="true"></fa-icon>
+                  <div *ngIf="currentTestingStep <= 3">3</div>
+                </span>
+            </a>
+
+            <!-- Section Description -->
+            <div class="step-content ml-xl-0 p-0 mt-4">
+                <h4 class="ml-3">NETWORK</h4>
+            </div>
+        </li>
+      </ul>
+      <!-- Timeline Wrapper -->
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!!error && error !== 'allow'" class="text-center mt-4 error">
+  {{ error }}
+</div>
+
+<div class="text-center close-container">
+  <button mdbBtn (click)="closeDialog();" class="darken-2 red close-btn">
+    Close
+  </button>
+</div>

@@ -1,0 +1,84 @@
+@import '../../../../../../../src/styles/shared/variables';
+@import '../../../../../../styles/theme';
+
+.mat-header-row {
+  display: flex;
+  &.diagnosis {
+    min-height: 40px;
+    background-color: $primary-color;
+    .mat-header-cell {
+      color: #ffffff;
+      font-weight: bold;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
+
+.mat-header-cell {
+  text-align: center;
+}
+
+mat-header-cell:first-of-type, mat-row mat-cell:first-of-type {
+  padding-left: 0!important;
+}
+
+.mat-cell {
+  min-height: 58px;
+  display: flex;
+  align-items: center;
+  &.danger {
+    background-color: #FFF5F5;
+    border: 1px solid #FF5353;
+    color: #FF5454;
+  }
+}
+
+.toggle {
+  flex: none;
+  width: 30px;
+  text-align: center;
+}
+
+.mat-column-criticality {
+  text-align: center;
+}
+
+.selected-highlight {
+  color: #02BBD3;
+  min-width: 66px;
+  align-self: center;
+}
+
+.element-row + .expandedDetail {
+  display: none;
+}
+
+.element-row.expanded + .expandedDetail {
+  display: block;
+}
+
+.element-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  @extend %clickable-element;
+  border-radius: 5px;
+  border-bottom: 1px solid mat-color($light-foreground-palette, divider);
+  &:not(.expandedDetail):hover {
+    background-color: $gray-200-color;
+  }
+}
+
+.expandedDetail {
+  &:after {
+    display: none;
+  }
+
+  .mat-table {
+    box-shadow: $box-shadow;
+    margin: 16px;
+  }
+}

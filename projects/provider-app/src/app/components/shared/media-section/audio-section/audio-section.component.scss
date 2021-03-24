@@ -1,0 +1,222 @@
+@import '../../../../../../src/styles/shared/variables';
+
+.body-part-section {
+  position: relative;
+  padding: 40px 16px 40px 25px;
+}
+
+.header {
+  font-size: 20px;
+  .mediatitleheader {
+    margin-bottom: 10px;
+    font-weight: 900;
+    display: inline-flex;
+    margin-right: auto;
+  }
+}
+
+.audio-selection {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 716px;
+  height: 240px;
+  .body-background {
+    object-fit: scale-down;
+  }
+}
+
+::ng-deep .mat-expansion-panel-body {
+  padding: 0 !important;
+}
+
+.point {
+  @extend %clickable-element;
+  position: absolute;
+  width: 1vw;
+  height: 1vw;
+}
+
+button {
+  font-size: 18px !important;
+  pointer-events: all;
+  &.open-btn {
+    width: 92px;
+  }
+  &.normal-btn {
+    width: 137px;
+  }
+  &.btn-outline-primary:not([disabled]):not(.disabled).active {
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: $btn-normal-active-bg !important;
+    border-color: $btn-normal-active-color !important;
+    color: $btn-normal-active-color !important;
+  }
+}
+
+.normal-icon {
+  color: #64BA6B;
+}
+
+.heart-section {
+  .point {
+    &.location-tricuspid {
+      top: 41%;
+      left: 46%;
+    }
+
+    &.location-pulmonic {
+      top: 22%;
+      left: 46%;
+    }
+
+    &.location-mitral_apex {
+      top: 48%;
+      left: 49%;
+    }
+
+    &.location-3rd_ics {
+      top: 32%;
+      left: 46%;
+    }
+  }
+}
+
+.respiratory-section {
+  .point {
+    &.location-right_upper {
+      top: 14%;
+      left: 43%;
+    }
+
+    &.location-left_upper {
+      top: 14%;
+      left: 48%;
+    }
+
+    &.location-right_middle {
+      top: 31%;
+      left: 43%;
+    }
+
+    &.location-left_middle {
+      top: 31%;
+      left: 48%;
+    }
+
+    &.location-right_lower {
+      top: 47%;
+      left: 39%;
+    }
+
+    &.location-left_lower {
+      top: 47%;
+      left: 52%;
+    }
+  }
+}
+
+.gi-section {
+  .point {
+    &.location-right_lower_quadrant {
+      top: 78%;
+      left: 42.5%;
+    }
+
+    &.location-right_upper_quadrant {
+      top: 68%;
+      left: 42.5%;
+    }
+
+    &.location-mid {
+      top: 61%;
+      left: 46%;
+    }
+
+    &.location-left_upper_quadrant {
+      top: 68%;
+      left: 49%;
+    }
+
+    &.location-left_lower {
+      top: 78%;
+      left: 49%;
+    }
+  }
+}
+
+#audit-photo-layer {
+  position: absolute;
+  top: 200px;
+  left: 28px;
+  width: 247px;
+  height: 164px;
+  box-shadow: rgba(0,0,0,.3) 2px 1px 4px;
+  &.Abdomen-audit {
+    top: 100px;
+  }
+  #audit-photo {
+    width: 100%;
+    height: 100%;
+    border: 1px solid #AFAFAF;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+}
+
+.players-container {
+  display: flex;
+  flex-direction: column;
+  width: 55%;
+
+  .lib-select {
+    width: 500px;
+    max-width: 100%;
+    margin: 20px 10px;
+  }
+}
+
+::ng-deep .mat-select-value {
+  color: inherit;
+}
+
+@media screen and (max-width: 1700px) {
+  .players-container {
+    width: 45%;
+    right: 32px;
+    top: 130px;
+  }
+}
+
+@media screen and (max-width: 1500px) {
+  #audit-photo-layer, .audio-selection {
+    display: none;
+  }
+  .players-container {
+    position: relative;
+    width: 100%;
+    top: 0;
+    left: 0;
+  }
+}
+
+.btn-outline-primary {
+  &:not([disabled]):not(.disabled) {
+    &.active, &:active {
+      color: #64BA6B !important;
+      border-color: #64BA6B !important;
+    }
+  }
+}
+
+.btn-outline-primary {
+  &:not([disabled]):not(.disabled) {
+    &.active {
+      box-shadow: none !important;
+    }
+  }
+  &:focus {
+    box-shadow: none !important;
+  }
+}

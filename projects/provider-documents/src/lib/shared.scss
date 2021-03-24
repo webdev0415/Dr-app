@@ -1,0 +1,334 @@
+@import '../../../../styles/docs-variables';
+@import "../../../../styles/variables";
+@import '../../../../styles/mixins';
+
+#docs-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-top: 5px;
+  width: 100%;
+
+  #docs-patient-info {
+    display: flex;
+    flex-direction: column;
+    max-width: 55%;
+    span {
+      white-space: inherit !important;
+    }
+  }
+
+  #docs-header-image {
+    width: $docs-header-background-width;
+    height: 64px;
+    background-image: $docs-header-background-image;
+  }
+}
+
+#dischargedoc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 778px;
+}
+
+#doc-layer {
+  display: flex;
+  justify-content: center;
+  min-height: 100%;
+  font-size: 14px;
+}
+
+#docs-header.doc, .docbody.doc {
+  background: white;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.docbody {
+  display: inline-flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding-bottom: 30px;
+  width: 100%;
+}
+
+.check-label.pdf {
+  overflow: hidden;
+  height: 32px;
+}
+
+input[type="checkbox"]:checked + label.check-label.pdf:before {
+  left: -6px;
+  top: -4px;
+}
+
+input[type="checkbox"]:not(checked) + label.check-label.pdf:before {
+  top: 8px;
+}
+
+doc-receipt, doc-sports-physical-exam, doc-authorization-to-work, doc-discharge-notes, doc-final-notes {
+  display: inline-flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding-bottom: 30px;
+  width: 100%;
+}
+
+.area {
+  width: 99% !important;
+  font-family: monospace;
+  padding: 0;
+  font-size: 14px;
+  overflow: hidden;
+  line-height: 21px;
+  border-color: black;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  margin: 8px 0;
+  .row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    margin: 3px 0;
+    align-items: center;
+  }
+  .row.wr {
+    flex-wrap: wrap;
+  }
+  .drug-name {
+    min-width: 180px;
+    max-width: 180px;
+    margin-right: 1rem;
+    strong {
+      word-break: break-all;
+    }
+  }
+  .section {
+    margin-left: 20px;
+    margin-top: 3px !important;
+  }
+}
+
+.underlabeled {
+  display: flex;
+  flex-direction: column;
+}
+
+.underlabeled.subscript {
+  width: 50%;
+  margin-right: 60px;
+}
+
+label {
+  margin: unset;
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.margin-0 {
+  margin-right: 0px;
+}
+
+input {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+input[type="text"] {
+  display: inline-flex;
+  border: none;
+  border-bottom: 1px solid black;
+  background: none;
+  font-family: monospace;
+}
+
+#doNotFrom, #doNotTo, #limitedFrom, #limitedTo {
+  width: 140px;
+}
+
+
+input[type="checkbox"]:checked+label:before {
+  border-color: transparent black black transparent;
+  left: 4px;
+}
+
+input[type="checkbox"]:not(checked)+label:before {
+  left: 10px;
+  margin-left: -10px;
+}
+
+input[type="checkbox"] {
+  margin-right: -5px;
+  margin-left: 10px;
+}
+
+.grow {
+  flex-grow: 1;
+  margin-left: 4px;
+}
+
+strong.name {
+  margin-right: 4px;
+}
+
+*:focus {
+  outline: none;
+}
+
+hr {
+  height: 2px;
+  color: black;
+  background: black;
+  border: black;
+  width: 100%;
+  margin-top: 3px;
+  margin-bottom: 0;
+}
+
+hr.slim {
+  height: 1px;
+}
+
+hr.hard {
+  height: 3px;
+}
+
+.full {
+  flex-grow: 1;
+  justify-content: space-between;
+}
+
+.row {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+
+/* sports table */
+table {
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+td, tr, thead, th {
+  border: 1px solid black;
+}
+
+td input {
+  margin: 0 !important;
+  border-bottom: none;
+}
+
+.exam-group {
+  font-weight: 600;
+}
+
+td :first-child {
+  padding-left: 5px;
+}
+
+thead {
+  text-align: center;
+  background: #ffcc22;
+}
+
+tr.inner-header {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.normal-checkbox {
+  vertical-align: middle;
+  text-align: center;
+}
+
+#rounded-personal-info {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid black;
+  border-radius: 10px;
+  margin-bottom: 5px;
+  font-size: 13px;
+  .rpi-part {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    div {
+      label {
+        font-weight: 600;
+        white-space: pre;
+      }
+    }
+  }
+}
+
+input.smallfield {
+  width: 30px;
+}
+
+.form-check-input {
+  position: inherit;
+}
+
+#rpi-vision-l,
+#rpi-vision-r {
+  width: 55px;
+}
+
+#table-annotations {
+  background: lightgray;
+  margin-left: 240px;
+  margin-right: 85px;
+  font-size: x-small;
+  margin-top: 3px;
+  margin-bottom: 5px;
+}
+
+#sports-footer {
+  font-size: 13px;
+  div {
+    display: flex;
+    max-width: 700px;
+  }
+  label {
+    white-space: pre;
+    margin-right: 10px;
+  }
+  #clearings {
+    max-width: 698px;
+    flex-wrap: wrap;
+    line-height: 30px;
+  }
+  #clearings input {
+    min-width: 120px;
+  }
+  #sports-footer-bold-hr {
+    height: 4px;
+  }
+}
+
+span {
+  white-space: pre;
+}
+
+#phonenum, #examdate {
+  max-width: 100px;
+}
+
+#address, #physicanname {
+  flex-grow: 1;
+}
+
+.before {
+  page-break-before: always;
+}
+.after {
+  page-break-after: always;
+}
+.avoid {
+  page-break-inside: avoid;
+}

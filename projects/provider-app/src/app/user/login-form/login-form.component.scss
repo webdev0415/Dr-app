@@ -1,0 +1,40 @@
+@import '../../../../src/styles/shared/mixins';
+@import '../../../../src/styles/shared/variables';
+
+
+.login-card {
+  width: 320px;
+}
+
+:host ::ng-deep .card {
+  border-radius: 12px !important;
+}
+
+.switch {
+  color: #551A8B;
+  @extend %clickable-element;
+  font-size: 12px;
+
+  &:hover {
+    text-decoration: underline;
+    color: #0000EE;
+  }
+}
+
+.version-text {
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin-top: 10px;
+  font-size: 12px;
+}
+
+/* MDBootstrap */
+.md-form {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.error-message {
+  top: 45px !important;
+}

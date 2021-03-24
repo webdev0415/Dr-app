@@ -1,0 +1,135 @@
+<div class="d-flex flex-column" *ngIf="{ ruleData: (pharmacistRecommendation$ | async)?.ruleData } as pharmacistRecommendations">
+
+  <div class="d-flex flex-column">
+    <h2 class="main-header my-4">Pharmacy</h2>
+    <div class="d-flex flex-row fs-20 mb-4">
+      <span class="mr-1"><strong>Chief Complaint:</strong></span>
+      <span class="text-capitalize">{{chiefCompliant}}</span>
+    </div>
+  </div>
+
+  <ng-template #overview>
+    <div class="d-flex flex-column outline-box mt-3">
+      <div class="d-flex justify-content-between mb-4 card-title">
+        <div class="d-flex flex-row align-items-baseline">
+          <span class="fs-20 mr-2">Symptoms</span>
+        </div>
+      </div>
+      <pa-symptoms [pharmacistMode]="true"></pa-symptoms>
+    </div>
+
+    <div class="d-flex flex-column outline-box mt-3">
+      <div class="d-flex justify-content-between mb-4 card-title">
+        <span class="fs-20">Patient Data</span>
+      </div>
+      <pa-item-list class="w-100" [section]="patientHealthHistorySections.personalHistory"
+                    [patient]="Patient"
+                    [viewOnly]="true" [maxItems]="8">
+      </pa-item-list>
+      <pa-item-list [section]="patientHealthHistorySections.drugAllergies" [patient]="Patient"
+                    [viewOnly]="true">
+      </pa-item-list>
+    </div>
+  </ng-template>
+  <ng-container *ngTemplateOutlet="groupTemplate; context: {header: pharmacistOverviewSectionTypesEnum.SYMPTOMS_OVERVIEW, showDivider: true, collapsed: toggleState.overview, content: overview, stateRef: 'overview', condition: pharmacistRecommendations.ruleData ? pharmacistRecommendations.ruleData.symptomsPresent.passed : null}">
+  </ng-container>
+
+  <ng-template #vitals>
+    <div class="d-flex flex-column outline-box justify-content-between mt-3">
+      <div class="d-flex justify-content-between mb-4 card-title">
+        <div class="d-flex flex-row align-items-baseline">
+          <span class="fs-20 mr-2" id="vitals-label">Vitals</span>
+        </div>
+        <button *ngIf="!viewOnly" [disabled]="vitals.saveButtonDisabled" (click)="vitals.putVitals()" type="button" color="primary" size="sm" [block]="true" class="mb-0 rounded" mdbWavesEffect mdbBtn>Save Vitals</button>
+      </div>
+      <pa-vitals-table #vitals [Patient]="Patient" [vitalFieldClass]="'wd-vitals'" [audits]="mediaModel.audits" [outsideSaveButton]="true" class="px-1"></pa-vitals-table>
+    </div>
+  </ng-template>
+  <ng-container *ngTemplateOutlet="groupTemplate; context: {header: pharmacistOverviewSectionTypesEnum.VITALS, showDivider: true, collapsed: toggleState.vitals, content: vitals, stateRef: 'vitals', condition:pharmacistRecommendations.ruleData ? pharmacistRecommendations.ruleData.measurements.passed : null}">
+  </ng-container>
+
+
+  <ng-template #questionnaire>
+    <div class="d-flex flex-column outline-box mt-3">
+      <div class="d-flex justify-content-between mb-4 card-title">
+        <span class="fs-20">Questionnaires</span>
+      </div>
+      <div>
+        <ph-questionnaires *ngIf="pharmacistRecommendations?.ruleData" [questionnaire]="QuestionnairesEnum[visitReason]" [viewOnly]="viewOnly"
+                           [sectionType]="pharmacistOverviewSectionTypesEnum.PATIENT_ASSESSMENT" [pharmacistRecommendations]="pharmacistRecommendations.ruleData">
+        </ph-questionnaires>
+      </div>
+    </div>
+  </ng-template>
+  <ng-container *ngTemplateOutlet="groupTemplate; context: {header: pharmacistOverviewSectionTypesEnum.PATIENT_ASSESSMENT, showDivider: true, collapsed: toggleState.questionnaire, content: questionnaire, stateRef: 'questionnaire', condition:pharmacistRecommendations.ruleData ? pharmacistRecommendations.ruleData.baseQuestions.passed : null}">
+  </ng-container>
+
+
+  <ng-template #assessment>
+    <div class="d-flex flex-column outline-box mt-3">
+      <div class="d-flex justify-content-between mb-4 card-title">
+        <span class="fs-20">Questionnaires</span>
+      </div>
+      <div>
+        <ph-questionnaires *ngIf="pharmacistRecommendations?.ruleData" [questionnaire]="QuestionnairesEnum[visitReason]" [viewOnly]="viewOnly"
+                           [sectionType]="pharmacistOverviewSectionTypesEnum.PHARMACIST_ASSESSMENT" [pharmacistRecommendations]="pharmacistRecommendations.ruleData">
+        </ph-questionnaires>
+      </div>
+    </div>
+  </ng-template>
+  <ng-container *ngTemplateOutlet="groupTemplate; context: {header: pharmacistOverviewSectionTypesEnum.PHARMACIST_ASSESSMENT, showDivider: true, collapsed: toggleState.assessment, content: assessment, stateRef: 'assessment', condition: pharmacistRecommendations.ruleData ? pharmacistRecommendations.ruleData.screening.passed : null}"></ng-container>
+
+  <ng-template #businessLabs>
+    <div class="d-flex flex-column outline-box mt-3">
+      <div class="d-flex justify-content-between mb-4 card-title">
+        <span class="fs-20">Results</span>
+        <button *ngIf="!viewOnly" [disabled]="labs.saveButtonDisabled" (click)="labs.saveResults()" type="button" color="primary" size="sm" [block]="true" class="mb-0 rounded" mdbWavesEffect mdbBtn>Save Labs</button>
+      </div>
+      <div>
+        <ul class="list-unstyled">
+          <pa-business-labs #labs></pa-business-labs>
+        </ul>
+      </div>
+    </div>
+  </ng-template>
+  <ng-container *ngTemplateOutlet="groupTemplate; context: {header: pharmacistOverviewSectionTypesEnum.LABS, showDivider: true, collapsed: toggleState.businessLabs, content: businessLabs, stateRef: 'businessLabs', condition: null}"></ng-container>
+
+</div>
+
+<ng-template let-header="header" let-showDivider="showDivider" let-collapsed="collapsed" let-content="content" let-stateRef="stateRef" let-condition="condition" #groupTemplate>
+  <div class="d-flex flex-row justify-content-between collapse-header">
+    <div class="d-flex flex-row align-items-center">
+      <fa-icon [icon]="['fal', 'check']" size="md" class="mr-2 message good-message rounded-circle" *ngIf="condition"></fa-icon>
+      <h5 *ngIf="!condition" class="mr-2 message rounded-circle mb-0" [class.require-message]="condition === false">{{getSectionNumber(stateRef)}}</h5>
+      <span class="fs-20 mr-2">{{header}}</span>
+      <ng-container *ngIf="condition !== null">
+        <span class="px-2 message rounded" [class.good-message]="condition" [class.require-message]="!condition">{{condition ? 'Good' : 'Requires Screening'}}</span>
+        <span class="px-2 text-underline more-info" *ngIf="header === pharmacistOverviewSectionTypesEnum.VITALS && !condition" [mdbTooltip]="screeningTooltip" placement="right">More Info</span>
+        <span class="px-2 text-underline more-info" *ngIf="header === pharmacistOverviewSectionTypesEnum.PHARMACIST_ASSESSMENT && !condition && scoringFailed | async" [mdbTooltip]="scoringTooltip" placement="right">More Info</span>
+      </ng-container>
+    </div>
+
+    <button type="button" color="white" size="sm" [block]="true" class="mb-0 rounded" (click)="toggle(stateRef)" mdbWavesEffect mdbBtn>{{collapsed ? 'Expand' : 'Collapse'}}</button>
+  </div>
+
+  <div mdbCollapse [isCollapsed]="collapsed" #expansion="bs-collapse" class="expansion-body overflow-hidden" [class.expanded]="!collapsed" [id]="stateRef">
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+  </div>
+
+  <mat-divider *ngIf="showDivider" [vertical]="false" class="my-4"></mat-divider>
+</ng-template>
+
+<ng-template #screeningTooltip>
+  <div class="d-flex flex-column">
+    <span><strong>Acceptable range for prescribing</strong></span>
+    <span class="hint" *ngFor="let hint of physicalAssessment$ | async">{{hint.assessment}}: {{hint.acceptableRange}}</span>
+  </div>
+</ng-template>
+
+<ng-template #scoringTooltip>
+  <div class="d-flex flex-column" *ngIf="scoringBreakdown | async as scoringBreakdownDetails">
+    <span><strong>Patients current score - {{scoringBreakdownDetails.currentScore}}.</strong></span>
+    <span><strong>Patients must score {{scoringBreakdownDetails.minimumScore}} or greater on the Centor Score:</strong></span>
+    <span class="hint" *ngFor="let hint of scoringBreakdownDetails.recommendations">{{hint}}</span>
+</div>
+</ng-template>

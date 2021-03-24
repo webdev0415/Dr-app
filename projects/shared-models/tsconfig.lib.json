@@ -1,0 +1,42 @@
+{
+  "compilerOptions": {
+    "outDir": "../../out-tsc/shared-models/lib",
+    "target": "es2015",
+    "declaration": true,
+    "inlineSources": true,
+    "sourceMap": true,
+    "types": [],
+    "lib": [
+      "dom",
+      "es2018"
+    ],
+    "composite": true,
+    "diagnostics": true,
+    "downlevelIteration": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "strictNullChecks": false,
+    "importHelpers": true,
+    "baseUrl": "./src/",
+    "typeRoots": [
+      "node_modules/@types"
+    ]
+  },
+  "angularCompilerOptions": {
+    "skipTemplateCodegen": true,
+    "strictMetadataEmit": true,
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true,
+    "enableResourceInlining": true
+  },
+  "include": [
+    "./src/lib/**/*.ts",
+    "./src/lib/interfaces/**/*.ts",
+    "./src/*.ts"
+  ],
+  "exclude": [
+    "src/test.ts"
+  ]
+}

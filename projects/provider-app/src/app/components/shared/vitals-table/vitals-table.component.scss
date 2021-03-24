@@ -1,0 +1,42 @@
+@import '../../../../../src/styles/shared/mixins';
+
+#vitfields {
+  font-size: 16px;
+  max-width: 1230px;
+  margin-bottom: 20px;
+
+  @include media-breakpoint-between(xl, xxl) {
+    flex-direction: column;
+  }
+
+  pa-vitals-field {
+    margin-bottom: 30px;
+    flex-grow: 0;
+  }
+}
+
+#vitfields .wd-vitals {
+  margin-right: 0;
+  margin-bottom: 10px;
+}
+
+#vm-ma-save {
+  display: flex;
+  justify-content: center;
+  max-width: 1230px;
+}
+
+::ng-deep .short-labels .wd-vitals:nth-child(even) .vital-field label {
+  width: 30px!important;
+}
+
+
+::ng-deep .wd-vitals .vital-field {
+  .vital-field-layer {
+
+    .vitals-postfix {
+      padding-left: 0 !important;
+    }
+
+  }
+}

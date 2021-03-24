@@ -1,0 +1,52 @@
+<pa-pdfgag id="f47c474c-f900-46f0-a2e2-129ee0378423" *ngIf="PDFAvailable" [link]="PDFLink"></pa-pdfgag>
+<div id="17a9c225-02a0-49e5-8148-c91c8367bae2" class="d-flex flex-column fh">
+  <pa-new-version-available *ngIf="showUpdateVersionBar()" [showTimer]="showTimer"></pa-new-version-available>
+  <pa-header id="38449b81-50c3-4111-989b-bbd52fb7f9ef" *ngIf="logged" [class.blurry]="isAnyDialogs | async"></pa-header>
+  <div id="appworkspace" class="fh" [class.blurry]="isAnyDialogs | async">
+    <mat-sidenav-container class="fh" autosize>
+      <mat-sidenav #devviewer opened="false" [mode]="'over'" [position]="'end'" id="jsonsidenav">
+        <ng-container [ngSwitch]="devbarPanelView">
+          <mat-tab-group *ngSwitchCase="'devbarPanel'">
+            <mat-tab label="Patient data JSON">
+              <div id="cfafb6be-21a6-4a5b-9cb6-4b32a076f341" class="fhcode">
+                <textarea class="fhcode" readonly>{{currentDataDev | async}}</textarea>
+              </div>
+            </mat-tab>
+            <mat-tab label="Patient list JSON">
+              <div id="48b6c3e5-8a2c-4cbd-b016-d52e449ede6f" class="fhcode">
+                <textarea class="fhcode" readonly>{{patientsListDev | async}}</textarea>
+              </div>
+            </mat-tab>
+            <mat-tab label="Audit JSON">
+              <div id="496da880-b0d0-4bad-b891-dfd3f3deb6eb" class="fhcode">
+                <textarea class="fhcode" readonly>{{auditListDev | async}}</textarea>
+              </div>
+            </mat-tab>
+            <mat-tab label="Visit Data JSON">
+              <div id="0d5a9e06-e628-4d85-b306-e7fbd3dbe889" class="fhcode">
+                <textarea class="fhcode" readonly>{{visitDataDev | async}}</textarea>
+              </div>
+            </mat-tab>
+          </mat-tab-group>
+          <mat-tab-group *ngSwitchCase="'userSettingsPanel'">
+            <mat-tab label="Additional Discharge Documents">
+              <div class="ml-4 mt-3">
+                <div class="switch primary-switch">
+                  <label>
+                    Additional Discharge Off
+                    <input type="checkbox" [checked]="additionalDischargeEnabled" (click)="toggleAdditionalDischargeSection()">
+                    <span class="lever"></span> On
+                  </label>
+                </div>
+              </div>
+            </mat-tab>
+          </mat-tab-group>
+        </ng-container>
+
+      </mat-sidenav>
+      <mat-sidenav-content [ngClass]="logged ? 'app-content' : ''" id="sidenavcontent">
+        <router-outlet></router-outlet>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>
+</div>

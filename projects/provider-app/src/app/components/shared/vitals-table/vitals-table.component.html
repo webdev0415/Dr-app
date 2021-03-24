@@ -1,0 +1,74 @@
+<div id="vitfields" class="d-flex justify-content-between" *ngIf="vitals" [ngClass]="labelClass">
+  <div class="d-flex flex-column">
+    <pa-vitals-field [name]="'Height'" [label]="'HT'" [measurement]="'inches'" [(value)]="vitals.HEIGHT"
+                        [checkMin]="10" [checkMax]="120" [media]="audits.HEIGHT"
+                        [patient]="Patient" [labname]="'HEIGHT'" [fieldLength]="5"
+                        (blur)="updateMeasurements()" (valid)="onValidChange($event)"
+                        [viewOnly]="viewOnly" [ngClass]="vitalFieldClass"></pa-vitals-field>
+
+    <pa-vitals-field [name]="'Weight'" [label]="'WGT'" [measurement]="'lbs'" [(value)]="vitals.WEIGHT"
+                        [checkMin]="10" [checkMax]="2000" [checkInt]="true" [media]="audits.WEIGHT"
+                        [patient]="Patient" [labname]="'WEIGHT'" [fieldLength]="4"
+                        (blur)="updateMeasurements()" (valid)="onValidChange($event)"
+                        [viewOnly]="viewOnly" [ngClass]="vitalFieldClass"></pa-vitals-field>
+
+    <pa-vitals-field [name]="'Pulse'" [label]="'Pulse'" [measurement]="'bpm'" [(value)]="vitals.PULSE"
+                        [checkMin]="10" [checkMax]="199" [checkInt]="true" [media]="audits.PULSE"
+                        [patient]="Patient" [labname]="'PULSE'" [fieldLength]="3"
+                        (blur)="updateMeasurements()" (valid)="onValidChange($event)"
+                        [viewOnly]="viewOnly" [ngClass]="vitalFieldClass"></pa-vitals-field>
+
+    <div class="d-flex flex-row">
+      <pa-vitals-field [name]="'Systolic'" [label]="'BP'" [(value)]="vitals.SYSTOLIC"
+                       [checkMin]="30" [checkMax]="200" [checkInt]="true" [fieldLength]="3"
+                       [media]="audits.SYSTOLIC || audits.MEAN_ARTERIAL_PRESSURE" (valid)="onValidChange($event)"
+                       [patient]="Patient" [labname]="'SYSTOLIC'" (blur)="updateMeasurements()"
+                       [viewOnly]="viewOnly" [ngClass]="vitalFieldClass"></pa-vitals-field>
+
+      <pa-vitals-field [name]="'Diastolic'" [label]="'/'" [measurement]="'mmHG'" [(value)]="vitals.DIASTOLIC"
+                       [checkMin]="30" [checkMax]="200" [checkInt]="true" [fieldLength]="3"
+                       [media]="audits.DIASTOLIC || audits.MEAN_ARTERIAL_PRESSURE" (valid)="onValidChange($event)"
+                       [patient]="Patient" [labname]="'DIASTOLIC'" (blur)="updateMeasurements()"
+                       [viewOnly]="viewOnly" [ngClass]="vitalFieldClass"></pa-vitals-field>
+    </div>
+
+    <pa-vitals-field [name]="'Temp'" [label]="'Temp'" [measurement]="'°F'" [(value)]="vitals.TEMPERATURE"
+                     [checkMin]="50.1" [checkMax]="119.9" [media]="audits.TEMPERATURE"
+                     [patient]="Patient" [fieldLength]="5"
+                     [labname]="'TEMPERATURE'" (blur)="updateMeasurements()" (valid)="onValidChange($event)"
+                     [viewOnly]="viewOnly" [ngClass]="vitalFieldClass"></pa-vitals-field>
+
+  </div>
+  <div class="d-flex flex-column">
+
+    <pa-vitals-field [name]="'O2'" [label]="'O2'" [measurement]="'%'" [(value)]="vitals.BLOOD_OXYGEN"
+                        [checkMin]="0" [checkMax]="100" [checkInt]="true" [media]="audits.BLOOD_OXYGEN"
+                        [patient]="Patient" [labname]="'BLOOD_OXYGEN'" [fieldLength]="3"
+                        (blur)="updateMeasurements()" (valid)="onValidChange($event)"
+                        [viewOnly]="viewOnly" [ngClass]="vitalFieldClass"></pa-vitals-field>
+
+    <pa-vitals-field [name]="'RR'" [label]="'RR'" [measurement]="'bpm'" [(value)]="vitals.RESPIRATORY_RATE"
+                        [checkMin]="2" [checkMax]="99" [checkInt]="true" [fieldLength]="2"
+                        [patient]="Patient" [labname]="'RESPIRATORY_RATE'" (blur)="updateMeasurements()"
+                        (valid)="onValidChange($event)" [viewOnly]="viewOnly" [ngClass]="vitalFieldClass"></pa-vitals-field>
+
+    <pa-vitals-field [name]="'VA left'" [label]="'VA Left'" [(value)]="vitals.LEFT_EYE"
+                        [patient]="Patient" [labname]="'LEFT_EYE'" (blur)="updateMeasurements()"
+                        (valid)="onValidChange($event)" [viewOnly]="viewOnly" [ngClass]="vitalFieldClass"></pa-vitals-field>
+
+    <pa-vitals-field [name]="'VA right'" [label]="'VA Right'" [(value)]="vitals.RIGHT_EYE"
+                        [patient]="Patient" [labname]="'RIGHT_EYE'" (blur)="updateMeasurements()"
+                        (valid)="onValidChange($event)" [viewOnly]="viewOnly" [ngClass]="vitalFieldClass"></pa-vitals-field>
+    <pa-vitals-field *ngIf="bmiValue" [name]="'BMI'" [label]="'BMI'" [(value)]="bmiValue"
+                     [patient]="Patient" [labname]="'BMI'" (blur)="updateMeasurements()"
+                     (valid)="onValidChange($event)" [viewOnly]="true" [ngClass]="vitalFieldClass"></pa-vitals-field>
+  </div>
+</div>
+
+<div id="vm-ma-save" *ngIf="!outsideSaveButton">
+  <button *ngIf="!viewOnly" mdbBtn type="button" color="primary" size="sm" mdbWavesEffect
+          class="updatevitals rounded mb-2"
+          (click)="putVitals()" [disabled]="saveButtonDisabled">
+    {{vitalsUpdInProgress ? 'Saving...' : 'Save'}}
+  </button>
+</div>

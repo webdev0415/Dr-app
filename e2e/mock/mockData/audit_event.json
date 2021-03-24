@@ -1,0 +1,22 @@
+{
+  "expression": "^/patients/.*/audit_event/$",
+  "method": "GET",
+  "name": "audit_event",
+  "isArray": false,
+  "responses": {
+    "6121": {
+      "default": true,
+      "status": 200,
+      "headers": {},
+      "data": {
+        "results": []
+      }
+    },
+    "6075": {
+      "status": 200,
+      "headers": {},
+      "data": {
+        "results":[{"description":"Pulse Oxygen","s3":"https://s3-us-west-2.amazonaws.com/kiosk-users-audit/c12f7cae126bc7dcf5f0c697323a2145..jpg?Signature=BZcF1l30Lem74qnbBxXSBLXAqgw%3D&Expires=1529082856&AWSAccessKeyId=AKIAIEGKSCTHOM5PC4LQ","media_uid":"c12f7cae126bc7dcf5f0c697323a2145..jpg","file_type":"","media_type":null,"size":221871,"session_key":"278ab022-0aeb-4b46-8b7f-9a6627ec21db","created_at":"2018-06-08T13:52:10+00:00","measurement_type":"BLOOD_OXYGEN","status":"AVAILABLE","name":"audit_PULSE_OX_METER_2018-06-08-13-52-10.jpg"},{"description":"Arm Blood Pressure","s3":"https://s3-us-west-2.amazonaws.com/kiosk-users-audit/e8a2d9dbcf9522e4ceddd3c9b6d3242e..jpg?Signature=MIve%2BlrOyuORmgV0FwMyoT5OEKI%3D&Expires=1529082856&AWSAccessKeyId=AKIAIEGKSCTHOM5PC4LQ","media_uid":"e8a2d9dbcf9522e4ceddd3c9b6d3242e..jpg","file_type":"","media_type":null,"size":220513,"session_key":"278ab022-0aeb-4b46-8b7f-9a6627ec21db","created_at":"2018-06-08T13:52:55+00:00","measurement_type":"MEAN_ARTERIAL_PRESSURE","status":"AVAILABLE","name":"audit_BLOOD_PRESSURE_2018-06-08-13-52-55.jpg"},{"description":"Otoscope|Mouth|right","s3":"https://s3-us-west-2.amazonaws.com/kiosk-users-audit/b559b57a6e76e2dc59a7af65be5e6218..jpg?Signature=eMmtX%2FoVUq6LTroZvCTfvolCR88%3D&Expires=1529082856&AWSAccessKeyId=AKIAIEGKSCTHOM5PC4LQ","media_uid":"b559b57a6e76e2dc59a7af65be5e6218..jpg","file_type":"","media_type":null,"size":257055,"session_key":"278ab022-0aeb-4b46-8b7f-9a6627ec21db","created_at":"2018-06-08T13:54:22+00:00","measurement_type":"OTOSCOPE","status":"AVAILABLE","name":"audit_OTOSCOPE_2018-06-08-13-54-22.jpg"}]}
+    }
+  }
+}

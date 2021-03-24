@@ -1,0 +1,28 @@
+.section .row {
+  flex-wrap: wrap !important;
+}
+
+:host ::ng-deep .md-form {
+  margin: 0;
+}
+
+.form-check {
+  margin: 0.5rem 0;
+}
+
+
+  mdb-date-picker {
+    margin-left: .25rem!important;
+    max-width: 90px;
+  }
+
+  .row {
+    margin: 0!important;
+    align-items: center;
+  }
+
+textarea {
+  background-color: transparent;
+  border-color: black;
+  overflow: hidden;
+}

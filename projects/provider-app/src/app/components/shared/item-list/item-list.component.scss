@@ -1,0 +1,167 @@
+@import '../../../../../src/styles/shared/mixins';
+@import '../../../../../src/styles/shared/functions';
+
+.menu-button {
+  min-width: 50px;
+  min-height: 50px;
+  padding: 0;
+  margin-top: 3px;
+  height: 50%;
+  margin-left: 10px;
+}
+
+.menu-button-r {
+  margin-right: 10px;
+}
+
+.menu-button, .menu-item {
+  &:focus {
+    outline: none;
+  }
+}
+
+.header-logo {
+  height: 50px;
+  width: 157px;
+  padding-left: 10px;
+}
+
+#header-container {
+  padding: 3px;
+}
+
+.m-exit {
+  display: none;
+}
+
+.refill-request-tag {
+  font-size: 16px;
+  width: 120px !important;
+  height: 31px;
+  color: #E9B117;
+  background-color: rgba(233, 177, 23, 0.04);
+  border: 1px solid #E9B117;
+  border-radius: 2px;
+  padding: 3px 10px;
+  margin: 0 5px;
+}
+
+.refill-reason {
+  width: 100%;
+  background-color: #F5F5F5;
+  border: solid 1px rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  padding: 10px;
+  color: rgba(0, 0, 0, 0.45);
+}
+
+.refill-reason-label {
+  height: 50px;
+  padding-top: 20px;
+}
+
+.pointer-cursor {
+  cursor: pointer;
+}
+
+.no-refill-med {
+  margin-left: 14px;
+}
+
+@include media-breakpoint-down(sm) {
+  .m-exit {
+    display: inherit;
+  }
+
+  .d-exit {
+    display: none;
+  }
+}
+
+@include media-breakpoint-down(xs) {
+  .navbar-brand {
+    display: none;
+  }
+}
+
+ul {
+  $border-li: 1px solid #E0E0E0;
+  li {
+    border-top: $border-li;
+    padding-top: rem(12);
+    padding-bottom: rem(12);
+    &:last-child {
+      border-bottom: $border-li;
+    }
+    .mat-icon {
+      color: #F26666;
+    }
+  }
+}
+
+li {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  mat-divider {
+    height: 27px;
+  }
+  span {
+    align-self: center;
+  }
+  :first-child {
+    width: 100%;
+  }
+
+  button {
+    width: max-content !important;
+  }
+}
+
+pa-editable-text {
+  width: 24px;
+  align-self: center;
+  margin-right: 8px;
+}
+
+.meds-other-container {
+  span:first-of-type {
+    width: unset;
+  }
+  mat-divider {
+    margin: 0 8px;
+  }
+  display: flex;
+  flex-direction: row;
+}
+
+.meds-reaction {
+  width: 145px !important;
+  min-width: 145px;
+}
+
+.divider-width-0 {
+  width: 0 !important;
+}
+
+.other-input {
+  height: 32px;
+  span {
+    cursor: pointer;
+    padding: 8px;
+  }
+}
+
+.force-scroll {
+  height: 200px;
+  overflow-y: scroll;
+}
+
+.card-title {
+  padding: 0.5rem;
+}
+
+.dropdown-menu {
+  margin-left: -178px;
+}

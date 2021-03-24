@@ -1,0 +1,138 @@
+<div class="d-flex flex-column">
+  <h6 class="mb-0"><strong>{{header}}</strong></h6>
+  <!-- Patient Information start -->
+  <div class="d-flex flex-row justify-content-between flex-wrap header-container p-2 mb-3" *ngIf="header === 'Patient Information'">
+    <div class="d-flex flex-column flex-wrap w-45">
+      <div class="d-flex flex-row align-items-center my-1">
+        <label for="patient-info-name" class="mx-0">Name:</label>
+        <input id="patient-info-name" class="w-100 text-body" type="text" disabled [ngModel]="fulName"/>
+      </div>
+      <div class="d-flex flex-row align-items-center my-1">
+        <label for="address" class="mx-0">Address:</label>
+        <input id="address" class="w-responsive text-body" type="text" disabled
+               [ngModel]="data?.source['addressLine1']?.length ? data?.source['addressLine1'] + ', ' + data?.source['addressLine2'] : ''"/>
+      </div>
+      <div class="d-flex flex-row align-items-center my-1">
+        <div class="d-flex flex-row w-50">
+          <label for="city" class="mx-0">City:</label>
+          <input id="city" class="w-100 text-body" type="text" disabled [ngModel]="data?.source['city']"/>
+        </div>
+        <div class="d-flex flex-row w-25">
+          <label for="state" class="mx-0">State:</label>
+          <input id="state" class="w-100 text-body" type="text" disabled [ngModel]="data?.source['state']"/>
+        </div>
+        <div class="d-flex flex-row w-25">
+          <label for="zip" class="mx-0">Zip:</label>
+          <input id="zip" class="w-100 text-body" type="text" disabled [ngModel]="data?.source['zip']"/>
+        </div>
+      </div>
+      <div class="d-flex flex-row align-items-center my-1">
+        <label for="primary-care-physician" class="text-nowrap mx-0">Primary Care Physician:</label>
+        <input id="primary-care-physician" class="w-100 text-body" type="text" disabled [ngModel]="data?.source['primaryCarePhysician']"/>
+      </div>
+    </div>
+
+    <div class="d-flex flex-column flex-wrap w-50">
+      <div class="d-flex flex-row align-items-center my-1">
+        <label for="current-date" class="text-nowrap mx-0">Today's Date:</label>
+        <input id="current-date" class="w-100 text-body" type="text" disabled [ngModel]="currentDate"/>
+      </div>
+      <div class="d-flex flex-row align-items-center my-1">
+        <label for="phone" class="text-nowrap mx-0">Phone #:</label>
+        <input id="phone" class="w-100 text-body" type="text" disabled [ngModel]="data?.source['countryCode'] + ' ' + data?.source['phone']"/>
+      </div>
+      <div class="d-flex flex-row align-items-center my-1">
+        <div class="d-flex flex-row w-50">
+          <label for="patient-info-dob" class="mx-0">DOB:</label>
+          <input id="patient-info-dob" class="w-100 text-body" type="text" disabled [ngModel]="data?.source['birthDate'] | dob"/>
+        </div>
+        <div class="d-flex flex-row w-50 justify-content-around">
+          <p class="mb-0">Sex:</p>
+          <label><input type="checkbox" class="mx-2" [disabled]="true" [checked]="data?.source['gender'] === GenderEnum.FEMALE">Female</label>
+          <label class="ml-2"><input type="checkbox" class="mx-1" [disabled]="true" [checked]="data?.source['gender'] === GenderEnum.MALE">Male</label>
+        </div>
+      </div>
+      <div class="d-flex flex-row align-items-center my-1">
+        <label for="allergies" class="mx-0">Allergies:</label>
+        <span id="allergies" class="w-100 border-bottom border-dark text-monospace w-100 ml-1 text-wrap fs-12">{{allergies | async}}</span>
+      </div>
+    </div>
+  </div>
+  <!-- Patient Information end -->
+  <!-- Insurance Information start -->
+  <div class="d-flex flex-row flex-wrap justify-content-between header-container p-2 insurance-data" *ngIf="header === 'Insurance Information'">
+    <div class="w-100">
+      <p class="fs-12 mb-0">
+        <i>
+          Prescribing services may or may not be covered by your insurance.
+          We will verify all eligibility under your plan and attempt to collect payment from your insurance for all services.
+          If we are unable to confirm eligibility or coverage, you may still opt to receive these services at our pharmacy
+          and pay for it yourself or your insurance may cover prescribing services at your physician’s office.
+          Your insurance may reimburse you for out-of- pocket expenses for covered services if you submit receipts and documentation.
+          You are responsible for payment for products or services you receive that are not paid for by your plan.
+          Please provide your insurance information below.
+        </i>
+      </p>
+    </div>
+    <div class="d-flex flex-column flex-wrap w-45">
+      <div class="d-flex flex-row my-1">
+        <label for="prescription-insurance-name" class="text-nowrap mx-0"><strong>Prescription</strong> Insurance Name:</label>
+        <input id="prescription-insurance-name" class="w-100 text-body" type="text" disabled/>
+      </div>
+      <div class="d-flex flex-row my-1">
+        <label for="cardholder-id" class="text-nowrap mx-0">Cardholder ID #:</label>
+        <input id="cardholder-id" class="w-100 text-body" type="text" disabled/>
+      </div>
+      <div class="d-flex flex-row my-1">
+        <label for="rx-group" class="text-nowrap mx-0">RX Group #:</label>
+        <input id="rx-group" class="w-100 text-body" type="text" disabled/>
+      </div>
+      <div class="d-flex flex-row my-1">
+        <div class="d-flex flex-row w-50">
+          <label for="rx-bin" class="text-nowrap mx-0">RX Bin #:</label>
+          <input id="rx-bin" class="w-100 text-body" type="text" disabled/>
+        </div>
+        <div class="d-flex flex-row w-50">
+          <label for="rx-pcn" class="text-nowrap mx-0">RX PCN #:</label>
+          <input id="rx-pcn" class="w-100 text-body" type="text" disabled/>
+        </div>
+      </div>
+      <div class="d-flex flex-row my-1">
+        <label for="relationship-of-patient-to-cardholder" class="text-nowrap mx-0">Relationship of Patient to Cardholder:</label>
+        <input id="relationship-of-patient-to-cardholder" class="w-100 text-body" type="text" disabled/>
+      </div>
+    </div>
+
+    <div class="d-flex flex-column flex-wrap w-50">
+      <div class="d-flex flex-row my-1">
+        <label for="medical-insurance-name" class="text-nowrap mx-0"><strong>Medical</strong> Insurance Name:</label>
+        <span id="medical-insurance-name" class="w-100 insurance-data-line">{{data?.source?.insuranceProvider}}</span>
+      </div>
+      <div class="d-flex flex-row my-1">
+        <label for="insurance-address" class="text-nowrap mx-0">Insurance Address:</label>
+        <span id="insurance-address" class="w-100 insurance-data-line">{{insuranceAddress.trim()}}</span>
+      </div>
+      <div class="d-flex flex-row my-1">
+        <label for="cardholder-name" class="text-nowrap mx-0">Cardholder Name:</label>
+        <span id="cardholder-name" class="w-100 insurance-data-line">{{data?.source?.policyHolder}}</span>
+      </div>
+      <div class="d-flex flex-row my-1">
+        <label for="medical-cardholder-id" class="text-nowrap mx-0">Cardholder ID #:</label>
+        <span id="medical-cardholder-id" class="w-100 insurance-data-line">{{data?.source?.memberId}}</span>
+      </div>
+      <div class="d-flex flex-row my-1">
+        <label for="cardholder-dob" class="text-nowrap mx-0">Cardholder DOB:</label>
+        <span id="cardholder-dob" class="w-100 insurance-data-line">{{data?.source?.policyHolderDOB | dob}}</span>
+      </div>
+      <div class="d-flex flex-row my-1">
+        <label for="group" class="text-nowrap mx-0">Group #:</label>
+        <span id="group" class="w-100 insurance-data-line">{{data?.source?.groupId}}</span>
+      </div>
+      <div class="d-flex flex-row my-1">
+        <label for="medical-relationship-of-patient-to-cardholder" class="text-nowrap mx-0">Relationship of Patient to Cardholder:</label>
+        <span id="medical-relationship-of-patient-to-cardholder" class="w-100 insurance-data-line">{{data?.source?.memberPatientRelationship}}</span>
+      </div>
+    </div>
+  </div>
+  <!-- Insurance Information end -->
+</div>

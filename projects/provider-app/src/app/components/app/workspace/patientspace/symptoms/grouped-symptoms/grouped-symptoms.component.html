@@ -1,0 +1,68 @@
+<div class="w-100 d-flex align-items-center list-item">
+  <div class="w-100 d-flex flex-column text-lowercase">
+    <div class="d-flex w-100">
+      <span *ngIf="groupedSymptom.basic" class="w-100 text-capitalize font-weight-bold">
+        {{groupedSymptom.type === 'Rash' ? 'Current Rash' : groupedSymptom.basic[0]}}{{groupedSymptom.hasDesc ? ' -' : ''}}
+      </span>
+      <span *ngIf="!groupedSymptom.basic" class="w-100 text-capitalize">{{symptom.name}}</span>
+    </div>
+    <div *ngIf="groupedSymptom.scale || groupedSymptom.description" class="d-flex w-100 my-1">
+                              <span *ngIf="!(groupedSymptom.type === 'Cough')">
+                                {{(groupedSymptom.scale ? (groupedSymptom.scale.join('/') +(groupedSymptom.description ? '; ' : '')) : '') + (groupedSymptom.description ? groupedSymptom.description.join(', ') : '')}}
+                              </span>
+      <span *ngIf="(groupedSymptom.type === 'Cough')">
+                                Described as {{groupedSymptom.description.join(', ')}}
+                              </span>
+    </div>
+    <div *ngIf="groupedSymptom.volumes || groupedSymptom.fluids" class="d-flex w-100 my-1">
+                              <span>
+                                Cough fluids described as {{(groupedSymptom.volumes ? (groupedSymptom.volumes.join('/') + (groupedSymptom.fluids ? 'and ' : '')) : '') +
+                              (groupedSymptom.fluids ? groupedSymptom.fluids.join(', ') : '')}}
+                              </span>
+    </div>
+    <div *ngIf="groupedSymptom.texture" class="d-flex w-100 my-1">
+      <span>with texture of {{groupedSymptom.texture.join(', ')}}</span>
+    </div>
+    <div *ngIf="groupedSymptom.made_better_by" class="d-flex w-100 my-1">
+      <span>made better by: {{groupedSymptom.made_better_by.join(', ')}}</span>
+    </div>
+    <div *ngIf="groupedSymptom.made_worse_by" class="d-flex w-100 my-1">
+      <span>made worse by: {{groupedSymptom.made_worse_by.join(', ') + (groupedSymptom.movement ? ' and movement' : '')}}</span>
+    </div>
+    <div *ngIf="groupedSymptom.associated_with" class="d-flex w-100 my-1">
+      <span>associated with {{groupedSymptom.associated_with.join(', ')}}</span>
+    </div>
+    <div *ngIf="groupedSymptom.occurs" class="d-flex w-100 my-1">
+      <span>occurs: {{groupedSymptom.occurs.join(', ')}}</span>
+    </div>
+    <div *ngIf="(symptom.other || groupedSymptom.ps_location) && !(groupedSymptom.type === 'Cough')" class="d-flex flex-column w-100 my-1">
+      <span class="text-underline">other details:</span>
+      <span *ngIf="groupedSymptom.ps_location" class="my-1">locations: {{groupedSymptom.ps_location.join(', ')}}</span>
+      <span *ngFor="let other of symptom.other">{{other}}</span>
+    </div>
+
+    <!--  Rash Symptoms  -->
+    <div *ngIf="groupedSymptom.started_here" class="d-flex w-100 my-1">
+      <span>started here: {{groupedSymptom.started_here.join(', ')}}</span>
+    </div>
+    <div *ngIf="groupedSymptom.current_distribution" class="d-flex w-100 my-1">
+      <span>current distribution: {{groupedSymptom.current_distribution.join(', ')}}</span>
+    </div>
+    <div *ngIf="groupedSymptom.described_as" class="d-flex w-100 my-1">
+      <span>described as: {{groupedSymptom.described_as.join(', ')}}</span>
+    </div>
+    <div *ngIf="groupedSymptom.distribution_pattern" class="d-flex w-100 my-1">
+      <span>pattern: {{groupedSymptom.distribution_pattern.join(', ')}}</span>
+    </div>
+    <div *ngIf="groupedSymptom.soles_and_feet" class="d-flex w-100 my-1">
+      <span>soles and feet: {{groupedSymptom.soles_and_feet.join(', ')}}</span>
+    </div>
+    <div *ngIf="groupedSymptom.rash_change" class="d-flex w-100 my-1">
+      <span>recent changes {{ groupedSymptom.rash_change.join(', ') }}</span>
+    </div>
+    <div *ngIf="groupedSymptom.rash_size" class="d-flex w-100 my-1">
+      <span>change in size: {{groupedSymptom.rash_size.join(', ') }}</span>
+    </div>
+  </div>
+  <mat-icon *ngIf="!viewOnly" (click)="removeGroup(symptom)" class="text-danger">close</mat-icon>
+</div>

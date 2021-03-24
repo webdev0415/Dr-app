@@ -1,0 +1,34 @@
+#jsonsidenav {
+  width: 60%;
+}
+
+div.fhcode {
+  display: block;
+  overflow-x: hidden;
+  height: calc(100vh - 110px);
+}
+
+textarea.fhcode {
+  font-size: 9pt;
+  font-family: Consolas, Monaco, Lucida Console, Liberation Mono,
+    DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  background-color: rgb(34, 34, 34);
+  color: #dfdfdf;
+  overflow-x: hidden;
+  width: 100%;
+  height: 98%;
+}
+
+.blurry {
+  filter: blur(3px);
+}
+
+#appworkspace {
+  transition: filter .3s;
+}
+
+.reset-tab {
+  flex-direction: column;
+}

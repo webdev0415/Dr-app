@@ -1,0 +1,10 @@
+<ng-template #td>
+
+    <button mdbBtn type="button" [color]="buttonColor | async"
+            size="sm" [block]="true" mdbWavesEffect
+            [class.active]="buttonActive | async"
+            (click)="changeLabValue()">
+      {{ (buttonActive | async) ? (labValue | async) : 'Enter Number' }}
+    </button>
+
+</ng-template>

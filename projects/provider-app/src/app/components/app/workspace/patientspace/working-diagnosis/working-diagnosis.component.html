@@ -1,0 +1,12 @@
+<mdb-tabset #staticTabs [buttonClass]="'classic-tabs tabs'" class="classic-tabs" (getActiveTab)="onTabSelect($event)">
+  <mdb-tab [heading]="titles[0]">
+    <pa-main #diagnosisSection (changeTab)="changeTab($event)" (navigateToTreatments)="continueWithTreatments()"></pa-main>
+  </mdb-tab>
+  <mdb-tab [heading]="titles[1]">
+    <pa-selected-illnesses #illnessSection *ngIf="stateService.app.ddx()" [ddx]="dataService.getDifferentialDiagnosis() | async" [diagnosticEngine]="(diagnosticEngine$ | async) || []"></pa-selected-illnesses>
+  </mdb-tab>
+  <mdb-tab [heading]="titles[0]">
+    <pa-pharmacist-summary [viewOnly]="viewOnly" [selectedIllnesses]="(selectedIllnesses$ | async) || []" *ngIf="isPharmacist"
+                           (exitPatientFile)="exitPatientFile($event)" (continueWithTreatments)="continueWithTreatments()" (updateDiagnosis)="updatePharmacyDiagnosis($event)" #pharmacySummarySection></pa-pharmacist-summary>
+  </mdb-tab>
+</mdb-tabset>

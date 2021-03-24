@@ -1,0 +1,85 @@
+<div class="dme-container">
+  <div class="current-med-title">
+    <h5>Durable Medical Equipment</h5>
+  </div>
+  <div class="new-dme">
+    <div class="dme-row">
+      <div class="dme-search">
+        <div class="md-form no-maring-padding">
+          <input
+            #dmeSearchInput
+            type="text"
+            class="completer-input form-control mdb-autocomplete mb-0"
+            [ngModel]="dmeSearchText | async"
+            (ngModelChange)="dmeSearchText.next($event)"
+            [mdbAutoCompleter]="dmeAutoComplete"
+            placeholder="Search for DME"
+          />
+          <mdb-auto-completer
+            #dmeAutoComplete="mdbAutoCompleter"
+            textNoResults="No Results"
+            (select)="onDmeSearchOptionSelected($event)"
+            [clearButton]="true"
+          >
+            <mdb-option
+              *ngFor="let option of dmeSearchResults | async"
+              [value]="option"
+            >
+              <div class="d-flex flex-column">{{ option.label }}</div>
+            </mdb-option>
+          </mdb-auto-completer>
+        </div>
+      </div>
+      <div class="dme-qty">
+        <input
+          type="number"
+          step="1"
+          class="form-control"
+          placeholder="QTY"
+          [(ngModel)]="selectedDme.quantity"
+        />
+      </div>
+      <div class="dme-instructions">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Instructions"
+          [(ngModel)]="selectedDme.instructions"
+        />
+      </div>
+      <div class="dme-ICD">
+        <mdb-select-2 [multiple]="true" placeholder="Select ICD" [formControl]="selectControl">
+          <mdb-select-option *ngFor="let ICD of optionICDs" [value]="ICD.value">{{ ICD.label }}</mdb-select-option>
+        </mdb-select-2>
+      </div>
+      <div [ngClass]="isValidData() ? 'iconWrapper' : 'iconWrapper disabled'" (click)="addDme()">
+        ADD
+      </div>
+    </div>
+  </div>
+  <div class="created-dmes">
+    <div *ngFor="let createdDme of dmes;index as indexOfelement" class="dme-row">
+      <div class="dme-search">
+        {{createdDme.MED_NAME + createdDme.MED_NAME_ID}}
+      </div>
+      <div class="dme-qty">
+        {{createdDme.quantity}}
+      </div>
+      <div class="dme-instructions">
+        {{createdDme.instructions}}
+      </div>
+      <div class="dme-ICD">
+        {{createdDme.icds.join(',')}}
+      </div>
+      <div class="iconWrapper">
+        <mdb-icon
+          fas
+          icon="trash"
+          mdbTooltip="Remove item"
+          placement="top"
+          (click)="removeDme(indexOfelement)"
+        ></mdb-icon>
+      </div>
+    </div>
+  </div>
+</div>

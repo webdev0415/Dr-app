@@ -1,0 +1,64 @@
+<div class="contributor-wrapper d-flex flex-wrap">
+  <div *ngFor="let col of [firstColumn, secondColumn]; index as colIndex"
+       class="contributor-column d-flex justify-content-start align-items-between flex-column">
+    <div *ngFor="let row of col; index as rowIndex" class="cell w-100 d-flex flex-column px-2">
+      <div class="justify-content-between align-items-center one-line">
+        <span class="flex-1 one-line">
+          {{
+            illnessPresentation === illnessPresentationEnum.RANKING
+              ? colIndex === 0
+                ? rowIndex + 1 + '.&#160;&#160;'
+                : rowIndex + firstColumnLength + 1 + '.&#160;&#160;'
+              : ''
+          }}{{ row.symptomName | filterSymptomName }}
+        </span>
+        <span *ngIf="row.source && row.response !== false" class="link primary font-weight-bold mr-2" (click)="showSourceLinkInfo(row)">
+                  More info
+        </span>
+        <div class="one-line">
+          <span *ngIf="illnessPresentation === illnessPresentationEnum.CONFIDENCE">{{ (row.contribution * 100).toFixed(1) + '%' }}</span>
+          <span *ngIf="!getIsLabsContributor(row.symptomGroup)" class="presenting-indicator d-flex align-items-center justify-content-center font-weight-bold"
+               [class.presenting]="row.presenting">
+              {{ row.presenting ? 'A' : 'D' }}
+          </span>
+          <fa-icon *ngIf="getIsLabsContributor(row.symptomGroup)" [icon]="['fal', 'vial']"
+                   class="d-flex align-items-center justify-content-center presenting-indicator lab-icon fs-16">
+          </fa-icon>
+        </div>
+      </div>
+
+      <div *ngIf="row.groupedSymptom && (row.groupedSymptom.scale || row.groupedSymptom.description) && row.presenting" class="d-flex w-100 my-1 pl-3 fs-12">
+        <span *ngIf="!row.isCough">
+          {{(row.groupedSymptom.scale ? row.groupedSymptom.scale.join('/') + (row.groupedSymptom.description ? '; ' : '') : '') + (row.groupedSymptom.description ? row.groupedSymptom.description.join(', ') : '')}}
+        </span>
+        <span *ngIf="row.isCough || row.groupedSymptom.type === 'Rash'">
+          Described as {{row.groupedSymptom.description.join(', ')}}
+        </span>
+
+      </div>
+      <div *ngIf="row.groupedSymptom && row.groupedSymptom.type === 'Rash' && row.groupedSymptom.described_as" class="d-flex w-100 my-1 pl-3 fs-12">
+        <span>
+          Described as {{row.groupedSymptom.described_as.join(', ')}} {{ row.groupedSymptom.distribution_pattern
+            ? 'with pattern ' + row.groupedSymptom.distribution_pattern.join(', ') : ''}}
+        </span>
+      </div>
+      <div *ngIf="row.groupedSymptom && (row.groupedSymptom.volumes || row.groupedSymptom.fluids)" class="d-flex w-100 my-1 pl-3 fs-12">
+        <span>
+          Cough fluids described as {{(row.groupedSymptom.volumes ? (row.groupedSymptom.volumes.join('/') + (row.groupedSymptom.fluids ? 'and ' : '')) : '') +
+          (row.groupedSymptom.fluids ? row.groupedSymptom.fluids.join(', ') : '')}}
+        </span>
+      </div>
+      <div *ngIf="row.groupedSymptom && row.groupedSymptom.texture" class="d-flex w-100 my-1 pl-3 fs-12">
+        <span>With texture of {{row.groupedSymptom.texture.join(', ')}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex justify-content-end align-items-center ml-2 w-100 more-button" *ngIf="source.length > 10">
+    <span class="my-2 link primary" (click)="toggleTable()">
+      {{showMoreOrLess ? 'Less' : 'More'}}
+    </span>
+  </div>
+  <div *ngIf="!source.length" class="w-100 h-100 p-4 no-info">
+    No Data Available
+  </div>
+</div>

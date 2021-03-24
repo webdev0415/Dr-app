@@ -1,0 +1,84 @@
+<div class="dialog-wrapper d-flex flex-column">
+  <div class="dialog-wrapper-title">
+    <p>{{data.name}}</p>
+  </div>
+  <div class="dialog-wrapper-header">
+    <div class="text-center p-2">
+      <div class="d-flex justify-content-around align-items-center flex-wrap mb-2">
+        <div class="input-group px-2 flex-nowrap w-50 max-width-920">
+          <input matInput placeholder="Search" class="form-control popup-input mt-0"
+                 id="drug" [formControl]="formInputControl" (keyup.enter)="onClickSearch()"/>
+          <span class="placeholder-top" *ngIf="formInputControl.value">Search</span>
+          <div class="input-group-append">
+            <span class="input-group-text span-clickable" (click)="onClickSearch()">
+              <fa-icon icon="search"></fa-icon>
+            </span>
+          </div>
+        </div>
+        <div class="px-2 w-50 max-width-920">
+          <div class="filter-box d-flex align-items-center w-100 px-2">
+            <span *ngIf="!filters.length" class="gray">Filter</span>
+            <mat-chip-list #chipList>
+              <mat-chip *ngFor="let filter of filters" [selectable]="false" [removable]="true"
+                        (removed)="removeFilter(filter)">
+                {{filter.name}}
+                <mat-icon matChipRemove>cancel</mat-icon>
+              </mat-chip>
+            </mat-chip-list>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="dialog-wrapper-content" #contentWrapper>
+    <div class="result-placeholder-container"
+         [hidden]="formInputControl.value.trim().replace(' ', '').length >= 3 && formInputControl.valid || (data.list && data.list.length)">
+      <div>
+        <p class="result-placeholder faded">Start by Typing In The Search Box</p>
+        <p class="faded">(3 letters are minimum)</p>
+      </div>
+    </div>
+
+    <div class="result-placeholder-container" *ngIf="formInputControl.value.trim().replace(' ', '').length >= 3 && formInputControl.valid && data.list && !data.list.length">
+      <div>
+        <p class="result-placeholder faded">No results found</p>
+      </div>
+    </div>
+
+    <div class="row w-100">
+      <cdk-virtual-scroll-viewport itemSize="20" minBufferPx="700" maxBufferPx="700" class="virtual-scroll-viewport" *ngIf="data.list && data.list.length !== 0">
+        <div *cdkVirtualFor="let s of data.list; let index = index;"
+             class="py-1 col-12 text-left list-item d-flex align-items-center flex-column" role="group">
+          <div class="d-flex flex-row text-left list-item d-flex align-items-center py-1 col-12" [class.disabled]="selected.length && selected[0].symptomID !== s.symptomID" mdbWavesEffect>
+            <mat-checkbox mdbWavesEffect mdbCheckbox class="longnames text-left mr-2" color="primary" [checked]="selected.length && selected[0].symptomID === s.symptomID" (change)="toggleItem(index)" [disabled]="disabled(s.symptomID)"></mat-checkbox>
+            <div class="w-100 d-flex">
+              <div *ngIf="data.filters && data.filters.length" class="d-flex align-items-center">
+                <div *ngFor="let filter of data.filters" class="d-flex flex-nowrap filter-row">
+                  <span class="filter-item" [class.disabled]="selected.length && selected[0].symptomID !== s.symptomID" (click)="addFilter(s[filter], filter)">{{s[filter] | titlecase}}</span><span> >
+                </span>
+                </div>
+              </div>
+              <span>{{s.name}}</span>
+            </div>
+          </div>
+
+          <div class="switch animated slideInDown col-12 ml-5 pt-2" *ngIf="selected.length && selected[0].symptomID === s.symptomID">
+            <label><span class="presenting-indicator denied">Denied</span> <input type="checkbox" [checked]="selected[0].presenting" (change)="togglePresenting(s.symptomID)"><span class="lever presenting-indicator" [class.denied]="!selected[0].presenting"></span> <span class="presenting-indicator">Admits</span></label>
+          </div>
+        </div>
+      </cdk-virtual-scroll-viewport>
+    </div>
+  </div>
+
+  <div class="popup-btn-group d-flex flex-column justify-content-end">
+    <div class="d-flex justify-content-center">
+      <button mdbBtn type="button" color="primary" class="mx-2 my-0" [outline]="true" size="md" mdbWavesEffect
+              matDialogClose (click)="cancelDialog()">Cancel
+      </button>
+      <button mdbBtn type="button" color="primary" class="mx-2 my-0" size="md" mdbWavesEffect
+              (click)="confirmSelected()"
+              [disabled]="confirmButtonDisabled">Confirm
+      </button>
+    </div>
+  </div>
+</div>

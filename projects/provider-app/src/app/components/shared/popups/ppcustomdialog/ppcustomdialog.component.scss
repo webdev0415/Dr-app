@@ -1,0 +1,53 @@
+@import '../../../../../../src/styles/shared/variables';
+@import '../../../../../../src/styles/shared/functions';
+
+.title {
+  font-size: rem(20);
+}
+
+.message {
+  color: $grey-color;
+}
+
+.bullet {
+  font-size: 10px !important;
+  height: 10px !important;
+  width: 10px !important;
+}
+
+.dialog-container {
+  max-height: 80vh;
+  position: relative;
+  width: 100%;
+}
+
+button.close {
+  position: absolute;
+  float: right;
+  right: 0;
+}
+
+.content {
+  $_max-height: calc(80vh - 250px);
+
+  width: 100%;
+  max-height: $_max-height;
+  overflow: auto;
+
+  display: flex;
+
+  img {
+    display: flex;
+    height: auto;
+    max-width: 100%;
+    max-height: $_max-height;
+  }
+}
+
+.content.imgcontent {
+  flex-direction: column;
+}
+
+.input-style {
+  width: 300px;
+}

@@ -1,0 +1,65 @@
+<div class="expansion-panel">
+  <!-- title  -->
+  <div class="expansion-panel-header d-flex flex-row justify-content-between align-items-center" (click)="openBar($event)">
+    <span class="section-header">
+      {{type}}
+    </span>
+
+    <div *ngIf="type!=='ENT'" class="findings-panel findings-editable-panel w-100 pl-2 pr-1 pl-xl-5 pr-xl-2 py-2">
+      <div class="d-block" *ngFor="let panel of template">
+        <ng-container *ngIf="panel.findingsEditablePanel">
+          <ng-container *ngTemplateOutlet="panel.findingsEditablePanel.contentTemplate"></ng-container>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-end align-items-center">
+      <span *ngIf="hasAnyData() && !viewOnly" [ngClass]="{'nr font-weight-bold': !reviewed }" class="review-info fs-16">{{reviewed ? 'Reviewed' : 'Not reviewed'}}</span>
+      <div class="expansion-panel-header-description d-flex justify-content-end">
+        <ng-container [ngTemplateOutlet]="systemButtons.buttons">
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="type==='ENT'" class="findings-panel findings-container">
+    <ng-container *ngIf="collapsed">
+      <div class="d-block" *ngFor="let panel of template">
+        <ng-container *ngTemplateOutlet="panel.content"></ng-container>
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="findings-panel" *ngIf="!collapsed && type!=='ENT'">
+    <div class="d-block" *ngFor="let panel of template">
+      <ng-container *ngTemplateOutlet="panel.content"></ng-container>
+    </div>
+  </div>
+
+  <div mdbCollapse #collapse="bs-collapse" [isCollapsed]="collapsed" (expanded)="updateCollapsedState(false)" (collapsed)="updateCollapsedState(true)">
+    <!-- data -->
+    <div *ngIf="hasAnyData() || type === 'ENT'" id="media-section-content">
+
+      <!-- images  -->
+      <ng-container *ngIf="isPhotoMedia && !collapsed" #photosMedia>
+        <pa-images-section [images]="sectionData" [showPanel]="showFindingsPanel || type === 'ENT'" [template]="template">
+        </pa-images-section>
+      </ng-container>
+
+      <!-- audios -->
+      <ng-container *ngIf="isAudioMedia" #audiosMedia>
+        <pa-audio-section *ngFor="let section of sectionData; trackBy: trackByIndex" [audio]="section"
+                          [audit]="section['audits']" [type]="getTypeFormatted(type)" [examData]="examData">
+        </pa-audio-section>
+      </ng-container>
+
+      <!-- videos -->
+
+
+    </div>
+
+    <ng-template #noData>
+      <div id="media-section-nodata">No data provided!</div>
+    </ng-template>
+  </div>
+</div>

@@ -1,0 +1,47 @@
+<div *ngIf="age < 13" class="d-flex w-100 justify-content-center">
+  <div class="weight-container p-3">
+    <label for="weight">Weight:</label>
+    <input type="text" id="weight" [ngModel]="weight" disabled>
+    <span>(1kg = 2.2lbs)</span>
+  </div>
+</div>
+
+<h6 id="eligibility"><strong>Eligibility</strong></h6>
+
+<div class="w-100">
+  <span>Is there a household contact being treated for the flu?</span>
+  <label><input type="checkbox" class="mx-2" [disabled]="true" [checked]="eligibility">Yes</label>
+  <label><input type="checkbox" class="mx-1" [disabled]="true" [checked]="!eligibility">No</label>
+</div>
+
+<h6><strong>Patient Flu Risk Factors</strong></h6>
+<ng-container *ngTemplateOutlet="questionnaireTable;context: {questions: patientFluRiskFactorsQuestions}"></ng-container>
+
+<h6 class="mt-2"><strong>Patient History</strong></h6>
+<ng-container *ngTemplateOutlet="questionnaireTable;context: {questions: patientHistoryQuestions}"></ng-container>
+
+<h6 class="text-center mb-3 mt-4"><strong>FOR PHARMACY USE ONLY</strong></h6>
+
+<h6><strong>Patient Screenings</strong></h6>
+<ng-container *ngTemplateOutlet="questionnaireTable;context: {questions: screeningsQuestions}"></ng-container>
+
+<p class="mt-2">If the answers to questions above are yes, the pharmacist may exercise professional discretion in prescribing prophylaxis for influenza.</p>
+<p>Additionally, if patient marked “No” for having not received an influenza vaccine (Question #8 in Patient Flu Risk Factors section) recommend patient receive influenza vaccine at this time.</p>
+
+<ng-template #questionnaireTable let-questions="questions">
+  <table class="w-100">
+    <tr>
+      <th ></th>
+      <th class="text-center">Yes</th>
+      <th class="text-center">No</th>
+      <th class="text-center not-answered-column">Not Answered</th>
+    </tr>
+    <tr *ngFor="let questionItem of questions; let i=index">
+      <td class="pl-2">{{i+1}}. {{questionItem.question}}</td>
+      <td class="text-center"><input type="checkbox" [disabled]="true" [checked]="questionItem.answer === pharmacistAnswerEnum.yes"></td>
+      <td class="text-center"><input type="checkbox" [disabled]="true" [checked]="questionItem.answer === pharmacistAnswerEnum.no"></td>
+      <td class="text-center"><input type="checkbox" [disabled]="true" [checked]="questionItem.answer === pharmacistAnswerEnum.unknown"></td>
+    </tr>
+  </table>
+</ng-template>
+

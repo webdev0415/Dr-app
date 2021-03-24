@@ -1,0 +1,35 @@
+<div class="d-flex flex-wrap images-container justify-content-between">
+  <div *ngFor="let bodyPart of images; let index=index" class="d-flex flex-column body-part-section">
+    <div class="mb-2 header">
+      <div class="d-flex align-items-center">
+        <span class="mediatitleheader">{{bodyPart.bodyPart}}</span>
+        <span class="link primary" *ngIf="hasRef(bodyPart.lib)" (click)="viewRef(bodyPart.lib)">References</span>
+      </div>
+      <mat-divider [inset]="true" class="media-section-title-divider my-2"></mat-divider>
+    </div>
+    <div *ngIf="hasMediaFiles(bodyPart); else noData" class="collapsible item align-items-center justify-content-around images">
+      <div *ngFor="let item of bodyPart.video; let itemidx = index" class="body-part-img">
+        <video controls disablePictureInPicture controlsList="nodownload">
+          <source [src]="(item.value.fileBlob | sanitizer:'blob') || cleanURL(item.value.file)" type="video/webm">
+        </video>
+      </div>
+      <div *ngFor="let item of bodyPart.data; let itemidx = index" [class]="bodyPart.audits.length ? 'body-part-img with-audits' : 'body-part-img without-audits'"
+        (click)="showFullImg(bodyPart, itemidx)">
+        <img *ngIf="item.value" [src]="(item.value.fileBlob | sanitizer:'blob') || item.value.file"/>
+      </div>
+    </div>
+    <div class="findings-panel findings-container" *ngIf="showPanel">
+      <div class="d-block w-100">
+        <ng-container *ngTemplateOutlet="findingPanels[index].content"></ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #noData>
+  <div class="body-part-img">
+    <div class="no-info d-flex justify-content-center align-items-center w-100">
+      No Images Available
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,91 @@
+<div class="severity-wrapper" *ngIf="isPatientRiskView">
+  <div class="row">
+    <div class="col-12 text-center mb-1">
+      <h3>Patient Risk Assessment</h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-6 mt-2">
+      <mdb-card class="critical-care hoverable" (click)="selectSeverity('CRITICAL')">
+        <mdb-card-body>
+          <h5>High</h5>
+          <p>High risk of morbidity from additional diagnostic testing or treatment</p>
+          <ul>
+            <li class="critical-care-list-item">Drug therapy requiring intensive monitoring or toxicity</li>
+            <li class="critical-care-list-item">Decision regarding major elective surgery with identified risk factors</li>
+            <li class="critical-care-list-item">Decision regarding acute major surgery</li>
+            <li class="critical-care-list-item">Decision regarding hospitalization</li>
+            <li class="critical-care-list-item">Decision not to resuscitate or to de-escalate care because of poor prognosis</li>
+          </ul>
+        </mdb-card-body>
+        <mdb-card-footer style="border: none; background-color: #FFFFFF;">
+          <button mdbBtn type="button" color="red" block="true" (click)="selectSeverity('CRITICAL')">Select</button>
+        </mdb-card-footer>
+      </mdb-card>
+    </div>
+    <div class="col-6 mt-2">
+      <mdb-card  class="rx-care hoverable" (click)="selectSeverity('RX_CARE')">
+        <mdb-card-body>
+          <h5>Moderate</h5>
+          <p>Moderate risk of morbidity from additional diagnostic testing or treatment</p>
+          <ul>
+            <li class="rx-care-list-item">Prescription drug management</li>
+            <li class="rx-care-list-item">Decision regarding major elective surgery without risk factors</li>
+            <li class="rx-care-list-item">Decision regarding minor surgery with risk factors</li>
+            <li class="rx-care-list-item">Diagnosis or treatment significantly limited by social determinants of health</li>
+          </ul>
+        </mdb-card-body>
+        <mdb-card-footer style="border: none; background-color: #FFFFFF;">
+          <button mdbBtn type="button" color="yellow" block="true"  (click)="selectSeverity('RX_CARE')">Select</button>
+        </mdb-card-footer>
+      </mdb-card>
+    </div>
+  </div>
+  <div class="row" *ngIf="isPatientRiskView">
+    <div class="col-6 mt-2">
+      <mdb-card class="otc-care hoverable" (click)="selectSeverity('OTC_CARE')">
+        <mdb-card-body>
+          <h5>Low</h5>
+          <p>Low risk of morbidity from additional diagnostic testing or treatment</p>
+        </mdb-card-body>
+        <mdb-card-footer style="border: none; background-color: #FFFFFF;">
+          <button mdbBtn type="button" color="blue" block="true" (click)="selectSeverity('OTC_CARE')">Select</button>
+        </mdb-card-footer>
+      </mdb-card>
+    </div>
+    <div class="col-6 mt-2 pb-2">
+      <mdb-card class="minor hoverable" (click)="selectSeverity('MINOR')">
+        <mdb-card-body>
+          <h5>Minimal</h5>
+          <p>Minimal risk of morbidity from additional diagnostic testing or treatment</p>
+        </mdb-card-body>
+        <mdb-card-footer style="border: none; background-color: #FFFFFF;">
+          <button mdbBtn type="button" color="grey" block="true" (click)="selectSeverity('MINOR')">Select</button>
+        </mdb-card-footer>
+      </mdb-card>
+    </div>
+  </div>
+<!--  <div class="d-flex popup-buttons justify-content-around">-->
+<!--    <button mdbBtn type="button" color="primary" size="sm" mdbWavesEffect disabled (click)="onPreviousButtonClick()">Previous</button>-->
+<!--    <button mdbBtn type="button" color="red" size="sm" mdbWavesEffect matDialogClose (click)="closeDialog()" [disabled]="!severityConfirmation.patientRisk">Confirm</button>-->
+<!--  </div>-->
+</div>
+<div class="d-flex flex-column" *ngIf="isCptCodeView">
+  <div class="row">
+    <div class="col-12 text-center mb-1">
+      <h3>Patient Risk Assessment</h3>
+    </div>
+  </div>
+  <mat-radio-group [(ngModel)]="severityConfirmation.cptCode" class="row py-2 px-3 d-flex flex-column">
+    <mat-radio-button *ngFor="let item of cptData" [value]="item.cptCode" class="d-flex flex-row align-items-center">
+      {{item.cptCode}}
+      <span class="ml-2">
+        {{item.description}}
+      </span>
+    </mat-radio-button>
+  </mat-radio-group>
+  <div id="35768574-2d70-469b-86d1-f0e8e8015f10" class="d-flex popup-buttons justify-content-around">
+    <button mdbBtn type="button" color="primary" size="sm" mdbWavesEffect (click)="onPreviousButtonClick()">Previous</button>
+    <button mdbBtn type="button" color="red" size="sm" mdbWavesEffect matDialogClose (click)="closeDialog()" [disabled]="!severityConfirmation.cptCode">Confirm</button>
+  </div>
+</div>

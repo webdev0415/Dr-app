@@ -1,0 +1,17 @@
+{
+  "name": "@advinow-medical/pharmacist",
+  "version": "0.1.22",
+  "peerDependencies": {
+    "@angular/common": "^9.1.1",
+    "@angular/core": "^9.1.1"
+  },
+  "dependencies": {
+    "ng-uikit-pro-standard": "file:ng-uikit-pro-standard-10.1.1.tgz",
+    "ramda": "^0.26.1",
+    "rxjs": "^6.5.3",
+    "sugar": "^2.0.6"
+  },
+  "devDependencies": {
+    "@types/ramda": "^0.26.8"
+  }
+}

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25" height="25" viewBox="0 0 25 25">
+  <defs>
+    <clipPath id="clip-path">
+      <rect width="25" height="25" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="medications_ordered" clip-path="url(#clip-path)">
+    <rect id="Rectangle_16" data-name="Rectangle 16" width="25" height="25" fill="none"/>
+    <g id="Group_95" data-name="Group 95" transform="translate(4.647 2.853)">
+      <g id="Group_93" data-name="Group 93">
+        <path id="Path_84" data-name="Path 84" d="M474.071,383.258l-.414-.267a4.372,4.372,0,0,0-3.293-.578,4.317,4.317,0,0,0-2.733,1.922l-6.56,10.293a4.368,4.368,0,0,0,1.345,6.026l.414.267a4.361,4.361,0,0,0,2.336.681,4.515,4.515,0,0,0,.957-.1,4.317,4.317,0,0,0,2.733-1.922l6.56-10.293A4.368,4.368,0,0,0,474.071,383.258Zm.612,5.569-3.276,5.147-6.328-4.034,3.276-5.147a3.515,3.515,0,0,1,4.845-1.069l.414.259A3.512,3.512,0,0,1,474.683,388.827Z" transform="translate(-460.39 -382.31)"/>
+      </g>
+      <g id="Group_94" data-name="Group 94" transform="translate(7.682 1.812)">
+        <path id="Path_85" data-name="Path 85" d="M474.292,385.4a.389.389,0,0,1-.535.121,1.85,1.85,0,0,0-.224-.121,2.109,2.109,0,0,0-2.707.767l-.483.75-.328.526a.4.4,0,0,1-.328.181.442.442,0,0,1-.207-.06.392.392,0,0,1-.121-.534l.81-1.276a2.893,2.893,0,0,1,4-.888A.389.389,0,0,1,474.292,385.4Z" transform="translate(-469.302 -384.411)"/>
+      </g>
+    </g>
+  </g>
+</svg>

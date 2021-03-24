@@ -1,0 +1,36 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../out-tsc/patient-profile/lib",
+    "target": "es2015",
+    "declaration": true,
+    "inlineSources": true,
+    "lib": [
+      "dom",
+      "es2018"
+    ],
+    "rootDir": "src/",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "downlevelIteration": true,
+    "module": "esnext",
+    "composite": true
+  },
+  "angularCompilerOptions": {
+    "skipTemplateCodegen": true,
+    "strictMetadataEmit": false,
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true,
+    "enableResourceInlining": true
+  },
+  "exclude": [
+    "src/test.ts",
+    "**/*.spec.ts"
+  ],
+  "include": [
+    "src/lib/*.ts",
+    "src/lib/enums/*.ts",
+    "src/lib/interfaces/*.ts",
+    "src/lib/services/*.ts"
+  ]
+}

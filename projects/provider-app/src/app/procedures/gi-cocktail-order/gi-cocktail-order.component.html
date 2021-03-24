@@ -1,0 +1,27 @@
+<form [formGroup]="orderForm">
+  <div class="d-flex flex-row w-100 py-2 my-2 order-row justify-content-between px-4" [class.ordered]="isOrdered">
+    <div>
+      <mat-radio-group (click)="toggleOrder($event)">
+        <mat-radio-button [value]="true" [checked]="isOrdered"></mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div>
+      <span>{{businessProcedure.name}}</span>
+    </div>
+    <div class="md-form">
+      <input class="form-control" matInput readonly
+             [formControlName]="'dosage'"
+             [type]="'string'"/>
+    </div>
+    <div class="md-form">
+      <input class="form-control" matInput readonly
+             [formControlName]="'route'"
+             [type]="'string'"/>
+    </div>
+    <div class="md-form">
+      <input class="form-control" matInput readonly
+             [formControlName]="'form'"
+             [type]="'string'"/>
+    </div>
+  </div>
+</form>

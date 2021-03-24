@@ -1,0 +1,9 @@
+<div class="d-flex flex-wrap">
+  <div class="lab-btn" *ngFor="let option of labOptions">
+    <button mdbBtn type="button" [color]="option.color()"
+            size="sm" [block]="true" mdbWavesEffect
+            [class.active]="option.active()" (click)="option.clickCb()">
+      {{option.btnText()}}
+    </button>
+  </div>
+</div>

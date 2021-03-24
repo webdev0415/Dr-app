@@ -1,0 +1,40 @@
+@import '../shared';
+
+tr {
+  vertical-align: top;
+  height: 45px;
+  td:first-of-type {
+    width: 30% !important;
+  }
+  td:not(:first-of-type) {
+    max-width: 130px!important;
+  }
+}
+
+.expand-controller {
+  cursor: pointer;
+  &:hover {
+    background-color: mat-color($accent, 50);
+  }
+}
+
+.expandable {
+  max-height: 0;
+  min-height: 0;
+  overflow: hidden;
+  transition: $transition;
+  &.expanded {
+    max-height: 1290px;
+    transition: $transition;
+  }
+}
+
+span {
+  &.name {
+    font-size: 18px;
+  }
+}
+
+:host::ng-deep .mdb-select-value {
+  margin: 0!important;
+}

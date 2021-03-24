@@ -1,0 +1,50 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../out-tsc/lib",
+    "target": "es2015",
+    "declaration": true,
+    "inlineSources": true,
+    "lib": [
+      "dom",
+      "es2018"
+    ],
+    "baseUrl": ".",
+    "rootDirs": [
+      "src/lib",
+      "src/lib/side-models/common",
+      "src/lib/side-models/patient-profile"
+    ],
+    "paths": {
+      "patient-profile/*": ["src/lib/side-models/patient-profile/*"],
+      "patient-profile": ["src/lib/side-models/patient-profile"],
+      "shared-models/*": ["src/lib/side-models/common/*"],
+      "shared-models": ["src/lib/side-models/common"],
+      "docs-shared": ["../../styles/docs-shared.scss"],
+      "styles/*": ["../../styles/*"],
+      "./node_modules/*": ["../../node_modules/*"],
+      "node_modules/*": ["../../node_modules/*"]
+    }
+  },
+  "angularCompilerOptions": {
+    "skipTemplateCodegen": true,
+    "strictMetadataEmit": true,
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true,
+    "enableResourceInlining": true,
+    "enableIvy": false
+  },
+  "exclude": [
+    "src/test.ts",
+    "**/*.spec.ts"
+  ],
+  "include": [
+    "src/lib/**/*.ts",
+    "src/lib/*.ts",
+    "src/lib/side-models/common/**/*.ts",
+    "src/lib/side-models/patient-profile/social-card.model.ts",
+    "src/lib/side-models/patient-profile/**/*.ts",
+    "../../node_modules/ng-uikit-pro-standard/assets/scss/core/**/*.scss",
+    "../../node_modules/ng-uikit-pro-standard/assets/scss/core/*.scss"
+  ]
+}

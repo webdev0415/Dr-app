@@ -1,0 +1,187 @@
+<h2 class="main-header my-3" *ngIf="(viewModelTreatment$ | async).length">Treatments</h2>
+<h2 class="main-header my-3" *ngIf="!(viewModelTreatment$ | async).length">No Treatments Enabled For This Business</h2>
+<div id="8fa777a9-379e-4cf6-8a84-c420a44390b3" class="d-flex justify-content-between main-container">
+  <div id="a3721644-8b40-422c-bbb3-2a477287978e" class="treatment-content flex-1 pr-3 mb-3">
+
+<!--    NAVIGATION PART-->
+    <div class="d-flex flex-wrap justify-content-between mb-4">
+      <button *ngFor="let type of viewModelTreatment$ | async | slice : 0:treatmentsListLimit; trackBy: trackByIndex" [ngClass]="typeSelected(type) ? 'btn-green' : 'btn-primary'"
+              size="md" mdbBtn type="button" mdbWavesEffect class="illness-item d-flex align-items-center justify-content-center fs-14" (click)="onTypeClick(type.type)">
+        <i *ngIf="typeSelected(type)" class="fa fa-check mx-1" aria-hidden="true"></i>{{type.type}}
+      </button>
+      <button *ngIf="treatmentsListLimit < (viewModelTreatment$ | async | arrayLengthPipe)"
+              mdbBtn type="button" color="primary" outline="true" size="md" class="w-100 mx-0" mdbWavesEffect (click)="showMoreTreatments()">
+        More
+      </button>
+      <button *ngIf="treatmentsListLimit > treatmentsPagination"
+              mdbBtn type="button" color="primary" outline="true" size="md" class="w-100 mx-0" mdbWavesEffect (click)="showLessTreatments()">
+        Less
+      </button>
+    </div>
+    <button mdbBtn mdbWavesEffect color="primary" [disabled]="!(selectedTreatment$ | async | arrayLengthPipe)" (click)="toggleAll()">{{ !(collapsedAll$ | async)?  'Hide all' : 'Expand all' }}</button>
+    <button mdbBtn mdbWavesEffect color="primary" [disabled]="!(selectedTreatment$ | async | arrayLengthPipe)"
+            (click)="deselectTreatments()">Deselect all</button>
+<!--    NAVIGATION PART END-->
+
+    <div class="expansion-panel" *ngFor="let group of selectedTreatment$ | async; let index = index; trackBy: trackByGroupType">
+
+      <div class="d-flex justify-content-start align-items-center expansion-header" (click)="expansion.toggle(); toggleGroup(group.type, group.expanded)">
+        <div class="card-title mb-0 w-100">
+            <fa-icon [icon]="group.expanded ? 'chevron-down' : 'chevron-right'" aria-hidden="true"></fa-icon>
+            <span class="fs-20 ml-3">{{group.type}}</span>
+        </div>
+      </div>
+      <div class="expansion-body overflow-hidden" [isCollapsed]="!group.expanded" *ngIf="group.type.endsWith('Drugs')"
+           [class.expanded]="group.expanded"
+           mdbCollapse #expansion="bs-collapse">
+        <pa-prescription [isRx]="group.type === 'Prescription Drugs'"></pa-prescription>
+      </div>
+
+      <div class="expansion-body overflow-hidden" [isCollapsed]="!group.expanded" *ngIf="!group.type.endsWith('Drugs')"
+           [class.expanded]="group.expanded"
+           mdbCollapse #expansion="bs-collapse">
+        <pa-treatment-plan
+          *ngIf="!viewOnly && group.type !== 'Discharge Disposition' && group.type !== 'Return to Work/School Status'"
+          [treatmentType]="group.type" [diagnosticEngine]="diagnosticEngine" [treatmentTypes]="treatmentTypes"
+          [patientData]="protocolRelatedPatientInfo | async"></pa-treatment-plan>
+        <div class="divider mt-0"></div>
+        <div class="d-flex flex-column flex-xl-row justify-content-between align-items-start">
+          <div *ngIf="group.type === 'Return to Work/School Status'" class="w-100">
+            <h5 class="mt-1 text-capitalize" *ngIf="(RTSWData$ | async) as RTSWData">
+              Patient Can Return To {{ RTSWData.returnTo.toLowerCase() }}
+              <fa-icon class="ml-3 return-icon" [ngClass]="{'return-icon': !viewOnly }" icon="sync-alt"
+                       (click)="RTWSUpdate({returnTo: RTSWData.returnTo === 'WORK' ? 'SCHOOL' : 'WORK'}, true)">
+              </fa-icon>
+            </h5>
+            <div class="d-flex flex-column flex-xl-row justify-content-between align-items-start w-100">
+              <div> <!--EMPTY BLOCK waiting for features--> </div>
+              <div class="d-flex flex-column treatments-desc">
+                <pa-return-to-work [viewOnly]="viewOnly"
+                                   [RTSWStart]="(RTSWData$ | async).rtswStart"
+                                   [RTSWStop]="(RTSWData$ | async).rtswStop"
+                                   [RTWSeenFor]="(RTSWData$ | async).rtwSeenFor"
+                                   [RTWRestrictions]="(RTSWData$ | async).rtwRestrictions"
+                                   [RTWRestrictionType]="(RTSWData$ | async).rtwRestrictionType"
+                                   [RTWWasIll]="(RTSWData$ | async).rtwWasIll"
+                                   *ngIf="(RTSWData$ | async).returnTo === 'WORK'"
+                                   (RTWSUpdate)="RTWSUpdate($event)"
+                                   class="w-100"
+                ></pa-return-to-work>
+                <pa-return-to-school [viewOnly]="viewOnly"
+                                     [RTSDays]="(RTSWData$ | async).rtsDays"
+                                     [RTSWStart]="(RTSWData$ | async).rtswStart"
+                                     [RTSWStop]="(RTSWData$ | async).rtswStop"
+                                     *ngIf="(RTSWData$ | async).returnTo === 'SCHOOL'"
+                                     (RTWSUpdate)="RTWSUpdate($event)"
+                                     class="w-100"
+                ></pa-return-to-school>
+                <pa-discharge-notes-panel [which]="(RTSWData$ | async).returnTo === 'WORK' ? 'workNotes' : 'schoolNotes'"></pa-discharge-notes-panel>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-between treatments-buttons" *ngIf="!group.type.includes('Return')">
+            <div class="mb-0 mt-2 w-100" *ngIf="!group.type.includes('Discharge')">
+              <pa-treatments-search-bar *ngIf="group.type.endsWith('Drugs')"
+                                        [viewOnly]="viewOnly"
+                                        [placeholder]="'Drug Search (at least 3 letters)'"
+                                        (optionSelected)="drugSelected(group.type, $event)"
+                                        [searchFunction]="drugSearch()"
+                                        [initialAutocompleteList]="drugSearch()('') | async"></pa-treatments-search-bar>
+              <pa-treatments-search-bar *ngIf="!group.type.endsWith('Drugs')"
+                                        [viewOnly]="viewOnly"
+                                        [placeholder]="'Search'"
+                                        (optionSelected)="optionSelected(group.type, $event)"
+                                        [searchFunction]="treatmentsSearch(group)"
+                                        [initialAutocompleteList]="treatmentsSearch(group)('') | async"></pa-treatments-search-bar>
+              <ng-container *ngIf="isPrescriptionDrugsGroup(group.type)">
+                <button mdbBtn type="button" class="fs-16 py-2 px-2 ml-0 mr-2" size="sm"
+                        [ngClass]="prescriptionDrugsFilterBtnStyle()"
+                        (click)="filterPrescriptionDrugs()">
+                  All Groups
+                </button>
+                <button *ngFor="let filter of prescriptionDrugsFilters; trackBy: trackByIndex" mdbBtn type="button" class="fs-16 py-2 px-1 ml-0 mr-2"
+                        [ngClass]="prescriptionDrugsFilterBtnStyle(filter)" size="sm"
+                        (click)="filterPrescriptionDrugs(filter)">
+                  {{ filter }}
+                </button>
+              </ng-container>
+            </div>
+            <ng-container *ngFor="let groupName of prescriptionDrugsFilter$ | async; trackBy: trackByIndex">
+              <ng-container *ngIf="isPrescriptionDrugsGroup(group.type, groupName)">
+                <div class="divider my-1 w-100">{{groupName}}</div>
+                <ng-container *ngFor="let item of getTypeTreatments(group); trackBy: trackByName">
+                  <button *ngIf="item.groupName === groupName" mdbBtn type="button" size="md" mdbWavesEffect class="treatment-btn fs-16 text-capitalize"
+                          [ngClass]="item.isSelected ? 'btn-green' : 'btn-primary'" (click)="clickSymptoms(group.type, item)">{{item.name.toLowerCase()}}</button>
+                </ng-container>
+              </ng-container>
+            </ng-container>
+            <ng-container *ngFor="let item of getTypeTreatments(group); trackBy: trackByName">
+              <button  *ngIf="!isPrescriptionDrugsGroup(group.type) && !group.type.includes('Discharge') && !group.type.includes('Return')" mdbBtn type="button" size="md" mdbWavesEffect class="treatment-btn fs-16 text-capitalize"
+                       [ngClass]="item.isSelected ? 'btn-green' : 'btn-primary'" (click)="clickSymptoms(group.type, item)">{{item.name.toLowerCase()}}</button>
+            </ng-container>
+            <pa-additional-discharge-documents *ngIf="additionalDischargeEnabled && group.type === 'Discharge Disposition'"
+                                               [customInstructions]="(dischargeInstruction$ | async).customInstructions"
+                                               (customChange)="dischargeInstructionsUpdate('customInstructions', $event)"
+                                               (addedDocumentsChange)="dischargeInstructionsUpdate('dischargeInstructions', $event)"
+                                               [addedDocuments]="(dischargeInstruction$ | async).dischargeInstructions"
+                                               class="px-2 treatments-buttons w-100"
+                                               [selectedIllnesses]="selectedIllnessesCodes" [viewOnly]="viewOnly"></pa-additional-discharge-documents>
+          </div>
+          <div class="treatments-desc" *ngIf="!group.type.includes('Return')">
+            <div class="mt-2" *ngFor="let item of getTypeTreatments(group, true).reverse(); let last=last; trackBy: trackByName">
+              <ng-container *ngIf="prescriptionDrugsGroupFilter(item.groupName) || !isPrescriptionDrugsGroup(group.type)">
+                <div class="d-flex align-items-center justify-content-between" *ngIf="!group.type.endsWith('Drugs') && !group.type.includes('Discharge') && !group.type.includes('Return')">
+                  <span class="section-header flex-1 text-capitalize drug-name">{{item.name.toLowerCase()}}</span>
+                  <span *ngIf="!viewOnly" class="link warning" (click)="removeTreatment(group.type, item.name)">Remove</span>
+                </div>
+                <div class="divider my-1" *ngIf="!group.type.includes('Discharge') && !group.type.includes('Return') && !group.type.includes('Drugs')"></div>
+<!--                <pa-drug-treatment *ngIf="group.type.endsWith('Drugs') && drugInformation$ | async | drugInformationPipe: item.name" [prescription]="group.type === 'Prescription Drugs'"-->
+<!--                       [drug]="drugInformation$ | async | drugInformationPipe: item.name" [viewOnly]="viewOnly" [isFastmed]="isFastmed" (informationUpdated)="updateDrugInformation()" (remove)="removeTreatment(group.type, item.name)"></pa-drug-treatment>-->
+                <pa-discharge-treatment *ngIf="group.type === 'Discharge Disposition'" [viewOnly]="viewOnly" [discharge]="item.pvDischarge" (informationUpdated)="dischargeUpdate($event)"></pa-discharge-treatment>
+
+                <div *ngIf="getNotTiedTreatments(group)" class="d-flex flex-column align-items-start">
+                  <strong class="fs-16">Treatment for</strong>
+                  <span class="sub-header">{{getIllnessesNames(group.type, item)}}</span>
+                  <button *ngIf="!viewOnly" mdbBtn type="button" color="primary" class="fs-16 py-2 mx-0" [outline]="true" size="sm" mdbWavesEffect
+                          (click)="clickSymptoms(group.type, item, true)">Change</button>
+                </div>
+                <pa-discharge-notes-panel *ngIf="group.type === 'Discharge Disposition'" class="px-2 treatments-buttons" which="therapyOrders"></pa-discharge-notes-panel>
+                <div class="divider double drug-divider my-1" *ngIf="!last && group.type.endsWith('Drugs')"></div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PATIENT CARD PART-->
+  <div class="group" *ngIf="patient">
+    <div class="patient-card item">
+      <pa-patientcard id="f7307419-3486-472b-95d6-0a7b4acd3082" class="mb-3" [socialCard]="socialCard$ | async" [isFull]="true"></pa-patientcard>
+    </div>
+    <div class="mb-3 item">
+      <strong class="header-warning">Allergies to medications:</strong>
+      <div class="d-flex flex-column">
+        <span *ngFor="let item of getSection('Medication Allergies')" class="text-break">- {{item | reaction}}</span>
+        <span *ngIf="!getSection('Medication Allergies').length">No Information Available</span>
+      </div>
+    </div>
+    <div class="mb-3 item">
+      <strong>Currently taking</strong>
+      <div class="d-flex flex-column">
+        <span *ngFor="let item of getSection('Medications')">- {{item.historyItem}}</span>
+        <span *ngIf="!getSection('Medications').length">No Information Available</span>
+      </div>
+    </div>
+    <div class="mb-3 item">
+      <strong>Surgical History</strong>
+      <div class="d-flex flex-column">
+        <span *ngFor="let item of getSection('Surgical History')">- {{item.historyItem}}</span>
+        <span *ngIf="!getSection('Surgical History').length">No Information Available</span>
+      </div>
+    </div>
+  </div>
+  <!-- PATIENT CARD PART END-->
+</div>

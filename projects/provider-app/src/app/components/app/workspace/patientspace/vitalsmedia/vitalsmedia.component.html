@@ -1,0 +1,71 @@
+<mat-card class="fh">
+  <mat-card-title class="page-title mb-3">
+    Physical Exam / Media
+  </mat-card-title>
+  <mat-card-content>
+
+    <!-- vitals -->
+    <div *ngIf="userRole !== 'practitioner'">
+      <h5 class="vmsectiontitle section-header">Vitals</h5>
+      <pa-vitals-table [Patient]="Patient" [vitalFieldClass]="''" [audits]="audits"></pa-vitals-table>
+    </div>
+
+    <hr class="my-4">
+
+    <div class="d-flex justify-content-end">
+      <pa-continue-button class="mx-0" [defaultOperation]="false" (click)="onClickBottomButton('continue')"></pa-continue-button>
+    </div>
+
+    <!-- exams -->
+    <div *ngIf="Patient">
+      <div class="d-flex justify-content-between align-items-center mb-2">
+        <h5 class="mb-0 section-header">Observations, Exam Results</h5>
+        <ng-container [ngTemplateOutlet]="mainBarButtons"></ng-container>
+      </div>
+    </div>
+    <!-- exams -->
+
+    <!-- media -->
+    <div id="media">
+      <pa-media-section #mediaSection *ngFor="let section of system$ | async; let index=index; let last=last; trackBy: identify;"
+                        [examData]="findExamResult(section.examName)" [type]="section.examName"
+                        (reviewEmitted)="setReviewed(section.examName)"
+                        [reviewed]="specificMediaReviewed[section.examName]" [media]="media"
+                        [(collapsed)]="mediaCollapsed[section.examName]"
+                        [showFindingsPanel]="!this.viewOnly && (isAbnormal(section) || isNormal(section))">
+        <pa-pe-systems-panel [system]="section"
+                             [hasMedia]="hasAnyMediaData(section.examName) && !specificMediaReviewed[section.examName]"
+                             [collapsed]="mediaCollapsed[section.examName]"
+                             (buttonClick)="onSystemButtonClick(section, $event)"></pa-pe-systems-panel>
+        <pa-pe-findings-panel
+          *ngFor="let system of section | splitToBodyParts; let index=index; let last=last;"
+          [store]="store" [system]="system" [bodyPartIndex]="index"
+          [activeSubsystemIndex]="(PENavigationTree$ | async)[section.examName][index]"
+          [viewOnly]="(section.examName === 'ENT' && mediaCollapsed[section.examName]) || viewOnly"
+          id="{{system.examName}}-{{index}}">
+          <pa-findings-editable-card class="mr-2"
+                                     *ngIf="getSystem(section.examName, (physicalExamResult$ | async), index)"
+                                     [ngClass]="{'w-100 ml-2': section.examName !== 'ENT', 'w-75': section.examName === 'ENT', ' mb-2': last}"
+                                     [examName]="system.examName"
+                                     [PESystem]="getSystem(section.examName, (physicalExamResult$ | async), index)"></pa-findings-editable-card>
+        </pa-pe-findings-panel>
+      </pa-media-section>
+    </div>
+    <!-- media -->
+
+    <div *ngIf="Patient">
+      <div class="d-flex justify-content-end align-items-center my-2">
+        <ng-container [ngTemplateOutlet]="mainBarButtons"></ng-container>
+      </div>
+    </div>
+
+  </mat-card-content>
+</mat-card>
+
+<ng-template #mainBarButtons>
+  <div *ngIf="!viewOnly && this.userRole == 'practitioner'" class="d-flex">
+    <button mdbBtn type="button" color="primary" size="sm" class="main-bar-btn rounded mb-2 mx-0 mr-2" [outline]="true"
+            mdbWavesEffect (click)="closeAllExamBars()" [disabled]="userRole !== 'practitioner'">Close All
+    </button>
+  </div>
+</ng-template>

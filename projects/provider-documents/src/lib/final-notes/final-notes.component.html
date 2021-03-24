@@ -1,0 +1,563 @@
+<div class="docbody doc">
+
+  <!--visit summary-->
+  <h3 class="text-center">Patient Visit Summary</h3>
+  <div class="section visit">
+    <table>
+      <tr><th>Provider name:</th><td>{{patient.visitInformation.doctorName}}</td></tr>
+      <tr><th>Facility:</th><td>{{patient.visitInformation.locationName}}</td></tr>
+      <tr><th>Arrival Date:</th><td>{{patient.visitInformation.kioskStartTime | tzdate:locationTimezone | date:'yyyy-MM-dd'}}</td></tr>
+      <tr><th>Arrival Time:</th><td>{{patient.visitInformation.kioskStartTime | tzdate:locationTimezone | date:'hh:mm'}}</td></tr>
+      <tr><td colspan="2">&nbsp;</td></tr>
+      <tr><th>Patient Name:</th><td>{{patient.patientInformation | fullName}}</td></tr>
+      <tr><th>Gender:</th><td>{{patient.patientInformation.gender}}</td></tr>
+      <tr><th>Ethnicity:</th><td>{{patient.patientInformation.ethnicity.join(', ')}}</td></tr>
+      <tr><th>Birth Date:</th><td>{{patient.patientInformation.birthDate | date:'yyyy-MM-dd'}}</td></tr>
+      <tr><th>Age:</th><td>{{patient.patientInformation.age.years}}</td></tr>
+      <tr><td colspan="2">&nbsp;</td></tr>
+      <tr><th>Visit Reason:</th><td>{{patient.visitInformation.detailVisitReason}}</td></tr>
+      <tr><th>CPT:</th><td>{{(severityConfirmation | async).cptCode}}</td></tr>
+    </table>
+  </div>
+  <br>
+  <hr>
+  <!--visit summary end-->
+
+  <!--HPI block-->
+  <pa-hpi-summary [sourceName]="'FinalNotesComponent'" [filterByASCII]="true"></pa-hpi-summary>
+  <br>
+  <hr>
+  <!--HPI block end-->
+
+  <!--ROS block-->
+  <h3 class="text-center">Review of Systems</h3>
+  <div class="d-flex flex-column">
+    <div class="d-flex flex-row physical ros" *ngFor="let group of ROS">
+      <span><strong>{{group.groupName ? group.groupName.replace('ROS-C-', '') : group.groupName}}:</strong> </span>
+      <span>{{getROSValue(group)}}</span>
+    </div>
+  </div>
+  <br>
+  <hr>
+  <!--ROS block end-->
+
+  <!--history block-->
+  <div style="page-break-before: always"></div>
+  <h3 class="text-center">Patient History</h3>
+  <div class="d-flex flex-column">
+    <u>Personal Medical History</u>
+    <span *ngIf="sections.personalHistory.otherInfo.data">
+        Cancer, Other ({{sections.personalHistory.otherInfo.data}})
+    </span>
+    <span *ngFor="let item of sections.personalHistory.data">
+        {{item.historyType.trim()}}{{item.historyItem ? ', ' + item.historyItem : ''}}
+    </span>
+    <span *ngIf="!sections.personalHistory.data.length && !sections.personalHistory.otherInfo.data">No Reported Personal Medical History</span>
+  </div>
+  <div class="d-flex flex-column">
+    <u>Past Surgical History</u>
+    <span *ngIf="sections.patientSurgicalHistory.otherInfo.data">
+        {{sections.patientSurgicalHistory.otherInfo.prefix.trim()}} {{sections.patientSurgicalHistory.otherInfo.data}}
+    </span>
+    <span *ngFor="let item of sections.patientSurgicalHistory.data">
+        {{item.historyItem}}
+    </span>
+    <span *ngIf="!sections.patientSurgicalHistory.data.length && !sections.patientSurgicalHistory.otherInfo.data">No Reported Past Surgical History</span>
+  </div>
+  <div class="d-flex flex-column">
+    <u>Family Medical History</u>
+    <span *ngIf="sections.familyHistory.otherInfo.data">
+        Cancer, Other ({{sections.familyHistory.otherInfo.data}})
+    </span>
+    <span *ngFor="let item of sections.familyHistory.data">
+        {{item.historyType}}<ng-container *ngIf="item.historyItem">, {{item.historyItem | titlecase}}
+      </ng-container><ng-container *ngIf="item.familyRelationship !== 'OTHER'"> - <strong>Family Relationship: </strong>{{item.familyRelationship}}</ng-container>
+    </span>
+    <span *ngIf="!sections.familyHistory.data.length && !sections.familyHistory.otherInfo.data">
+        No Reported Family Medical History
+    </span>
+  </div>
+  <hr>
+  <br>
+  <div class="d-flex flex-column">
+    <div class="d-flex flex-column">
+
+      <div class="history-block">
+        <div class="d-flex flex-column mr-1">
+          <h5 class="text-center">Medications</h5>
+          <ul>
+            <li *ngIf="sections.medications.otherInfo.data">OTHER | {{sections.medications.otherInfo.data}}</li>
+            <li *ngFor="let item of sections.medications.data">
+              {{getReasonForMedications(item)}}
+            </li>
+            <li *ngIf="!sections.medications.data.length  && !sections.medications.otherInfo.data">No Medications Reported</li>
+          </ul>
+        </div>
+        <div class="d-flex flex-column ml-1">
+          <h5 class="text-center">Immunizations</h5>
+          <ul>
+            <li *ngFor="let item of sections.immunizations.data">
+              {{ getImmunizationLabel(item.historyItem) }}
+            </li>
+            <li *ngIf="!sections.immunizations.data.length">No Immunizations Reported</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="history-block">
+        <div class="d-flex flex-column mr-1">
+          <h5 class="text-center">Medication Allergies</h5>
+          <ul>
+            <li *ngIf="sections.drugAllergies.otherInfo.data">Drug Reaction | {{sections.drugAllergies.otherInfo.data}}</li>
+            <li *ngFor="let item of sections.drugAllergies.data" class="text-break">{{item | reaction}}</li>
+            <li *ngIf="!sections.drugAllergies.data.length && !sections.drugAllergies.otherInfo.data">No Medication Allergies Reported</li>
+          </ul>
+        </div>
+        <div class="d-flex flex-column ml-1">
+          <h5 class="text-center">Other Allergies</h5>
+          <ul>
+            <li *ngFor="let item of sections.nonDrugAllergies.data">
+              {{item.historyItem}}
+            </li>
+            <li *ngIf="!sections.nonDrugAllergies.data.length">No Allergies Reported</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="d-flex flex-column">
+    <u>Social History</u>
+    <div class="d-flex flex-row physical">
+      <div class="d-flex flex-column">
+        <span><strong>Smoking Status:</strong> </span>
+        <span><strong>Alcohol Status:</strong> </span>
+        <span><strong>Caffeine Status:</strong> </span>
+        <span *ngIf="drugUser"><strong>Drug Usage:</strong> </span>
+        <span *ngIf="socialCard.gender.toLowerCase() === 'female'">Pregnancy Status: </span>
+      </div>
+      <div class="d-flex flex-column">
+        <span>{{socialCard.smokingReport || 'Patient is not and has never been a smoker.'}}</span>
+        <span>{{socialCard.alcoholConsumptionReport || 'Patient did not report a last alcoholic drink.'}}</span>
+        <span>{{ getCupsOfCaffeine() }}</span>
+        <span *ngIf="drugUser">{{ socialCard.drugUsageReport }}</span>
+        <span *ngIf="socialCard.gender.toLowerCase() === 'female'">{{socialCard.pregnancyStatus}}</span>
+      </div>
+    </div>
+
+  </div>
+  <br>
+  <hr>
+  <!--history block end-->
+
+  <!--vitals block-->
+  <h3 class="text-center">Patient Vitals</h3>
+  <div class="section d-flex flex-row">
+    <div class="vitals flex-column">
+      <div class="flex-row justify-content-between">
+        <span><strong>Blood Pressure:</strong> </span>
+        <div class="flex-column">
+          <span *ngFor="let BP of getBPVitals()">{{BP}} mmHg</span>
+        </div>
+      </div>
+      <div class="flex-row justify-content-between">
+        <span><strong>Pulse:</strong> </span>
+        <div class="flex-column">
+          <span *ngFor="let pulse of getVitalsByType('PULSE')">{{pulse.value.value}} bpm</span>
+        </div>
+      </div>
+      <div class="flex-row justify-content-between">
+        <span><strong>Oxygen Saturation:</strong> </span>
+        <div class="flex-column">
+          <span *ngFor="let oxygen of getVitalsByType('BLOOD_OXYGEN')">{{oxygen.value.value}} %</span>
+        </div>
+      </div>
+      <div class="flex-row justify-content-between">
+        <span><strong>VA left:</strong> </span>
+        <div class="flex-column">
+          <span *ngFor="let leftEye of getVitalsByType('LEFT_EYE')">{{leftEye.value.value}}</span>
+        </div>
+      </div>
+      <div class="flex-row justify-content-between">
+        <span><strong>VA right:</strong> </span>
+        <div class="flex-column">
+          <span *ngFor="let rightEye of getVitalsByType('RIGHT_EYE')">{{rightEye.value.value}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="vitals flex-column">
+      <div class="flex-row justify-content-between">
+        <span><strong>Weight:</strong> </span>
+        <div class="flex-column">
+          <span *ngFor="let weight of getVitalsByType('WEIGHT')">{{weight.value.value}} lbs</span>
+        </div>
+      </div>
+      <div class="flex-row justify-content-between">
+        <span><strong>Temperature:</strong> </span>
+        <div class="flex-column">
+          <span *ngFor="let temperature of getVitalsByType('TEMPERATURE')">{{temperature.value.value}} °F</span>
+        </div>
+      </div>
+      <div class="flex-row justify-content-between">
+        <span><strong>Height:</strong> </span>
+        <div class="flex-column">
+          <span *ngFor="let height of getVitalsByType('HEIGHT')">{{height.value.value}} inch</span>
+        </div>
+      </div>
+      <div class="flex-row justify-content-between">
+        <span><strong>Respiratory Rate:</strong> </span>
+        <div class="flex-column">
+          <span *ngFor="let RR of getVitalsByType('RESPIRATORY_RATE')">{{RR.value.value}}</span>
+        </div>
+      </div>
+      <div class="flex-row justify-content-between" *ngIf="getBMI()">
+        <span><strong>BMI:</strong> </span>
+        <div class="flex-column">
+          <span>{{getBMI()}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <hr>
+  <!--vitals block end-->
+
+  <!--physical exam block-->
+  <div *ngIf="patient.additionalInformation.physicalExam.length != 0">
+
+
+  <h3 class="text-center">Physical Exam</h3>
+  <span *ngIf="!patient.additionalInformation.physicalExam.length">Physical Exam not conducted</span>
+  <div *ngFor="let exam of patient.additionalInformation.physicalExam; let idx = index;" class="d-flex row physical">
+    <span><strong>{{exam.examName}}:</strong> </span>
+    <div class="d-flex flex-column description">
+      <span>{{exam.examResults}}</span>
+    </div>
+    <hr *ngIf="idx < patient.additionalInformation.physicalExam.length - 1">
+  </div>
+  <br>
+  </div>
+  <!--physical exam block end-->
+
+  <!--labs block-->
+  <div *ngIf="labs.length != 0">
+  <h3 class="text-center">Labs</h3>
+  <div class="d-flex flex-column w-100">
+    <span *ngIf="!labs.length">No labs for this visit</span>
+    <div class="d-flex flex-row lab" *ngFor="let lab of labs">
+      <span class="w-50">{{lab.name}}</span>
+      <span class="w-50">{{lab.value ? lab.value : 'Negative'}}</span>
+    </div>
+  </div>
+  <br>
+  <hr>
+  </div>
+  <!--labs block end-->
+
+  <!--procedures block-->
+  <h3 class="text-center" *ngIf="medications.length !=0 || injections.length != 0">Procedures</h3>
+  <div class="treatments" *ngIf="medications.length">
+    <u>Medications</u>
+    <table  *ngFor="let procedure of medications">
+      <thead><tr><td colspan="2" class="text-center"><strong>{{procedure.name | uppercase}}</strong></td></tr></thead>
+      <tr>
+        <td>Dosage</td>
+        <td>{{procedure.dosage}}</td>
+      </tr>
+      <tr>
+        <td>Form</td>
+        <td>{{procedure.form}}</td>
+      </tr>
+      <tr>
+        <td>Route</td>
+        <td>{{procedure.route}}</td>
+      </tr>
+      <tr>
+        <td>Tolerated Well</td>
+        <td>{{procedure.toleratedWell ? 'Yes' : 'No'}}</td>
+      </tr>
+      <tr>
+        <td>No Difficulty</td>
+        <td>{{procedure.noDifficulty ? 'Yes' : 'No'}}</td>
+      </tr>
+      <tr>
+        <td *ngIf="!procedure.noDifficulty || !procedure.toleratedWell">Complications</td>
+        <td>{{procedure.complications}}</td>
+      </tr>
+    </table>
+    <br>
+  </div>
+
+  <div class="treatments" *ngIf="injections.length != 0">
+    <u>Injections</u>
+    <table  *ngFor="let procedure of injections">
+      <thead><tr><td colspan="2" class="text-center"><strong>{{procedure.name | uppercase}}</strong></td></tr></thead>
+      <tr>
+        <td>Dosage</td>
+        <td>{{procedure.dosage}}</td>
+      </tr>
+      <tr>
+        <td>Diluent</td>
+        <td>{{procedure.diluent ? procedure.diluent : 'N/A'}}</td>
+      </tr>
+      <tr>
+        <td>Route</td>
+        <td>{{procedure.route}}</td>
+      </tr>
+      <tr>
+        <td>Tolerated Well</td>
+        <td>{{procedure.toleratedWell ? 'Yes' : 'No'}}</td>
+      </tr>
+      <tr>
+        <td>No Difficulty</td>
+        <td>{{procedure.noDifficulty ? 'Yes' : 'No'}}</td>
+      </tr>
+      <tr *ngIf="!procedure.noDifficulty || !procedure.toleratedWell">
+        <td>Complications</td>
+        <td>{{procedure.complications}}</td>
+      </tr>
+    </table>
+    <br>
+  </div>
+  <hr *ngIf="medications.length || injections.length">
+  <!--procedures block end-->
+
+  <!--illnesses block-->
+  <ng-container *ngIf="showIllnesses && !ddx">
+    <h3 class="text-center">Illnesses Diagnosed</h3>
+    <div class="d-flex flex-column">
+      <span><strong>Primary Diagnosis - {{primaryDiagnosis.icd10}} - {{primaryDiagnosis.icdName}}</strong></span>
+      <span><br><strong>Other Diagnosis</strong></span>
+      <span *ngFor="let illness of filteredIllnesses">{{illness.icd10}} - {{illness.icdName}}</span>
+    </div>
+    <br>
+    <hr>
+  </ng-container>
+  <!--illnesses block end-->
+
+  <!--ddx block-->
+  <ng-container *ngIf="showIllnesses && ddx">
+    <pa-selected-illnesses [ddx]="ddx" [diagnosticEngine]="illnesses"></pa-selected-illnesses>
+    <hr>
+  </ng-container>
+  <!--ddx block end-->
+
+  <!--treatments block-->
+  <ng-container *ngIf="showIllnesses">
+    <h3 #treatments class="text-center" *ngIf="treatments.length != 0">Treatments</h3>
+    <br>
+    <span *ngIf="(severityConfirmation | async).cptCode != ''"><strong>CPT:</strong> {{(severityConfirmation | async).cptCode}}</span>
+    <doc-notes *ngIf="additionalInformation.treatmentDoctorNotes != ''"
+      [title]="'Treatments Notes'"
+      [notesType]="'treatmentDoctorNotes'"
+      [data]="additionalInformation">
+    </doc-notes>
+    <doc-notes *ngIf="additionalInformation.medicationInstructions != ''"
+      [title]="'Medication Instructions'"
+      [notesType]="'medicationInstructions'"
+      [data]="additionalInformation">
+    </doc-notes>
+      <ng-container #therapyOrders>
+        <doc-notes *ngIf="patient.additionalInformation.therapyOrders !== '' " [title]="'Therapy Orders'"
+          [notesType]="'therapyOrders'" [data]="patient.additionalInformation">
+        </doc-notes>
+      </ng-container>
+    <br>
+
+    <div *ngIf="treatments.length != 0">
+      <div class="treatments" *ngFor="let treat of treatments">
+        <u>{{treat.type}}</u>
+        <ng-container [ngSwitch]="treat.type">
+          <ng-container *ngSwitchCase="treatmentTypes.DISCHARGE_DISPOSITION">
+            <pa-discharge-disposition-table *ngFor="let item of treat.treatmentsArray" [treatment]="item"></pa-discharge-disposition-table>
+          </ng-container>
+        </ng-container>
+        <br>
+      </div>
+    </div>
+
+    <div *ngIf="rxPrescribingItems.length != 0">
+      <div class="treatments">
+        <u>Prescription/OTC Drugs</u>
+        <table *ngFor="let item of rxPrescribingItems">
+          <thead><tr><td colspan="2" class="text-center"><strong>{{item.prescription.drugName | uppercase}}</strong></td></tr></thead>
+          <ng-container *ngIf="item.prescription">
+            <!-- <tr *ngIf="item.prescription.amount">
+              <td>Amount</td>
+              <td>{{item.prescription.amount}}</td>
+            </tr> -->
+            <tr *ngIf="item.prescription.form">
+              <td>Form</td>
+              <td>{{item.prescription.form}}</td>
+            </tr>
+            <tr *ngIf="item.prescription.route">
+              <td>Route</td>
+              <td>{{item.prescription.route}}</td>
+            </tr>
+            <tr *ngIf="item.prescription.quantity">
+              <td>Quantity</td>
+              <td>{{item.prescription.quantity}}</td>
+            </tr>
+            <tr *ngIf="item.prescription.strength">
+              <td>Strength</td>
+              <td>{{item.prescription.strength}}</td>
+            </tr>
+            <tr *ngIf="item.prescription.sig">
+              <td>Directions</td>
+              <td>{{item.prescription.sig}}</td>
+            </tr>
+            <tr *ngIf="item.prescription.refills">
+              <td>Refills</td>
+              <td>{{item.prescription.refills}}</td>
+            </tr>
+            <!-- <tr *ngIf="item.drugInformation.prn">
+              <td>PRN</td>
+              <td>{{item.drugInformation.prn ? 'Yes' : 'No'}}</td>
+            </tr>
+            <tr *ngIf="item.drugInformation.daw">
+              <td>DAW</td>
+              <td>{{item.drugInformation.daw ? 'Yes' : 'No'}}</td>
+            </tr> -->
+          </ng-container>
+          <!-- <tr>
+            <td>Used to Treat</td>
+            <td>{{item.icdDescs.length > 1 ? item.icdDescs.join(', ') : item.icdDescs[0]}}</td>
+          </tr> -->
+        </table>
+      </div>
+    </div>
+
+    <div *ngIf="dmes.length != 0">
+      <div class="treatments mt-5">
+        <u>DMEs</u>
+        <table *ngFor="let item of dmes">
+          <thead>
+            <tr>
+              <td colspan="2" class="text-center">
+                <strong>{{item.MED_NAME | uppercase}}</strong>
+              </td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Quantity</td>
+              <td>{{item.quantity}}</td>
+            </tr>
+            <tr>
+              <td>Instructions</td>
+              <td>{{item.instructions}}</td>
+            </tr>
+            <tr>
+              <td>ICD Codes</td>
+              <td>{{item.icds.join(', ')}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    </ng-container>
+  <!--treatments block end-->
+
+  <!--media block-->
+  <ng-container #mediaFiles *ngIf="images.length">
+    <br>
+    <h3 class="text-center">Media Files</h3>
+    <hr>
+    <div class="d-flex flex-column justify-content-center align-items-center">
+      <div class="d-flex flex-column" *ngFor="let file of images">
+        <span class="text-center text-capitalize">{{ file.value.bodySide }} {{ file.value.bodyPart }}</span>
+        <img [src]="file.value.fileBlob ? file.value.fileBlob : file.value.file" />
+        <br>
+      </div>
+    </div>
+    <br>
+    <hr>
+  </ng-container>
+  <!--media block end -->
+
+  <!--return to work/school block-->
+  <ng-container *ngIf="RTWSInfo.isUsed">
+    <h3 class="text-center">Authorization To Work / School</h3>
+    <pa-authorization-notes class="view-only" [RTWSInfo]="RTWSInfo.data" [dischargeNotes]="dischargeNotes"
+                            [viewOnly]="true" [patientName]="patient.patientInformation | fullName">
+    </pa-authorization-notes>
+  </ng-container>
+  <!--return to work/school block end-->
+
+  <!-- Notes block -->
+
+    <ng-container>
+      <doc-notes *ngIf="patient.additionalInformation.doc2doc !== ''" [title]="'Provider to Provider'"
+        [notesType]="'doc2doc'" [data]="patient.additionalInformation">
+      </doc-notes>
+    </ng-container>
+
+  <ng-container *ngIf="customInstructions != ''" #dischargeDispositionNotes>
+    <doc-practitioner-discharge-notes
+      [title]="'Discharge Disposition Notes'"
+      [notesType]="'customInstructions'"
+      [data]="{ customInstructions: customInstructions }">
+    </doc-practitioner-discharge-notes>
+  </ng-container>
+
+  <ng-container *ngIf="patient.additionalInformation.additionalDoctorNotes != ''" #summaryNotes>
+    <doc-notes
+      [title]="'Summary Doctor\'s Notes'"
+      [notesType]="'additionalDoctorNotes'"
+      [data]="patient.additionalInformation">
+    </doc-notes>
+  </ng-container>
+
+
+  <ng-container #returnToNotes>
+    <doc-notes *ngIf="patient.additionalInformation.schoolNotes !== '' "
+    [title]="'Return to School'"
+    [notesType]="'schoolNotes'"
+    [data]="patient.additionalInformation">
+    </doc-notes>
+    <doc-notes  *ngIf="patient.additionalInformation.workNotes !== '' "
+    [title]="'Return to Work'"
+    [notesType]="'workNotes'"
+    [data]="patient.additionalInformation">
+    </doc-notes>
+  </ng-container>
+
+  <!-- Notes block end -->
+
+  <!-- symptoms and contributor information block -->
+  <div style="page-break-before: always"></div>
+  <h3 class="text-center">Supplemental Information</h3>
+  <h4 class="text-center">Symptoms</h4>
+  <div class="d-flex flex-column history-block hpi-block">
+    <div class="d-flex flex-column">
+      <u>Symptoms Presenting</u>
+      <div class="row full" *ngFor="let symptom of HPI.presenting">
+        <span>{{symptom.symptomName}}</span>
+        <span *ngIf="symptom.values.length && symptom.values[0].length && symptom.values[0][1] && symptom.values[0][2]">{{symptom.values[0][1]}}-{{symptom.values[0][2]}}</span>
+      </div>
+    </div>
+    <div class="d-flex flex-column">
+      <u>Symptoms Not Presenting</u>
+      <ul>
+        <li *ngFor="let symptom of HPI.notPresenting">{{symptom.symptomName}}</li>
+      </ul>
+    </div>
+  </div>
+  <br>
+  <ng-container *ngIf="showIllnesses">
+    <h4 class="text-center">Illness Contributors</h4>
+    <div class="d-flex flex-column" *ngFor="let illness of illnesses">
+      <span>{{illness.icd10}} {{illness.icdName}}</span>
+      <h5 class="text-center"><u>Contributors</u></h5>
+      <span class="text-center" *ngIf="!illness.contributors.length">Contributors not available for doctor added illnesses.</span>
+      <div class="d-flex flex-row contributors">
+        <div class="d-flex flex-row" *ngFor="let contributor of illness.contributors">
+          <span>{{contributor.symptomName}}</span>
+          <span>{{contributor.contribution | percent:'1.0-1'}}</span>
+        </div>
+      </div>
+      <br>
+    </div>
+  </ng-container>
+</div>

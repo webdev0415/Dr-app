@@ -1,0 +1,10 @@
+<ng-template #td>
+
+    <mdb-select-2 [placeholder]="'Yellow'" [dropdownClass]="'mb-0'"
+                (selected)="updateLabResult($event)"
+                [ngModel]="labValue | async" [disabled]="viewOnly"
+                class="ml-1">
+      <mdb-select-option *ngFor="let option of options" [value]="option.value" class="mb-0">{{option.label}}</mdb-select-option>
+    </mdb-select-2>
+
+</ng-template>

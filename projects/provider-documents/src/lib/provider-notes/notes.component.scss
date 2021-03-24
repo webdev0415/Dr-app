@@ -1,0 +1,19 @@
+textarea {
+    resize: none;
+    min-height: 35px !important;
+}
+.btn-outline-blue-grey {
+    @warn 'Temporary added - only MDB FIX';
+    color: #9E9E9E;
+    border: 1px solid #ced4da !important;
+    &:last-child {
+        border-left: 0 !important;
+    }
+    &:hover {
+        color: black;
+    }
+}
+
+.text-data {
+  white-space: pre-wrap;
+}

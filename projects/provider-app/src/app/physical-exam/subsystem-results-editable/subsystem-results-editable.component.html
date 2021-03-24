@@ -1,0 +1,11 @@
+<div class="d-flex flex-column flex-lg-row">
+  <ng-content></ng-content>
+  <div class="d-flex flex-wrap flex-row" contenteditable paContentEditable id="parent" title="parent" (change)="onModelChange($event)" (blur)="onBlur($event)">
+    <ng-container *ngFor="let item of findingsTemplateData">
+      <ng-container *ngFor="let text of item.text; let last=last">
+        <span [title]="item.key" [id]="item.key" class="pr-1">{{text}}</span>
+        <div class="break" *ngIf="item.text.length > 1 && !last"></div>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>

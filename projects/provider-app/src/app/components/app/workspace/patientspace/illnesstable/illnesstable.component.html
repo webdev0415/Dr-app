@@ -1,0 +1,70 @@
+<mat-table #table *ngIf="source" [dataSource]="source" [trackBy]="trackByIndex">
+  <ng-container matColumnDef="confidence">
+    <mat-cell *matCellDef="let row; index as rowIndex" class="light" (click)="clickRow(row)">
+      <div id="2403734e-5cac-43ff-8f3c-d8dfe98873e6" *ngIf="row.hasOwnProperty('confidence') && illnessPresentation === illnessPresentationEnum.CONFIDENCE">
+        {{row.icdGroup === 'Doctor added' ? 'DR' : row.confidence !== null ? (row.confidence * 100).toFixed(1) + '%' : ''}}
+      </div>
+      <span *ngIf="row.contribution && illnessPresentation === illnessPresentationEnum.CONFIDENCE">{{row.contribution}}%</span>
+      <span *ngIf="illnessPresentation === illnessPresentationEnum.RANKING">{{rowIndex + 1}}.</span>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="icdName">
+    <mat-cell class="pl-2 pt-2 pb-2 dark" *matCellDef="let row" (click)="clickRow(row)">
+      <div *ngIf="row.icdName" class="d-flex flex-column text-column">
+        <span>{{row.icdName}}</span>
+      </div>
+      <div id="9308fd3c-9bff-436f-96d7-b83c365bf396" *ngIf="row.symptomName" class="d-flex justify-content-between w-100 pl-2">
+        {{row.response === false ? 'Not Presenting - ' : ''}}{{row.symptomName | filterSymptomName}}{{getTriageValue(row.symptomId)}}
+        <i *ngIf="row.source && row.response !== false" class="material-icons source-link" (click)="showInfo(row)">link</i>
+      </div>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="icd10">
+    <mat-cell class="pl-2 dark" *matCellDef="let row" (click)="clickRow(row)">
+      <div id="91724d84-6d4a-45c5-b248-b432172d953c">{{row.icd10}}</div>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="isSelected">
+    <mat-cell class="pl-1 pr-1 dark" *matCellDef="let row">
+      <div id="c04e48f6-e4fd-483c-96db-02612cebdf7c" class="d-flex align-items-center">
+        <mat-checkbox color="primary"
+                      [checked]="row.isSelected"
+                      (click)="onIllnessChange($event, row)"
+                      [disabled]="viewOnly"></mat-checkbox>
+      </div>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="data">
+    <mat-cell *matCellDef="let button" (click)="toggleAccordion(button)">
+      <div id="cdc86a67-013d-44ea-b1a8-f0a9499c340a" class="d-flex justify-content-between element-row" [class.expanded]="expanded">
+        <div id="92fff7fc-6078-43b8-be53-5062e2220d4f" class="align-self-center">
+          Show {{expanded ? 'top ' + topIllnessQuantity : 'all'}} {{accordionName}} in {{group}}
+        </div>
+        <div id="f01c0baa-d499-412f-9628-3e1b385ba44e" class="align-self-center mr-2">
+          <mat-icon class="collapsed">keyboard_arrow_right</mat-icon>
+          <mat-icon class="expanded">keyboard_arrow_down</mat-icon>
+        </div>
+      </div>
+
+
+    </mat-cell>
+  </ng-container>
+
+  <mat-row class="clickable-row" *matRowDef="let row; columns: ['data']; when: isExtendedRow"></mat-row>
+
+  <mat-row [class.clickable-row]="row.icd10" [class.non-present]="row.response === false" *matRowDef="let row;
+  columns: ['confidence', 'icdName', 'icd10', 'isSelected']; when: checkIndex">
+  </mat-row>
+
+  <mat-row class="clickable-row" *matRowDef="let row; columns: ['data']; when: isExtendedRow"></mat-row>
+
+  <mat-row [class.clickable-row]="row.icd10" [class.non-present]="row.response === false" *matRowDef="let row;
+  columns: ['confidence', 'icdName', 'icd10', 'isSelected']"
+           [@detailExpand]="expanded ? 'expanded' : 'collapsed'">
+  </mat-row>
+
+</mat-table>

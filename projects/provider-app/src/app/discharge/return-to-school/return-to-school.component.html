@@ -1,0 +1,21 @@
+<div class="d-flex flex-column">
+  <div class="w-100 buttons-group">
+    <button mdbWavesEffect mdbBtn class="btn btn-primary btn-sm" [disabled]="viewOnly" *ngFor="let day of RTSDaysOptions" [class.btn-green]="RTSDays === RTSDaysEnum[day]" (click)="RTSDaysUpdate(day)">{{day}}</button>
+  </div>
+  <span class="ml-1 mt-2">Or</span>
+  <div class="d-flex flex-row w-100 align-items-baseline ml-1 justify-content-between">
+    <mdb-checkbox
+      class="mr-1"
+      (change)="RTSDaysUpdate('Other', $event.checked)"
+      [default]="true"
+      [disabled]="viewOnly"
+      [checked]="RTSDays === 'Other'">Excuse
+    </mdb-checkbox>
+    <label class="mr-1" for="rtws-start">from</label>
+    <pa-inline-datepicker id="rtws-start" [disabled]="viewOnly || RTSDays !== 'Other'" [dateOptions]="RTSWStartDateOptions" [date]="RTSWStart" (update)="dateUpdate('RTSWStart', $event)"></pa-inline-datepicker>
+    <label class="mr-1" for="rtws-stop">to</label>
+    <pa-inline-datepicker id="rtws-stop" [disabled]="viewOnly || RTSDays !== 'Other'" [dateOptions]="RTSWStopDateOptions" [date]="RTSWStop" (update)="dateUpdate('RTSWStop', $event)"></pa-inline-datepicker>
+  </div>
+  <mdb-error class="restriction-error" *ngIf="!datesValid">Excuse Stop Date should be later than Start Date.</mdb-error>
+  <mdb-error class="restriction-error" *ngIf="(!RTSWStart || !RTSWStop) && RTSDays === 'Other'">Excuse Start and Stop Dates are mandatory.</mdb-error>
+</div>

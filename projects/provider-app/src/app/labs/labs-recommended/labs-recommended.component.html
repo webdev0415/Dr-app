@@ -1,0 +1,23 @@
+<div id="177402c4-d5f8-413e-9ab6-18fbaa43c320" class="row pt-3">
+  <div id="95470383-d013-4383-8b65-025b331ae7fd" class="col-sm-12">
+    <mat-card>
+      <mat-card-title>
+        <div id="803caf27-c2ba-48ca-a8a3-fbdf5523283f" class="d-flex justify-content-end">
+          <span class="h5 mr-auto">Recommended Procedures</span>
+        </div>
+      </mat-card-title>
+      <mat-card-content>
+        <div id="043ac3e6-4dd9-48e0-bcd2-ab19bf10c2eb" class="card mt-3 mb-4" *ngIf="recommendedLabsArray.length">
+          <div id="95482428-30fe-47ad-bb9b-262aae73b743" class="card-body row">
+            <div id="ef737005-3093-4b9c-8238-b20ad1bf84aa" *ngFor="let lab of recommendedLabsArray" class="col-sm-6 col-md-4 col-lg-3 text-center my-1">
+              <span>{{lab.name}}</span>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="!recommendedLabsArray.length" class="w-100 p-4 text-center no-info">
+          No labs data
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

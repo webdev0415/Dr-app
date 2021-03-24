@@ -1,0 +1,157 @@
+<!-- sports physical exam { -->
+<div class="docbody doc">
+  <br>
+  <h4>Sports Physical Examination</h4>
+  <div id="rounded-personal-info">
+    <div class="rpi-part section" id="rpi-left">
+      <div class="row"><label for="rpi-name">Name:</label><input type="text" name="rpi-name" id="rpi-name"
+                                                                 [value]="patientInformation | fullName" class="w-100" readonly>
+      </div>
+      <div class="row"><label for="rpi-age">Age:</label><input type="text" name="rpi-age" id="rpi-age"
+                                                               [value]="patientInformation.age.years"
+                                                               class="w-100" readonly></div>
+      <div class="row"><label for="rpi-height">Height:</label><input type="text" name="rpi-height" id="rpi-height"
+                                                                     [value]="vitals.HEIGHT"
+                                                                     class="w-100" readonly></div>
+      <div class="row"><label for="rpi-vision" class="mr-3">Vision:</label>R20/<input class="smallfield"
+                                                                                      type="text"
+                                                                                      name="rpi-vision-r"
+                                                                                      id="rpi-vision-r"
+                                                                                      [value]="vitals.RIGHT_EYE"
+                                                                                      readonly>
+        L20/<input class="smallfield" type="text" name="rpi-vision-l" id="rpi-vision-l"
+                   [value]="vitals.LEFT_EYE" readonly></div>
+      <div class="mt-2 row">
+        <label class="mr-3">Pupils:</label>
+
+        <input type="checkbox" class="form-check-input" [name]="dischargedocsEnum.EQPUPILS"
+               [id]="dischargedocsEnum.EQPUPILS" [checked]="sportsExam.eqpupils" (change)="sportsExam.eqpupils= !sportsExam.eqpupils">
+        <label class="check-label" for="eqpupils">Equal</label>
+        <input type="checkbox" class="form-check-input" [name]="dischargedocsEnum.PUPILUNEQ"
+               [id]="dischargedocsEnum.PUPILUNEQ" [checked]="!sportsExam.eqpupils" (change)="sportsExam.eqpupils= !sportsExam.eqpupils">
+        <label class="check-label" for="pupiluneq">Unequal</label>
+      </div>
+    </div>
+    <div class="rpi-part section" id="rpi-right">
+      <div class="row"><label for="rpi-dob">Date of Birth:</label><input type="text" name="rpi-dob" id="rpi-dob"
+                                                                         [value]="patientInformation.birthDate"
+                                                                         class="w-100" readonly></div>
+      <div class="row"><label for="rpi-sex">Sex:</label><input type="text" name="rpi-sex" id="rpi-sex"
+                                                               [value]="patientInformation.gender"
+                                                               class="w-100" readonly></div>
+      <div class="row"><label for="rpi-weight">Weight:</label><input type="text" name="rpi-weight" id="rpi-name"
+                                                                     [value]="vitals.WEIGHT"
+                                                                     class="w-100" readonly></div>
+      <div class="row"><label for="rpi-pulse">Pulse:</label><input type="text" name="rpi-pulse" id="rpi-name"
+                                                                   [value]="vitals.PULSE"
+                                                                   class="w-100" readonly></div>
+      <div class="row">
+        <label>BP:</label><input class="smallfield" type="text" name="rpi-bp-1-s" id="rpi-bp-1-s"
+                                 [value]="vitals.SYSTOLIC" readonly>
+        /<input class="smallfield" type="text" name="rpi-bp-1-d" id="rpi-bp-1-d"
+                [value]="vitals.DIASTOLIC" readonly>
+        (<input class="smallfield" type="text" name="rpi-bp-2-s" id="rpi-bp-2-s" [value]="''" readonly>
+        /<input class="smallfield" type="text" name="rpi-bp-2-d" id="rpi-bp-2-d" [value]="''" readonly>,
+        <input class="smallfield" type="text" name="rpi-bp-3-s" id="rpi-bp-3-s" [value]="''" readonly>
+        /<input class="smallfield" type="text" name="rpi-bp-3-d" id="rpi-bp-3-d" [value]="''" readonly>)
+        <br>
+      </div>
+      <div class="row mt-2">
+        <label class="mr-3">Corrected:</label>
+        <input type="checkbox" class="form-check-input" [name]="dischargedocsEnum.CORRECTEDY"
+               [id]="dischargedocsEnum.CORRECTEDY" [checked]="sportsExam.corrected" (change)="sportsExam.corrected= !sportsExam.corrected">
+        <label class="check-label" for="correctedy">Y</label>
+        <input type="checkbox" class="form-check-input" [name]="dischargedocsEnum.CORRECTEDN"
+               [id]="dischargedocsEnum.CORRECTEDN" [checked]="!sportsExam.corrected" (change)="sportsExam.corrected= !sportsExam.corrected">
+        <label class="check-label" for="correctedn">N</label>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <table class="w-100">
+      <colgroup>
+        <col style="width: 150px">
+        <col style="width: 30px">
+        <col style="width: 100%">
+      </colgroup>
+      <thead>
+      <th></th>
+      <th>Normal</th>
+      <th>Abnormal Findings</th>
+      </thead>
+      <tbody>
+      <tr class="inner-header">
+        <td class="exam-group">Medical</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr *ngFor="let exam of examsListMedical" doc-sports-table-row [examName]="exam" [normal]="findExamByName(exam).normal" [abnormal]="findExamByName(exam).abnormal">
+      </tr>
+      <tr class="inner-header">
+        <td class="exam-group">Musculoskeletal</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr *ngFor="let exam of examsListMusculoskeletal" doc-sports-table-row [examName]="exam" [normal]="findExamByName(exam).normal" [abnormal]="findExamByName(exam).abnormal">
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div id="table-annotations">
+    * - Multi-examiner set-up only<br>
+    & - Having a third party present is recommended for the genitourinary examination
+  </div>
+  <br>
+  <div id="sports-footer" class="section">
+    <div class="row">
+      <input type="checkbox" class="form-check-input" id="cleared-wo-restrictions" name="cleared-wo-restrictions"
+             [checked]="patientAdditionalInformation.sportsCleared['cleared'] === 'cleared'" disabled="disabled">
+      <label class="check-label" for="cleared-wo-restrictions">Cleared Without Restrictions</label>
+    </div>
+    <div id="clearings" class="row">
+      <input type="checkbox" class="form-check-input" id="not-cleared-for" name="not-cleared-for"
+             [checked]="patientAdditionalInformation.sportsCleared['cleared'] !== 'cleared'" disabled="disabled" hidden="true">
+      <label class="check-label" for="not-cleared-for">Not Cleared For:</label>
+      <input type="checkbox" class="form-check-input" id="not-cleared-for-all" name="not-cleared-for-all"
+             [checked]="patientAdditionalInformation.sportsCleared['cleared'] === 'all'" disabled="disabled" hidden="true">
+      <label class="check-label" for="not-cleared-for-all">All Sports </label>
+      <input type="checkbox" class="form-check-input" id="not-cleared-for-cert" name="not-cleared-for-cert"
+             [checked]="patientAdditionalInformation.sportsCleared['cleared'] === 'specific'" disabled="disabled" hidden="true">
+      <label class="check-label" for="not-cleared-for-cert">Certain Sports: </label>
+      <input type="text" [value]="patientAdditionalInformation.sportsCleared['sports']"
+             [size]="patientAdditionalInformation.sportsCleared['sports'] && patientAdditionalInformation.sportsCleared['sports'].length ? patientAdditionalInformation.sportsCleared['sports'].length : 20"
+             readonly>
+      <div>
+        <label for="reason">Reason:</label>
+        <input type="text" [value]="patientAdditionalInformation.sportsCleared['reason']" id="reason" name="reason"
+               [size]="patientAdditionalInformation.sportsCleared['reason'] && patientAdditionalInformation.sportsCleared['reason'].length ? patientAdditionalInformation.sportsCleared['reason'].length : 20"
+               readonly>
+      </div>
+    </div>
+    <div class="row"><label>Recommendations: </label><input type="text" class="w-100"
+                                                            [value]="patientAdditionalInformation.sportsCleared['recommendations']" readonly>
+    </div>
+    <hr id="sports-footer-bold-hr">
+    <div class="row">
+      <label for="physicanname">Name of Physician</label><input type="text" name="physicanname" id="physicanname"
+                                                                [(ngModel)]="completedDoctor" class="w-50"
+                                                                readonly>
+      <label for="examdate">Exam Date:</label><input type="text" name="examdate" id="examdate" [(ngModel)]="date"
+                                                     readonly>
+    </div>
+    <div class="row">
+      <label for="address">Address:</label>
+      <input type="text" name="address" id="address" class="w-50" [(ngModel)]="sportsExam.address">
+      <label for="phonenum">Phone:</label>
+      <input type="text" name="phonenum" id="phonenum" [(ngModel)]="sportsExam.phone">
+    </div>
+    <div class="row">
+      <label for="docsign">Signature of Physician</label>
+      <input type="text" name="docsign" id="docsign" class="w-50" [(ngModel)]="sportsExam.signature">
+      <span>,
+                  MD/DO/ND/NMD/NP/PA-C/CCSP</span>
+    </div>
+  </div>
+</div>
+<!-- } sports physical exam -->

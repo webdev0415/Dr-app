@@ -1,0 +1,84 @@
+@import '../../../styles/shared/mixins';
+
+div {
+  button {
+    border-radius: 0 0 .25rem 0;
+  }
+  button:first-of-type {
+    border-radius: 0 0 0 .25rem;
+  }
+}
+
+.button-header {
+  cursor: pointer;
+  mat-icon {
+    position: relative;
+  }
+  button {
+    font-size: 14px;
+  }
+  min-height: 42px;
+  border-radius: .25rem .25rem 0 0;
+  border-color: #0977BC;
+  color: #0977BC;
+  padding: 0!important;
+  &.normal {
+    border-color: #7db53f;
+    color: #7db53f;
+  }
+  &.abnormal {
+    border-color: #d32f2f;
+    color: #d32f2f;
+  }
+  &.outline {
+    background-color: #0977BC;
+    color: white;
+    &.normal {
+      background-color: #7db53f;
+    }
+    &.abnormal {
+      background-color: #d32f2f;
+    }
+  }
+}
+
+.scale {
+  transform: scale(1.05);
+}
+
+.break {
+  position: relative;
+  height: 30px;
+
+  .break-line {
+    position: inherit;
+    width: 100%;
+    height: 2px;
+    top: 50%;
+    background-color: #0977BC;
+  }
+
+  .diamond-logo {
+    position: absolute;
+    height: inherit;
+    z-index: 1;
+  }
+}
+
+.field-title {
+  min-width: 85px;
+}
+
+.body-part-title {
+  min-width: 110px;
+  font-size: 18px;
+
+  @include media-breakpoint-down(lg) {
+    min-width: 90px;
+    font-size: 14px;
+  }
+}
+
+.membrane-column {
+  border-bottom: 1px solid #C4C4C4;
+}

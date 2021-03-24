@@ -1,0 +1,50 @@
+<div *ngIf="RTWSInfo.returnTo === 'SCHOOL'"
+     [ngClass]="{'row': RTWSInfo.rtsDays !== 'Other', 'd-flex flex-column': RTWSInfo.rtsDays === 'Other'}">
+  <span class="mt-2"><strong>Return To School Status: </strong></span>
+  <ng-container *ngIf="RTWSInfo.rtsDays === 'Other'">
+    <div class="row">
+      <label for="doNotFrom">Patient is excused from school from:</label>
+      <mdb-date-picker [disabled]="viewOnly" id="doNotFrom" [options]="dateOptions" [ngModel]="RTWSInfo.rtswStart"
+                       (ngModelChange)="dischargeNotes.donotFrom"
+                       (inputFieldChanged)="documentsService.validateDate(dischargeNotes.donotFrom, dischargeNotes.donotTo)">
+      </mdb-date-picker>
+      <label for="doNotTo">until:</label>
+      <mdb-date-picker [disabled]="viewOnly" id="doNotTo" [options]="dateOptions" [ngModel]="RTWSInfo.rtswStop"
+                       (ngModelChange)="dischargeNotes.donotTo"
+                       (inputFieldChanged)="documentsService.validateDate(dischargeNotes.donotFrom, dischargeNotes.donotTo)">
+      </mdb-date-picker>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="RTWSInfo.rtsDays !== 'Other'">
+    <span class="align-self-end">: {{RTSEnumReverse(RTWSInfo.rtsDays)}}</span>
+  </ng-container>
+</div>
+
+<div class="flex-column d-flex" *ngIf="RTWSInfo.returnTo === 'WORK'">
+  <span class="mt-2"><strong>Return To Work Status: </strong></span>
+  <div class="d-flex flex-row flex-wrap mt-2" *ngIf="RTWSInfo.rtwWasIll && RTWSInfo.rtwSeenFor">
+    <span>{{ patientName }} was ill and seen for {{RTWSInfo.rtwSeenFor}}</span>
+  </div>
+  <span *ngIf="RTWSInfo.rtwRestrictionType === 'Reevaluation'">Patient is excused until re-evaluated.</span>
+  <span *ngIf="RTWSInfo.rtwRestrictionType === 'None'">Patient can return to work without restrictions.</span>
+  <div *ngIf="RTWSInfo.rtwRestrictionType === 'DateRange'" class="row">
+    <label for="limitedFrom">Patient is excused from work from:</label>
+    <mdb-date-picker [disabled]="viewOnly" id="limitedFrom" [options]="dateOptions" [ngModel]="RTWSInfo.rtswStart"
+                     (ngModelChange)="dischargeNotes.limitedFrom"
+                     (inputFieldChanged)="documentsService.validateDate(dischargeNotes.limitedFrom, dischargeNotes.limitedTo)">
+    </mdb-date-picker>
+    <label for="limitedTo">until:</label>
+    <mdb-date-picker [disabled]="viewOnly" id="limitedTo" [options]="dateOptions" [ngModel]="RTWSInfo.rtswStop"
+                     (ngModelChange)="dischargeNotes.limitedTo"
+                     (inputFieldChanged)="documentsService.validateDate(dischargeNotes.limitedFrom, dischargeNotes.limitedTo)">
+    </mdb-date-picker>
+  </div>
+</div>
+
+<div class="row wr flex-column w-100 align-items-baseline"
+     *ngIf="RTWSInfo.returnTo === 'WORK' && RTWSInfo.rtwRestrictionType === 'Restricted'">
+  <span id="restrictions-notes">Fit for work with the following restrictions:</span>
+  <textarea [disabled]="viewOnly" class="area w-100" cdkTextareaAutosize cdkAutosizeMinRows="5" cdkAutosizeMaxRows="43" data-gramm_editor="false"
+            [ngModel]="RTWSInfo.rtwRestrictions" (ngModelChange)="dischargeNotes.notes"
+            (change)="update.emit({section: 'authorization', data: dischargeNotes})"></textarea>
+</div>

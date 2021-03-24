@@ -1,0 +1,15 @@
+<div id="docs-header" [class.doc]="source !== 'surveys'">
+  <div id="docs-patient-info">
+    <span>{{patientName | uppercase}}</span>
+    <span>{{patientInformation?.addressLine1}}</span>
+    <span>{{patientInformation?.addressLine2}}</span>
+    <span>{{patientInformation?.city}}
+            {{patientInformation?.state}}
+            {{patientInformation?.zip}}
+          </span>
+    <span>{{patientPhoneNumber}}</span>
+  </div>
+  <div class="logo">
+    <img [src]="imageUrl | sanitizer:'url'" class="img-fluid" crossorigin="anonymous">
+  </div>
+</div>

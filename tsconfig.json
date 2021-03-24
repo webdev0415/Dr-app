@@ -1,0 +1,73 @@
+{
+  "compileOnSave": false,
+  "include": [
+    "./projects/provider-app/src/**/*.ts",
+    "node_modules/ng-uikit-pro-standard/**/*.ts"
+  ],
+  "compilerOptions": {
+    "downlevelIteration": true,
+    "allowSyntheticDefaultImports": true,
+    "module": "esnext",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "strictNullChecks": false,
+    "target": "es2015",
+    "importHelpers": true,
+    "baseUrl": "./projects/provider-app/src/app/",
+    "typeRoots": [
+      "node_modules/@types",
+      "typings"
+    ],
+    "lib": [
+      "es2019",
+      "es2018",
+      "dom"
+    ],
+    "paths": {
+      "pharmacist": [
+        "dist/pharmacist"
+      ],
+      "pharmacist/*": [
+        "dist/pharmacist/*"
+      ],
+      "provider-documents": [
+        "dist/provider-documents"
+      ],
+      "provider-documents/*": [
+        "dist/provider-documents/*"
+      ],
+      "documents-generator": [
+        "dist/documents-generator"
+      ],
+      "documents-generator/*": [
+        "dist/documents-generator/*"
+      ],
+      "html2pdf.js": [
+        "./node_modules/html2pdf.js"
+      ],
+      "html2pdf.js/*": [
+        "./node_modules/html2pdf.js/*"
+      ],
+      "shared-models": [
+        "dist/shared-models"
+      ],
+      "shared-models/*": [
+        "dist/shared-models/*"
+      ],
+      "patient-profile": [
+        "dist/patient-profile"
+      ],
+      "patient-profile/*": [
+        "dist/patient-profile/*"
+      ]
+    }
+  },
+  "exclude": [
+    "./projects/provider-app/src/app/static/test.constants.ts",
+    "./projects/provider-app/src/test.ts"
+  ]
+}

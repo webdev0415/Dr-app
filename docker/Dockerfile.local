@@ -1,0 +1,25 @@
+FROM nginx
+
+RUN apt-get update && \
+    apt-get install -y xz-utils && \
+    apt-get install -y curl 
+
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
+RUN apt install -y python3-pip nodejs git
+RUN npm install -g @angular/cli
+
+COPY . /practioner-web
+WORKDIR "/practioner-web"
+COPY ./nginx.conf /etc/nginx/nginx.conf
+RUN mkdir /usr/share/nginx/html/DoctorApp
+
+RUN mkdir ~/.ssh
+COPY id_rsa /root/.ssh/id_rsa
+RUN chmod 600 /root/.ssh/id_rsa
+
+RUN npm i
+RUN npm run build:staging
+
+RUN tar xf ./deploy/DoctorApp.tar.xz && \
+    rm -rf /usr/share/nginx/html/DoctorApp && \
+    mv DoctorApp /usr/share/nginx/html/ 

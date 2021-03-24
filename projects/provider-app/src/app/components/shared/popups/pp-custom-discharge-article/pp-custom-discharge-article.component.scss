@@ -1,0 +1,36 @@
+textarea {
+  max-height: 60vh;
+}
+
+.notes-wrapper {
+  max-height: calc( 80vh - 120px);
+  overflow-y: auto;
+  .content {
+    max-height: calc( 80vh - 180px);
+  }
+}
+
+.dialog-wrapper {
+  height: 100% !important;
+
+  &-title {
+    text-align: left;
+    p {
+      font-weight: bold;
+      font-size: 24px;
+    }
+  }
+
+  &-content {
+    margin: 0 0 0 -10px;
+    padding: 9px 5px 5px 15px;
+    text-align: center;
+    overflow-y: auto;
+    flex: 1;
+    position: relative;
+    color: #747474;
+  }
+  &-header {
+    display: inline-block;
+  }
+}

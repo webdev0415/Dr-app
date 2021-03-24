@@ -1,0 +1,75 @@
+<div id="01425bb6-867d-48d7-bc2e-71f9a4e350bf" class="justify-content-center">
+  <div id="7cf036fa-d96d-4203-9d3d-ab38bb552ea5">
+    <mat-card>
+      <div id="52d2e7b2-f7ac-4f3c-b060-65ne7b749fe8" class="d-flex justify-content-end" *ngIf="!pharmacistMode">
+        <div class="dropdown" mdbDropdown>
+          <button mdbDropdownToggle mdbBtn color="primary" class="dropdown-toggle waves-light more-btn" type="button" mdbWavesEffect>
+            Filter: {{currentSymptomFilter | titlecase}}
+          </button>
+          <div class="dropdown-menu dropdown-primary">
+            <a class="dropdown-item" (click)="getSymptomsByFilter(Patient, 'all')">All</a>
+            <a class="dropdown-item" (click)="getSymptomsByFilter(Patient,'chief complaint')">Chief Complaint</a>
+            <a class="dropdown-item" (click)="getSymptomsByFilter(Patient, 'chronic')">Chronic</a>
+          </div>
+        </div>
+        <button mdbBtn type="button" color="primary" size="md" mdbWavesEffect *ngIf="!viewOnly"
+          (click)="addSymptom()">Add</button>
+      </div>
+      <pa-hpi-summary *ngIf="!pharmacistMode" [sourceName]="'SymptomsComponent'"></pa-hpi-summary>
+      <div *ngFor="let group of symptomCategories" class="mt-4">
+        <mat-card-title>
+          <div id="52d2e7b2-f7ac-4ffc-b060-65de7b749fe8" class="d-flex justify-content-end">
+            <span class="h2 mr-auto">{{group.name}} Symptoms</span>
+          </div>
+        </mat-card-title>
+        <mat-card-content>
+          <div *ngIf="getGroupSymptoms(group.data).length; else noData" id="0a21a7a7-2071-4198-bf00-bc31d5e2cd53" class="group mt-3 mb-4">
+            <div *ngFor="let category of getGroupSymptoms(group.data)" id="e2417460-b2cf-4691-9f37-0d0dde2d3729" class="category">
+              <div class="subtitle mb-3 d-flex justify-content-end">
+                <span class="h4 pr-3 mr-auto mb-0">{{category.categoryName}}</span>
+              </div>
+              <div class="row">
+                <div class="col-lg-6 col-sm-12 presenting">
+                  <span class="presenting-header">Admits</span>
+                  <div id="3c16496c-1a11-4c19-9ca8-191793da79bf" class="d-flex flex-wrap justify-content-between" *ngIf="category.presenting.length">
+                    <div *ngFor="let symptom of category.presenting" class="symptom-list">
+                      <mat-list *ngIf="!symptom.hidden" class="w-100 list--admits">
+                          <mat-list-item class="px-2">
+                            <div *ngIf="!symptom.groupedSymptom" class="d-flex w-100 align-items-center">
+                              <span>{{symptom.symptomName | filterSymptomName}}{{getTriageValue(symptom.symptomId)}}{{getVitalValue(symptom)}}</span>
+                              <mat-icon *ngIf="!viewOnly" (click)="removeSymptom(symptom)" class="text-danger">close</mat-icon>
+                            </div>
+                            <pa-grouped-symptoms *ngIf="symptom.groupedSymptom && symptom.groupedSymptom.type" class="w-100" [symptom]="symptom" (removeGroupEvent)="removeGroup($event)" [viewOnly]="viewOnly"></pa-grouped-symptoms>
+                          </mat-list-item>
+                      </mat-list>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-sm-12 presenting">
+                  <span class="presenting-header">Denies</span>
+                  <div id="3c16496c-1a11-4j19-9ca8-191793da79bf" class="d-flex flex-wrap justify-content-between" *ngIf="category.nonPresenting.length">
+                    <div *ngFor="let symptom of category.nonPresenting" class="symptom-list">
+                    <mat-list class="w-100 list--denies" *ngIf="sholdSymptomBeDisplayed(symptom)">
+                      <mat-list-item class="px-2">
+                        <span>{{symptom.symptomName | filterSymptomName}}{{getTriageValue(symptom.symptomId)}}{{getVitalValue(symptom)}}</span>
+                        <mat-icon *ngIf="!viewOnly" (click)="removeSymptom(symptom)" class="text-danger">close</mat-icon>
+                      </mat-list-item>
+                    </mat-list>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </div>
+      <pa-labs-results *ngIf="!pharmacistMode" [patient]="Patient"></pa-labs-results>
+    </mat-card>
+  </div>
+</div>
+
+<ng-template #noData>
+  <div class="no-info w-100 p-4">
+    No information available
+  </div>
+</ng-template>

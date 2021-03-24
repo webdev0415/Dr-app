@@ -1,0 +1,22 @@
+<div class="d-flex flex-row ml-2 mr-2">
+  <span class="mr-2 w-25">{{system.examName}}</span>
+  <div class="d-flex flex-row w-75">
+    <ng-template>
+      <button mdbBtn mdbWavesEffect (click)="onClick(true)"
+              type="button" size="sm"
+              class="rounded mb-2 ml-2 mx-0 w-50"
+              [ngClass]="isNormal ? 'btn-green':'btn-outline-primary'"
+              [outline]="!isNormal">
+        {{ isNormal && ['Male GU', 'Female GU'].includes(system.examName) ? 'No Exam' : 'Normal' }}
+      </button>
+      <button mdbBtn mdbWavesEffect (click)="onClick(false)"
+              type="button"
+              size="sm"
+              class="rounded mb-2 ml-2 mx-0 w-50"
+              color="primary"
+              [outline]="true">
+        {{ !collapsed ? 'Close' : 'Open' }}
+      </button>
+    </ng-template>
+  </div>
+</div>

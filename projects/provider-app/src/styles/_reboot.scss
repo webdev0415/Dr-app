@@ -1,0 +1,42 @@
+@import 'mdb/type';
+
+html, body, .fh {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch !important;
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  font-weight: $font-weight-base;
+  line-height: $line-height-base;
+}
+
+input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+  background: $input-bg none !important;
+  -webkit-box-shadow: inset 0 0 0 50px $input-bg !important;
+  color: $input-color !important;
+  -webkit-text-fill-color: $input-color !important;
+}
+
+input {
+  &::-webkit-input-placeholder {
+    color: $input-placeholder-color !important;
+    -webkit-text-fill-color: $input-placeholder-color !important;
+    opacity: 1;
+  }
+  &::-moz-placeholder {
+    color: $input-placeholder-color !important;
+    opacity: 1;
+  }
+  /* Firefox 19+ */
+  &:-moz-placeholder {
+    color: $input-placeholder-color !important;
+    opacity: 1;
+  }
+  /* Firefox 18- */
+  &:-ms-input-placeholder {
+    color: $input-placeholder-color !important;
+    opacity: 1;
+  }
+}

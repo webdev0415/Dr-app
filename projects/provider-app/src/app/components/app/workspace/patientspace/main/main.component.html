@@ -1,0 +1,242 @@
+<div class="header d-flex justify-content-start align-items-center my-3">
+  <h2 class="main-header">{{isContributorTableView ? 'Patient Summary Page' : 'Working Diagnosis'}}</h2>
+  <div class="d-flex justify-content-end align-items-center flex-1" *ngIf="isIllnessTableView">
+    <span class="subtext mx-2" *ngIf="confirmed && !viewOnly">All changes saved</span>
+    <button mdbBtn type="button" color="primary" [outline]="true" size="sm" mdbWavesEffect [disabled]="viewOnly"
+    (click)="addDiagnosisDialog()">Add Diagnosis</button>
+    <button mdbBtn type="button" color="primary" size="sm" mdbWavesEffect [disabled]="disallowConfirm"
+    (click)="confirmDiagnosis()">Confirm & Continue</button>
+  </div>
+
+</div>
+<div *ngIf="isContributorTableView" id="cdd930a6-f755-4346-9267-e771d8306ef4" class="d-flex justify-content-between main-container-contributors-view mb-3">
+  <pa-hpi-summary [sourceName]="'MainComponent'" class="d-flex flex-column w-100 outline-box justify-content-between"></pa-hpi-summary>
+  <div *ngIf="checkListVisible" class="d-flex flex-column checklist-container outline-box">
+    <span class="w-100 mb-2 checklist-header">Checklist</span>
+    <ng-container *ngFor="let item of checklist; let index = index" >
+      <div *ngIf="item.visible" class="d-flex justify-content-between checklist-item">
+        <span class="link" [routerLink]="getLink(item.key)" (click)="showAll(item.key)">{{ index + 1 }}. {{ item.title }}</span>
+        <fa-icon [icon]="item.reviewed ? ['fal', 'check-square'] : ['fal', 'square']"></fa-icon>
+      </div>
+    </ng-container>
+  </div>
+</div>
+<div id="8fa777a9-379e-4cf6-8a84-c420a44390b3" class="d-flex justify-content-between main-container" [ngClass]="{'main-container-contributors-view': isContributorTableView}">
+  <div id="710d2ce9-56b6-44e6-a444-b2c2009a2fa7" class="diagnosis-container">
+    <div class="outline-box dsd-card">
+      <div  *ngIf="isContributorTableView" class="d-flex justify-content-between mb-4 card-title">
+        <span class="fs-20">Decision Support Details</span>
+        <span class="link primary fs-14" [routerLink]="getLink('symptoms')" (click)="showAll('symptoms')">See All Symptoms</span>
+      </div>
+    <mat-table *ngIf="(selectedIllnesses | async).length && isIllnessTableView" class="w-100 list-table selected-table mb-5" [dataSource]="selectedIllnesses | async">
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef><span> Selected Diagnosis</span></mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <div class="d-flex flex-column w-100 pt-2 pb-2">
+            <span class="font-weight-bold">
+              <pa-editable-text [data]="row.icdName" [reviewed]="reviewed" [examReviewed]="examReviewed" [subtext]="row.icdGroup"
+                                   [illnessPresentation]="illnessPresentation" (renamed)="onRename($event, row)"
+                                   (reviewDialog)="reviewDialog()"></pa-editable-text>
+            </span>
+          </div>
+        </mat-cell>
+      </ng-container>
+
+        <ng-container matColumnDef="probability">
+          <mat-cell *matCellDef="let row">
+            <div class="d-flex flex-column" *ngIf="!isDoctorAdded(row)">
+              <span *ngIf="illnessPresentation === illnessPresentationEnum.CONFIDENCE">AI Probability</span>
+              <span *ngIf="illnessPresentation === illnessPresentationEnum.CONFIDENCE" class="font-weight-bold">{{getConfidence(row)}}</span>
+            </div>
+            <div class="d-flex flex-column" *ngIf="isDoctorAdded(row)">
+              <span class="font-weight-bold">Added</span>
+              <span class="font-weight-bold">Manually</span>
+            </div>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="icd">
+          <mat-cell *matCellDef="let row" class="d-flex flex-row justify-content-center diagnosis-group">
+            <div class="d-flex flex-column">
+              <div class="d-flex flex-row align-items-center">
+                <span>{{row.icd10}}</span>
+                <mat-icon class="closecross" *ngIf="!viewOnly" (click)="toggleSelection(row.icd10);">close</mat-icon>
+              </div>
+              <span>Workup Planned?</span>
+            </div>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="isPrimary">
+          <mat-cell *matCellDef="let row" class="d-flex flex-row justify-content-center">
+            <div class="d-flex flex-column pl-06">
+              <div class="d-flex align-items-center">
+                <mat-checkbox color="primary"
+                              [disabled]="viewOnly"
+                              (click)="row.isPrimary ? $event.preventDefault() : setPrimary(row, $event) ? null : $event.preventDefault()"
+                              [checked]="row.isPrimary">Primary
+                </mat-checkbox>
+              </div>
+              <div class="d-flex flex-row">
+                <mat-checkbox [disabled]="viewOnly" color="primary"
+                              (click)="$event.preventDefault(); workupPlannedTrigger(row, true)"
+                              [checked]="row.workupPlanned" class="mr-1">Yes</mat-checkbox>
+                <mat-checkbox class="pr-06" [disabled]="viewOnly" color="primary"
+                              (click)="$event.preventDefault(); workupPlannedTrigger(row, false)"
+                              [checked]="!row.workupPlanned">No</mat-checkbox>
+              </div>
+            </div>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="['name']"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: ['name', 'probability', 'icd', 'isPrimary']"></mat-row>
+      </mat-table>
+      <pa-illness-group [expandedElements]="expandedElements" [patientReviewed]="[reviewed, examReviewed]" [groupedContributors]="groupedContributor$ | async"
+                        [WDView]="[isIllnessTableView, isContributorTableView]" (reviewDialog)="reviewDialog()" [sortedAccordionGroups]="sortedGroup$ | async" [accordionGroups]="accordionGroups$ | async"
+                        (illnessChange)="toggleSelection($event)" (toggleRowChange)="onToggleRow($event)"></pa-illness-group>
+      <pa-illness-group  *ngIf="(sortedChronicGroup$ | async).length" [expandedElements]="expandedElements" [sortedAccordionGroups]="sortedChronicGroup$ | async" [accordionGroups]="chronicGroup$ | async" [groupedContributors]="groupedContributor$ | async"
+                         [patientReviewed]="[reviewed, examReviewed]" [title]="'Chronic illnesses'"
+                         [WDView]="[isIllnessTableView, isContributorTableView]" (reviewDialog)="reviewDialog()"
+                         (illnessChange)="toggleSelection($event)" (toggleRowChange)="onToggleRow($event)"></pa-illness-group>
+      <pa-illness-group *ngIf="(sortedOtherPossibilitiesGroup$ | async).length" [expandedElements]="expandedElements" [sortedAccordionGroups]="sortedOtherPossibilitiesGroup$ | async" [accordionGroups]="otherPossibilitiesGroup$ | async" [groupedContributors]="groupedContributor$ | async"
+                        [patientReviewed]="[reviewed, examReviewed]" [title]="'Other Possibilities'"
+                        [WDView]="[isIllnessTableView, isContributorTableView]" (reviewDialog)="reviewDialog()"
+                        (illnessChange)="toggleSelection($event)" (toggleRowChange)="onToggleRow($event)"></pa-illness-group>
+    </div>
+    <div *ngIf="isContributorTableView && layoutSize.xl.matches" class="d-flex flex-column outline-box mt-3 dsd-card">
+      <div class="d-flex justify-content-between mb-4 card-title">
+        <span class="fs-20">Personal History</span>
+        <span class="link primary fs-14" [routerLink]="getLink('patient-data')">See All History</span>
+      </div>
+      <pa-item-list class="w-100" [section]="historyCardSections.personalHistory"
+                       [patient]="Patient" [cardTitleBackground]="false"
+                       [symptomCategories]="symptomCategories"
+                       [viewOnly]="true" [maxItems]="8">
+      </pa-item-list>
+      <pa-item-list [section]="historyCardSections.drugAllergies" [patient]="Patient"
+                       [symptomCategories]="symptomCategories"
+                       [viewOnly]="true" [cardTitleBackground]="false">
+      </pa-item-list>
+    </div>
+  </div>
+  <div class="defined-container" *ngIf="isIllnessTableView">
+    <mat-table class="w-100 list-table" #definedTable [dataSource]="definedIllnesses | async" matSort>
+
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef><span>Defined ICDs</span></mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <span>{{row.icdName}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="icd">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <span>{{row.icd10}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="icon">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let row" class="defined-checkbox">
+          <mat-checkbox color="primary"
+                        [checked]="row.isSelected"
+                        (click)="toggleSelection(row.icd10)"
+                        [disabled]="viewOnly"></mat-checkbox>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row [class.border-0]="!(definedIllnesses | async).length" *matHeaderRowDef="['name', 'icd', 'icon']"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: ['icon','name', 'icd']"></mat-row>
+    </mat-table>
+    <div *ngIf="!(definedEngine$ | async).length" class="w-100 p-4 text-center no-info">
+      No Defined ICDs
+    </div>
+  </div>
+  <div *ngIf="isContributorTableView" class="mb-3 d-flex flex-column defined-container">
+    <div class="d-flex flex-column outline-box dsd-card justify-content-between ">
+      <div class="d-flex justify-content-between mb-4 card-title">
+        <span class="fs-20" id="vitals-label">Vitals</span>
+      </div>
+      <pa-vitals-table [Patient]="Patient" [vitalFieldClass]="'wd-vitals'" [audits]="mediaModel.audits"></pa-vitals-table>
+    </div>
+    <div *ngIf="!layoutSize.xl.matches" class="d-flex flex-column outline-box mt-3 dsd-card">
+      <div class="d-flex justify-content-between mb-4 card-title">
+        <span class="fs-20">Personal History</span>
+        <span class="link primary fs-14" [routerLink]="getLink('patient-data')">See All History</span>
+      </div>
+      <pa-item-list class="w-100" [section]="historyCardSections.personalHistory"
+                       [patient]="Patient"
+                       [symptomCategories]="symptomCategories"
+                       [viewOnly]="true" [maxItems]="8">
+      </pa-item-list>
+      <pa-item-list [section]="historyCardSections.drugAllergies" [patient]="Patient"
+                       [symptomCategories]="symptomCategories"
+                       [viewOnly]="true">
+      </pa-item-list>
+    </div>
+
+    <div class="d-flex flex-column justify-content-between outline-box mt-3 dsd-card" *ngIf="!isPharmacistUserRole()">
+      <div class="d-flex justify-content-between card-title">
+        <span class="fs-20">Media</span>
+        <span class="link primary fs-14" [routerLink]="getPhysicalExamLink()">Complete Physical Exam</span>
+      </div>
+      <div class="d-flex flex-column">
+        <span class="fs-20 font-weight-bold mb-3">Camera Measurements</span>
+        <table class="camera-table" *ngIf="images.length">
+          <tbody>
+          <tr *ngFor="let bodyPart of images">
+            <td>
+              <span class="part-name text-capitalize font-weight-bold mt-2">{{getPartName(bodyPart.name)}}</span>
+            </td>
+            <td>
+              <div class="d-flex flex-column align-items-center justify-content-center px-2">
+                <div *ngFor="let side of bodyPart.sides; let index = index" class="d-flex align-items-start justify-content-center w-100">
+                  <div class="thumbnail-container d-flex flex-wrap">
+                    <div *ngFor="let data of side.data.slice(0, 2); let imgIndex = index" class="thumbnail m-1">
+                      <div *ngIf="data && data.value" class="w-100 h-100" (click)="showFullImg(side, false, imgIndex)">
+                        <img [src]="(data.value.fileBlob | sanitizer:'blob') || data.value.file"/>
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="side.video[0] && side.video[0].value">
+                    <button mdbBtn type="button" color="primary" size="sm" mdbWavesEffect class="p-0 m-0 mt-2" [outline]="true">
+                      <img [src]="'/DoctorApp/assets/img/sys/video_' + (bodyPart.sides.length === 2 ? ['left', 'right'][index] : 'regular') + '.svg'"
+                           class="mx-1 video-icon" (click)="showFullImg(side, true, 0)">
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex flex-wrap justify-content-end p-0">
+                <button mdbBtn type="button" color="primary" size="md" mdbWavesEffect class="mt-2 mx-1" [outline]="true" (click)="toBodyPart(bodyPart.name)">
+                  All
+                </button>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <div *ngIf="!images.length" class="w-100 h-100 p-4 no-info">
+          No Data Available
+        </div>
+      </div>
+      <div class="d-flex flex-column">
+        <span class="fs-20 font-weight-bold mb-3">Sound Measurements</span>
+        <div class="d-flex align-items-center">
+          <button *ngFor="let bodyPart of audio" mdbBtn type="button" color="primary" size="md" class="text-capitalize px-3"
+                  mdbWavesEffect (click)="toBodyPart(bodyPart.name)">
+            {{getPartName(bodyPart.name)}}
+          </button>
+        </div>
+        <div *ngIf="!audio.length" class="w-100 h-100 p-4 no-info">
+          No Data Available
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<pa-labs-results id="labs-results" class="mt-3" [patient]="Patient" [source]="'DSD'" *ngIf="isContributorTableView && !isPharmacistUserRole()"></pa-labs-results>
+<pa-labs-recommended id="labs-recommended" *ngIf="isIllnessTableView" [source]="'DSD'"></pa-labs-recommended>

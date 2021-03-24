@@ -1,0 +1,12 @@
+<div class="dialog-wrapper d-flex flex-column notes-wrapper">
+  <div class="content w-100">
+    <div class="dialog-wrapper-title">
+      <p>Discharge Disposition Article</p>
+    </div>
+    <textarea matTextareaAutosize matAutosizeMinRows="8" class="w-100" [(ngModel)]="data"></textarea>
+  </div>
+  <div class="d-flex popup-buttons justify-content-around">
+    <button mdbBtn type="button" color="primary" size="md" mdbWavesEffect matDialogClose (click)="cancelDialog()">Close</button>
+    <button mdbBtn type="button" color="red" size="md" mdbWavesEffect matDialogClose (click)="closeDialog()">Save</button>
+  </div>
+</div>

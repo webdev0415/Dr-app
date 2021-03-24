@@ -1,0 +1,171 @@
+@import 'projects/provider-app/src/styles/shared/mixins';
+@import 'projects/provider-app/src/styles/shared/variables';
+@import 'projects/provider-app/src/styles/theme';
+
+$transition: max-height .5s, padding .5s;
+$btn-width: 125px;
+
+.mat-column-name {
+  max-width: 9rem !important;
+}
+
+.eye-select {
+  width: 100px;
+  margin: 0 2px;
+}
+
+mat-basic-chip.active {
+  background-color: $red-color;
+}
+mat-basic-chip.active.normal {
+  background-color: $green-color;
+}
+
+.mat-column-name {
+  font-size: 18px;
+}
+
+.btn {
+  width: $btn-width;
+  margin: 1px 2px;
+}
+
+.mat-table {
+  display: block;
+}
+
+.expandable {
+  max-height: 0;
+  min-height: 0;
+  overflow: hidden;
+  transition: $transition;
+  &.expanded {
+    max-height: 1290px;
+    transition: $transition;
+  }
+}
+
+.expand-controller {
+  cursor: pointer;
+  &:hover {
+    background-color: mat-color($accent, 50);
+  }
+}
+
+.lab-table {
+  td {
+    padding: 3px 0;
+
+    &.name {
+      padding-right: 5px;
+      font-size: 18px;
+      position: relative;
+      &.prefix {
+        width: 10%;
+        min-width: 42px;
+      }
+      &.adjusted {
+        width: 20%;
+        min-width: 68px;
+        word-break: break-all;
+      }
+      &.single {
+        width: 30%;
+        min-width: 110px;
+      }
+      mat-icon {
+        position: absolute;
+        top: 4px;
+      }
+      span {
+        white-space: pre-wrap;
+      }
+    }
+  }
+}
+
+.buttons {
+  max-width: 30rem;
+}
+
+
+.subrow {
+  min-height: 48px;
+}
+
+.ordered {
+  color: $primary-color;
+}
+
+@media (min-width: 992px) {
+  .double {
+    width: 234px;
+  }
+}
+
+
+.btn-green, .btn-red, .btn-primary {
+  background-color: white !important;
+  border: 1px solid rgba(0, 0, 0, 0.12) !important;
+  color: #0277bd !important;
+  padding-left: .5rem;
+  padding-right: .5rem;
+  &:not([disabled]):not(.disabled).active {
+    box-shadow: none !important;
+    color: white !important;
+  }
+  &:focus {
+    box-shadow: none !important;
+  }
+}
+
+.btn-green {
+  &:not([disabled]):not(.disabled) {
+    &.active, &:active {
+      background-color: #4caf50 !important;
+      border-color: #4caf50 !important;
+    }
+  }
+}
+
+.btn-red {
+  &:not([disabled]):not(.disabled) {
+    &.active, &:active {
+      background-color: #f44336 !important;
+      border-color: #f44336 !important;
+    }
+  }
+}
+
+.btn-primary {
+  &:not([disabled]):not(.disabled) {
+    &.active, &:active {
+      background-color: #0277bd !important;
+      border-color: #0277bd !important;
+    }
+  }
+}
+
+.btn-regular {
+  background-color: white !important;
+  border: 1px solid rgba(0, 0, 0, 0.12) !important;
+  color: #0277bd !important;
+  padding-left: .5rem;
+  padding-right: .5rem;
+  box-shadow: none;
+
+  &:hover {
+    box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+    outline: 0;
+  }
+}
+
+
+.view-only {
+  button {
+    pointer-events: none;
+  }
+  mdb-select {
+    pointer-events: none;
+  }
+}

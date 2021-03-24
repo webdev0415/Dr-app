@@ -1,0 +1,6 @@
+export type AuditMeasurementsTypes =
+  'TEMPERATURE' | 'PULSE' | 'SYSTOLIC' |
+  'DIASTOLIC' | 'MEAN_ARTERIAL_PRESSURE' |
+  'WEIGHT' | 'HEIGHT' | 'BLOOD_OXYGEN' |
+  'OTOSCOPE' | 'STETHOSCOPE' | 'RESPIRATORY_RATE' |
+  'LEFT_EYE' | 'RIGHT_EYE';

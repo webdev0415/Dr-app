@@ -1,0 +1,66 @@
+// MDB and redesign colors
+
+// root colors
+$base-blue-color: #0977BC;
+$green-color: #7db53f;
+$light-green-color: #53C25E;
+$cyan-color: #03B7D3;
+$additional-blue-color: #4285f4;
+
+// colors
+$primary-color: $base-blue-color;
+$green-darken-2: $green-color;
+$success-color: $green-color;
+$cyan-base: $cyan-color;
+
+
+// MDB default colors
+@import '~ng-uikit-pro-standard/assets/scss/core/_colors.scss';
+
+// MDB buttons slice colors
+$mdb-colors: (
+  "primary": map_get($mdb-colors, "primary"),
+  "success": map_get($mdb-colors, "success"),
+  "green": map_get($mdb-colors, "green"),
+  "red": map_get($mdb-colors, "red"),
+  "cyan": map_get($mdb-colors, "cyan"),
+  "light": map_get($mdb-colors, "light"),
+);
+
+// old colors
+$grey-color: #808080;
+$red-color: #f3623d;
+$light-blue-color: #B1EAF1;
+$blue-250-color: #0977BC;
+$blue-400-color: #17589f;
+$blue-dark-color: #004c8b;
+// $primary-color: #2279c1;
+$gray-300-color: $grey-lighten-3;
+$white-color: $white-base;
+$gray-200-color: #f0f0f0;
+$gray-250-color: #e0e0e0;
+$gray-400-color: #b7babd;
+
+$admits-color: lighten(rgba(#f3623d, .2), 20%);
+$denies-color: lighten(rgba(#7db53f, .2), 20%);
+
+$dark: #000;
+
+.btn svg {
+  color: $gray-400-color;
+  &:hover {
+    color: $dark;
+  }
+}
+
+$selected-row-color: #dff3df;
+
+/* dialog/popup */
+$backdrop-bg: rgba(10, 37, 60, .9);
+
+/*loading*/
+$loading-bg: rgb(20, 47, 70);
+
+/*btn-normal active color*/
+$btn-normal-active-color: #64BA6B;
+$btn-normal-active-bg: rgba(231,244,232, 1);

@@ -1,0 +1,14 @@
+@import '../shared';
+
+span {
+  &.name {
+    font-size: 18px;
+  }
+}
+
+td {
+  width: 70%;
+  &.name {
+    width: 30%!important;
+  }
+}

@@ -1,0 +1,11 @@
+<div id="c6da67a7-e31f-4735-95cc-61f6b1b48207" class="loading-spinner-pdf" >
+  <div id="33e0036c-813a-4dfc-8f30-3a3c212fb528" class="pdfgag-header justify-content-center">
+    <button *ngIf="!helpers.isPlatformiOS() && !helpers.isPlatformAndroid()" mdbBtn type="button" color="primary" size="md"
+            mdbWavesEffect class="m-1" (click)="closeComponent()">Close</button>
+    <a *ngIf="!helpers.isPlatformiOS()" mdbBtn type="button" color="green" size="md" mdbWavesEffect class="m-1" [href]="link"
+       target="_blank" role="button" (click)="closeComponent()">Download PDF</a>
+    <button *ngIf="helpers.isPlatformiOS()" mdbBtn type="button" color="success" size="md"
+            mdbWavesEffect class="m-1" (click)="openOnIOS()">Open PDF</button>
+  </div>
+  <iframe *ngIf="!helpers.isPlatformAndroid() && !helpers.isPlatformiOS()" class="loading-spinner-pdf" [src]="link"></iframe>
+</div>

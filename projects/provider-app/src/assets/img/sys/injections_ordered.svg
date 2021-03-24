@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25" height="25" viewBox="0 0 25 25">
+  <defs>
+    <clipPath id="clip-path">
+      <rect width="25" height="25" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="_injections_ordered" data-name=" injections_ordered" clip-path="url(#clip-path)">
+    <rect id="Rectangle_16" data-name="Rectangle 16" width="25" height="25" fill="none"/>
+    <g id="Group_97" data-name="Group 97" transform="translate(5.207 2.224)">
+      <g id="Path_37" data-name="Path 37">
+        <path id="Path_86" data-name="Path 86" d="M474.247,296.382,472.118,295l1.1-1.7,2.035,1.31.612-.94-4.81-3.095-.6.94,1.819,1.172-1.095,1.707h-.009l-1.862-1.2-1.543-.991-.612.94,1.1.707-5.991,9.3a.5.5,0,0,0-.078.414l.741,3.569-1.888,2.914.94.612,1.9-2.931,3.974-.94a.562.562,0,0,0,.336-.241l5.905-8.948,1.233.793.6-.94Zm-8.319,7.147-1.784-1.233-.241-.164.491-.716.224.155,1.8,1.25Zm1.672-2.6-1.776-1.233-.25-.172.491-.707.224.155,1.8,1.241Zm1.733-2.5-1.853-1.284-.172-.121.491-.707.147.1,1.879,1.293Z" transform="translate(-461.04 -290.58)"/>
+      </g>
+    </g>
+  </g>
+</svg>

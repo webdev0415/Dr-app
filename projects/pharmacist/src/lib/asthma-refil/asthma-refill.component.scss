@@ -1,0 +1,18 @@
+@import "docs-shared";
+
+table td {
+  font-size: 14px;
+}
+
+.gray-background {
+  background-color: #9b9b9b;
+}
+
+[type=checkbox]:checked, [type=checkbox]:not(:checked) {
+  opacity: 1;
+  position: inherit;
+}
+
+.not-answered-column {
+  width: 100px;
+}

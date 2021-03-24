@@ -1,0 +1,73 @@
+<div class="d-flex flex-column w-100">
+  <div class="d-flex flex-row w-100 mb-2">
+    <mdb-checkbox
+      [default]="true"
+      [disabled]="viewOnly"
+      [(ngModel)]="RTWWasIll"
+      (change)="update()"
+      [checked]="RTWWasIll"
+    ></mdb-checkbox>
+    <div class="d-flex flex-row md-form w-100">
+      <span>Patient was ill and seen for</span>
+      <input mdbInput type="text" class="ml-1 w-100" [(ngModel)]="RTWSeenFor" (blur)="update()" [maxLength]="100" [disabled]="viewOnly || !RTWWasIll"/>
+      <mdb-error *ngIf="RTWWasIll && !RTWSeenFor">Field Required</mdb-error>
+    </div>
+  </div>
+  <mdb-checkbox
+    [default]="true"
+    [disabled]="viewOnly"
+    (change)="restrictionsUpdate('None')"
+    [checked]="RTWRestrictionType === 'None'"
+  >No work restrictions - return immediately
+  </mdb-checkbox>
+  <div class="d-flex flex-row w-100 align-items-baseline justify-content-between">
+    <mdb-checkbox
+      [default]="true"
+      [disabled]="viewOnly"
+      (change)="restrictionsUpdate('DateRange')"
+      [checked]="RTWRestrictionType === 'DateRange'"
+      class="mr-1"
+    >Excuse
+    </mdb-checkbox>
+    <label class="mr-1" for="rtws-start">from</label>
+    <pa-inline-datepicker id="rtws-start" [disabled]="viewOnly || RTWRestrictionType !== 'DateRange'" [dateOptions]="RTSWStartDateOptions" [date]="RTSWStart" (update)="dateUpdate('RTSWStart', $event)"></pa-inline-datepicker>
+    <label class="mr-1" for="rtws-stop">to</label>
+    <pa-inline-datepicker id="rtws-stop" [disabled]="viewOnly || RTWRestrictionType !== 'DateRange'" [dateOptions]="RTSWStopDateOptions" [date]="RTSWStop" (update)="dateUpdate('RTSWStop', $event)"></pa-inline-datepicker>
+  </div>
+  <mdb-error class="restriction-error" *ngIf="!datesValid">Excuse Stop Date should be later than Start Date.</mdb-error>
+  <mdb-error class="restriction-error" *ngIf="(!RTSWStart || !RTSWStop) && RTWRestrictionType === 'DateRange'">Excuse Start and Stop Dates are mandatory.</mdb-error>
+  <mdb-checkbox
+    [default]="true"
+    [disabled]="viewOnly"
+    (change)="restrictionsUpdate('Reevaluation')"
+    [checked]="RTWRestrictionType === 'Reevaluation'"
+    class="mb-2"
+  >Off work until re-evaluated
+  </mdb-checkbox>
+  <div class="d-flex flex-column w-100">
+    <mdb-checkbox
+      [default]="true"
+      [disabled]="viewOnly"
+      (change)="restrictionsUpdate('Restricted')"
+      [checked]="RTWRestrictionType === 'Restricted'"
+    >Fit for work with the following restrictions
+    </mdb-checkbox>
+    <div class="md-form d-flex flex-column w-100">
+      <textarea class="w-100" (blur)="update()" cdkTextareaAutosize [cdkAutosizeMinRows]="5" [cdkAutosizeMaxRows]="15"
+                [formControl]="restrictionsControl">
+      </textarea>
+      <mdb-error *ngIf="RTWRestrictionType === 'Restricted' && restrictionsControl.touched && restrictionsControl.errors?.required"
+                 class="restriction-error" >
+        Field Required
+      </mdb-error>
+      <mdb-error *ngIf="RTWRestrictionType === 'Restricted' && restrictionsControl.touched && restrictionsControl.errors?.minlength"
+                 class="restriction-error">
+        This field can't be less than {{restrictionsControl.errors.minlength.requiredLength}} characters long.
+      </mdb-error>
+      <mdb-error *ngIf="RTWRestrictionType === 'Restricted' && restrictionsControl.touched && restrictionsControl.errors?.maxlength"
+                 class="restriction-error" >
+        This field can't be more than {{restrictionsControl.errors.maxlength.requiredLength}} characters long.
+      </mdb-error>
+    </div>
+  </div>
+</div>

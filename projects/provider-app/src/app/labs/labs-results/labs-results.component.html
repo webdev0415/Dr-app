@@ -1,0 +1,31 @@
+<div *ngIf="labs.length" [ngClass]="{'align-items-start w-100 mt-3 dsd outline-box': source === 'DSD'}">
+  <mat-card-title>
+    <div id="51d2s712-f7ac-4ffc-bs60-65de7b748fe8" class="d-flex justify-content-end card-title">
+      <span class="h2 mr-auto" [ngClass]="{'fs-20 font-weight-bold mb-3': source === 'DSD'}">Lab Results</span>
+      <span class="link primary fs-14" [routerLink]="getLink('order-labs')">Order New Labs</span>
+    </div>
+  </mat-card-title>
+  <mat-card-content>
+    <mat-table #table [dataSource]="labs">
+
+      <ng-container matColumnDef="lab-name">
+        <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+        <mat-cell *matCellDef="let lab">
+          <span>{{ lab.SymptomName }}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="lab-value">
+        <mat-header-cell *matHeaderCellDef> Value </mat-header-cell>
+        <mat-cell *matCellDef="let lab">
+                <span>
+                  {{ lab.Values[0][0] }}
+                </span>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="['lab-name', 'lab-value']"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: ['lab-name', 'lab-value']"></mat-row>
+    </mat-table>
+  </mat-card-content>
+</div>

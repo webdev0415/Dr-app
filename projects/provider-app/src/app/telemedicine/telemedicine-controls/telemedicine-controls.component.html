@@ -1,0 +1,25 @@
+<div class="d-flex flex-row justify-content-end" id="controls-top">
+  <div class="flex-row justify-content-end border-bottom-rounded background-light" [ngClass]="{'d-flex': !sidePanelOpened, 'd-none': sidePanelOpened}">
+    <i class="material-icons align-self-center ml-2" (click)="openSidePanel('streams')">contacts</i>
+    <div matBadge="0" matBadgeColor="primary" [matBadgeHidden]="!unreadMessages" matBadgeSize="small">
+      <i class="material-icons-outlined align-self-center mx-2 my-1" (click)="openSidePanel('chat')">chat</i>
+    </div>
+    <div id="self"></div>
+  </div>
+</div>
+
+<div class="d-flex flex-row w-100 background-light justify-content-between pt-2" id="controls-bottom">
+  <div class="d-flex align-items-end justify-content-end">
+    <i class="material-icons-outlined mic-icon" (click)="toggleMic($event, false)" *ngIf="micEnabled">mic_none</i>
+    <i class="material-icons-outlined mic-icon" (click)="toggleMic($event, true)" *ngIf="!micEnabled">mic_off</i>
+
+    <i class="material-icons end-session-icon mx-2" (click)="endSession($event)">call_end</i>
+
+    <i class="material-icons-outlined" (click)="toggleCamera($event, false)" *ngIf="cameraEnabled">videocam</i>
+    <i class="material-icons-outlined" (click)="toggleCamera($event, true)" *ngIf="!cameraEnabled">videocam_off</i>
+  </div>
+  <div class="d-flex align-items-end">
+    <i class="material-icons-outlined share-screen-icon" (click)="startScreenSharing($event)" *ngIf="!screenSharingActive && sessionConnected">screen_share</i>
+    <i class="material-icons-outlined share-screen-icon" (click)="stopScreenSharing($event)" *ngIf="screenSharingActive">stop_screen_share</i>
+  </div>
+</div>

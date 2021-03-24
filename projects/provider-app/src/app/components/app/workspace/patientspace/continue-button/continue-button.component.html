@@ -1,0 +1,6 @@
+<button *ngIf="this.isPractitionerUserRole() || this.isPharmacistUserRole()"
+        mdbBtn type="button" color="primary" size="sm" mdbWavesEffect [disabled]="this.disabled"
+        (click)="onClick()">
+  Continue
+</button>
+

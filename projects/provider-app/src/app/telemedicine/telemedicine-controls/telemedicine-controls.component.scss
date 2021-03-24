@@ -1,0 +1,49 @@
+@import "variables";
+
+i {
+  font-size: 35px;
+  opacity: .6;
+}
+
+#self {
+  min-width: 80px;
+}
+
+.border-bottom-rounded {
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+.background-light {
+  background-color: white;
+}
+
+#controls-bottom {
+  div:first-child {
+    width: calc(50% + 83px);
+  }
+  i {
+    width: 50px;
+    height: 50px;
+    border-radius: 40px;
+    background-color: #f5f5f5;
+    padding-top: 6px;
+    padding-left: 7px;
+  }
+  .end-session-icon {
+    color: red!important;
+  }
+  .mic-icon {
+    color: white!important;
+    background-color: red!important;
+  }
+}
+
+.mat-badge-content {
+  top: 0!important;
+  right: 0!important;
+  color: transparent;
+  width: 12px;
+  height: 12px;
+  line-height: 12px;
+}

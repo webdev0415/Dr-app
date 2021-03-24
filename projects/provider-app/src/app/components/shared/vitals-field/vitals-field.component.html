@@ -1,0 +1,42 @@
+<div class="vital-field">
+  <label [for]="name" [class.vital-field-label]="labname === 'DIASTOLIC'">{{label}}</label>
+
+  <div class="vital-field-layer" [ngClass]="getBPfieldsStyles(labname)">
+
+    <mat-form-field [hidden]="['LEFT_EYE', 'RIGHT_EYE'].includes(labname)" [class.vital-field-input-bp]="['SYSTOLIC', 'DIASTOLIC'].includes(labname)">
+      <input #input matInput type="text" [name]="name" class="vital-field-input" inputmode="numeric"
+             [ngClass]="{'wrong': wrong && input.value.length}" [maxLength]="fieldLength"
+             (input)="onKeyDown($event)" (change)="onKeyDown($event)" (blur)="emitBlur()" [disabled]="viewOnly">
+    </mat-form-field>
+    <pa-mdb-wrapper *ngIf="['LEFT_EYE', 'RIGHT_EYE'].includes(labname)" [disabledRule]="viewOnly">
+      <ng-template #mdbContent>
+        <mdb-select [placeholder]="getEyesSelectPlaceholder" class="select-eyes-value"
+                    [options]="eyesSelectOptions" [(ngModel)]="value" (ngModelChange)="emitBlur($event)">
+        </mdb-select>
+      </ng-template>
+      <ng-template #disabledContent>
+        <mat-form-field>
+          <input matInput type="text" [(ngModel)]="value" class="vital-field-input" [disabled]="true">
+        </mat-form-field>
+      </ng-template>
+    </pa-mdb-wrapper>
+
+    <div *ngIf="labname !== 'SYSTOLIC'" class="vitals-postfix ml-1">
+      <span *ngIf="measurement" class="measurement-text">{{measurement}}</span>
+      <div class="d-flex w-100 justify-content-end">
+        <i *ngIf="needRedo" class="vital-media-request material-icons" (click)="requestMissingMedia()">restore_page</i>
+
+        <fa-icon *ngIf="checkMultipleMeasurements()" (click)="showAllMeasurements()" class="mx-1 all-measurements-pointer" [icon]="['fal', 'plus']"></fa-icon>
+
+        <i *ngIf="media"  class="vital-media material-icons" (click)="showMedia()">account_box</i>
+
+        <i *ngIf="!viewOnly && !['DIASTOLIC', 'LEFT_EYE', 'RIGHT_EYE'].includes(labname)"
+           class="vital-input-pointer material-icons" (click)="focusAndClearInput()">
+          edit
+        </i>
+      </div>
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,29 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../dist/pharmacist",
+  "assets": ["~ng-uikit-pro-standard/assets/scss/core/bootstrap", "~ng-uikit-pro-standard/assets/scss/core"],
+  "lib": {
+    "entryFile": "src/public-api.ts",
+    "styleIncludePaths": [
+      "../../node_modules/ng-uikit-pro-standard/assets/scss/core/bootstrap",
+      "./node_modules/ng-uikit-pro-standard/assets/scss/core/bootstrap",
+      "~ng-uikit-pro-standard/assets/scss/core/bootstrap",
+      "../../node_modules/ng-uikit-pro-standard/assets/scss/core",
+      "~ng-uikit-pro-standard/assets/scss/core",
+      "./node_modules/ng-uikit-pro-standard/assets/scss/core",
+      "../../styles"
+    ],
+    "umdModuleIds": {
+      "sugar": "sugar",
+      "sugarjs": "sugar",
+      "ramda": "ramda"
+    }
+  },
+  "whitelistedNonPeerDependencies": [
+    "ng-uikit-pro-standard",
+    "node-sass",
+    "ramda",
+    "rxjs",
+    "sugar"
+  ]
+}

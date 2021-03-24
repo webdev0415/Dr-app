@@ -1,0 +1,28 @@
+{
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../out-tsc/spec",
+    "baseUrl": "./app/",
+    "types": [
+      "jasmine",
+      "node"
+    ],
+    "paths": {
+      "@pa-tests/*": [
+        "./tests/*"
+      ]
+    }
+  },
+  "files": [
+    "test.ts",
+    "polyfills.ts"
+  ],
+  "include": [
+    "**/*.spec.ts",
+    "**/*.d.ts"
+  ],
+  "exclude": [
+    "./assets/drug-name-map.ts",
+    "**/*static.test.ts"
+  ]
+}

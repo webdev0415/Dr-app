@@ -1,0 +1,13 @@
+@import "../shared";
+
+.section .row {
+  flex-wrap: wrap !important;
+}
+
+:host ::ng-deep .md-form {
+  margin: 0;
+}
+
+.form-check {
+  margin: 0.5rem 0;
+}

@@ -1,0 +1,39 @@
+@import 'shared/mixins';
+@import 'shared/colors';
+@import 'shared/variables';
+
+.btn {
+  text-transform: none;
+  box-shadow: none;
+  &.btn-primary {
+    //border: $btn-border-width solid #0977BC; // TODO:
+  }
+  &.btn-sm {
+    line-height: rem(19);
+  }
+  &.btn-md {
+    line-height: rem(25);
+  }
+  &.btn-block {
+    width: 100%;
+  }
+  &.disabled,
+  &:disabled {
+    background-color: #E4E4E4 !important;
+    color: #AFABAB !important;
+    border: none !important;
+  }
+}
+
+@each $_btn_name, $_color_value in $mdb-colors {
+  .btn-outline-#{$_btn_name} {
+    border: $btn-border-width solid $_color_value !important;
+    &.disabled,
+    &:disabled {
+      padding: {
+        top: $btn-outline-padding-y-basic + $btn-border-width !important;
+        bottom: $btn-outline-padding-y-basic + $btn-border-width !important;
+      }
+    }
+  }
+}

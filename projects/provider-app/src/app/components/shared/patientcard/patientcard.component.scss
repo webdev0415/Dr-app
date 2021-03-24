@@ -1,0 +1,47 @@
+@import '../../../../../src/styles/shared/mixins';
+
+li {
+  strong {
+    padding-right: .5rem;
+  }
+  margin-right: .5rem;
+}
+
+.photo {
+  display: table-cell;
+  vertical-align: top;
+  padding-top: 5px;
+  img {
+    width: 350px;
+    height: 350px;
+    object-fit: cover;
+  }
+}
+
+.data {
+  display: flex;
+  vertical-align: top;
+  padding-left: 15px;
+  flex-direction: column;
+  justify-content: space-between;
+  word-break: break-word;
+}
+
+.thumbnail-container {
+  .thumbnail {
+    display: flex;
+    flex-direction: column-reverse;
+    margin-bottom: 0 !important;
+    width: 120px;
+    height: 100px;
+    @extend %clickable-element;
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: contain;
+    }
+  }
+  :first-child {
+    margin-left: 0 !important;
+  }
+}

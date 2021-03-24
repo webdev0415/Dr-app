@@ -1,0 +1,56 @@
+<mat-card *ngIf="!isPdfOpened">
+  <mat-card-title>
+    <span class="h5 mr-auto">Surveys</span>
+  </mat-card-title>
+  <mat-card-content>
+    <mat-tab-group [(selectedIndex)]="selectedTab" (selectedIndexChange)="onIndexChange()">
+      <mat-tab *ngFor="let subject of behavioralScreening" label="{{subject.subject}}">
+        <mat-table #table [dataSource]="subject.answers">
+          <ng-container matColumnDef="question_id">
+            <mat-cell *matCellDef="let row" class="ml-4 pl-0" colspan="2">
+              <span *ngIf="row.question" [class.ml-2]="row.subQuestion" class="pr-3">{{row.question}}</span>
+              <doc-sports-table *ngIf="row.special" [question]="row"></doc-sports-table>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="answer">
+            <mat-cell *matCellDef="let row">
+              <span>{{row.answer ? row.answer + getAdditions(row) + ' ' : ''}}</span>
+            </mat-cell>
+          </ng-container>
+
+          <mat-row class="clickable-row" *matRowDef="let rowData; columns: ['question_id', 'answer'];"
+                   [class.borderless]="rowData.noBorder" [class.special]="rowData.special"></mat-row>
+
+        </mat-table>
+      </mat-tab>
+<!--      <mat-tab label="Sports Physical">-->
+<!--        <pa-sports-table></pa-sports-table>-->
+<!--      </mat-tab>-->
+    </mat-tab-group>
+    <div id="a3e78866-ed5c-46d8-9s43-26ec4c64a0cd" class="w-100 h-100 p-4 no-info" *ngIf="!behavioralScreening.length">
+      No Data Available
+    </div>
+
+  </mat-card-content>
+</mat-card>
+<div class="pdf-container m-auto" id="#dischargedoc" *ngIf="isPdfOpened">
+  <div class="mb-3">
+    <doc-documents-header [patientInformation]="contactInformation" [patientName]="patientFullName" [kioskMode]="kioskMode" [source]="'surveys'">
+    </doc-documents-header>
+  </div>
+  <div *ngFor="let subject of behavioralScreening">
+    <h3 class="text-center">{{subject.subject}}</h3>
+    <div *ngFor="let row of subject.answers" class="w-100 d-flex justify-content-between align-items-center">
+      <ng-container *ngIf="row.question">
+        <span class="question-row my-2 fs-14" [class.ml-4]="row.subQuestion">{{row.question}}</span>
+        <span class="fs-14">{{row.answer ? row.answer + getAdditions(row) + ' ' : ''}}</span>
+      </ng-container>
+      <doc-sports-table *ngIf="row.special" [question]="row"></doc-sports-table>
+    </div>
+    <hr>
+    <br>
+  </div>
+<!--  <h3 class="text-center">Sports Physical</h3>-->
+<!--  <pa-sports-table [isPdf]="true"></pa-sports-table>-->
+</div>

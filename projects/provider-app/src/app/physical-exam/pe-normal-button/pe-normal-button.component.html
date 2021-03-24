@@ -1,0 +1,4 @@
+<div class="d-flex flex-row">
+  <button mdbBtn mdbWavesEffect (click)="onNormalButtonClick()" [class.btn-green]="isNormal.asObservable() | async" class="btn btn-primary ml-2 mb-2 btn-md waves-effect rounded">Normal</button>
+  <button mdbBtn mdbWavesEffect (click)="onAbnormalButtonClick()" class="btn btn-primary ml-2 mb-2 btn-md waves-effect rounded">Abnormal</button>
+</div>

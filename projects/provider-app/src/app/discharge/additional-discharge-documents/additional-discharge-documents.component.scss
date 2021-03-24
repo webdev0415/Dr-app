@@ -1,0 +1,56 @@
+@import '../../../../src/styles/shared/mixins';
+@import '../../../../src/styles/shared/variables';
+
+.search-icon {
+  position: absolute;
+  top: calc(15%);
+  font-size: 18px;
+  right: 10px;
+  background-color: inherit !important;
+}
+.page-item {
+  &.disabled .page-link {
+    background-color: #E6E6E6 !important;
+  }
+  .page-link {
+    background-color: #e5f9ff!important;
+    span {
+      color: black!important;
+    }
+  }
+}
+
+
+mdb-select {
+  min-width: 40px;
+}
+
+.doc-button {
+  padding-right: 0;
+  padding-left: 0;
+  width: 80px;
+  min-width: 80px;
+}
+
+a.link {
+  background-color: unset;
+  color: unset!important;
+}
+
+input {
+  padding: 7px 30px 7px 10px!important;
+  border-radius: 2px!important;
+}
+
+.one-line-button {
+  min-width: 140px;
+}
+
+.added-documents {
+  background-color: #e5f9ff!important;
+}
+
+:host::ng-deep .single {
+  padding-bottom: 0!important;
+  padding-top: 0!important;
+}

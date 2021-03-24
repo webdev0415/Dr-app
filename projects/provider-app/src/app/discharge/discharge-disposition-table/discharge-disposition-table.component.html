@@ -1,0 +1,23 @@
+<div id="0c5617b2-2dfe-4915-bd57-c19fffc5263a" class="discharge-disposition">
+  <table>
+    <thead *ngIf="hasTreatmentName">
+      <tr><td colspan="2" class="text-center"><strong>{{ treatment.name | uppercase }}</strong></td></tr>
+    </thead>
+    <tr *ngIf="hasIcdDescription">
+      <td>Used to Treat</td>
+      <td>{{ getIcdDescriptionString() }}</td>
+    </tr>
+    <tr *ngIf="hasDischargeReturnType && hasDischargeTime">
+      <td>{{ getDischargeReturnTypeString() }}</td>
+      <td>{{ getFollowUpWithString() }} {{ getDischargeTimeString() }}</td>
+    </tr>
+    <tr *ngIf="hasDischargeTherapies">
+      <td>Therapies</td>
+      <td>{{ dischargeInfo.therapies.join(', ') | titlecase }}</td>
+    </tr>
+    <tr *ngIf="!!dischargeInfo.otherReason">
+      <td>Other Reasons</td>
+      <td>{{ dischargeInfo.otherReason }}</td>
+    </tr>
+  </table>
+</div>

@@ -1,0 +1,30 @@
+<ng-template #td>
+
+    <button mdbBtn type="button" class="positive" [color]="'green'"
+            size="sm" [block]="true" mdbWavesEffect
+            [class.active]="isActive('Negative') | async"
+            (click)="changeLabValue('Negative')">
+      Negative
+    </button>
+
+</ng-template>
+<ng-template #td>
+
+    <button mdbBtn type="button" class="negative" [color]="'primary'"
+            size="sm" [block]="true" mdbWavesEffect
+            [class.active]="isActive('Low') | async"
+            (click)="changeLabValue('Low')">
+      {{(isActive('Low') | async) ? (labValue | async) : 'Low'}}
+    </button>
+
+</ng-template>
+<ng-template #td>
+
+    <button mdbBtn type="button" class="negative" [color]="'primary'"
+            size="sm" [block]="true" mdbWavesEffect
+            [class.active]="isActive('High') | async"
+            (click)="changeLabValue('High')">
+      {{(isActive('High') | async) ? (labValue | async) : 'High'}}
+    </button>
+
+</ng-template>

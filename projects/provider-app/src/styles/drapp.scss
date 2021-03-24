@@ -1,0 +1,665 @@
+// @import 'theme';
+@import 'shared/variables';
+@import 'shared/functions';
+@import 'shared/mixins';
+/* material design styles added util we are completely move to the MDB */
+@import '../../../../node_modules/@angular/material/theming';
+
+/* Roboto font */
+//@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+/* global */
+//* {
+//  font-family: $font-family-base;
+//  transition: background .3s;
+//  transition: background-color .3s;
+//}
+
+.mat-button, .mat-raised-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button, .mat-fab, .mat-mini-fab {
+  font-weight: $font-weight-base !important;
+  @warn "MDB only fix";
+}
+
+.fullscreen {
+  @include full-screen(true);
+}
+
+#loading-hourglass {
+  $_hourglass-size: rem(100);
+  width: $_hourglass-size;
+  height: $_hourglass-size;
+  background-image: url('/DoctorApp/assets/img/sys/hourglass.svg');
+  background-size: $_hourglass-size $_hourglass-size;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+#loadinginfo {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  color: rgba(0, 0, 0, .2);
+}
+
+.fs-12 {
+  font-size: $font-size-12 !important;
+}
+
+.fs-14 {
+  font-size: $font-size-14 !important;
+}
+
+.fs-16 {
+  font-size: $font-size-16 !important;
+}
+
+.fs-18 {
+  font-size: $font-size-18 !important;
+}
+
+.fs-20 {
+  font-size: $font-size-20 !important;
+}
+
+.fs-24 {
+  font-size: $font-size-24 !important;
+}
+
+.text-underline {
+  text-decoration: underline;
+}
+
+.section-header {
+  font-size: $font-size-20;
+  color: #181818;
+  font-weight: 900;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.card-title {
+  background-color: #E4F1F2;
+  padding: 1rem;
+  border-bottom: 2px solid #02ABC0;
+  align-items: center;
+  min-height: 65px;
+}
+
+.sub-header {
+  font-size: $font-size-20;
+  color: #181818;
+  opacity: 0.6;
+}
+
+.mat-sidenav {
+  box-shadow: 3px 0 6px rgba(0, 0, 0, 0.2);
+}
+
+.dialog-error .mat-dialog-container {
+  background-color: rgb(255, 230, 230);
+}
+
+.dialog-warning .mat-dialog-container {
+  background-color: rgba(255, 255, 64, .9);
+}
+
+.rounded {
+  .mat-dialog-container {
+    border-radius: 17px;
+  }
+}
+
+.alert-dialog {
+  .mat-dialog-container {
+    border-radius: $border-radius-base;
+  }
+}
+
+.alert-dialog-color-red {
+  .mat-dialog-container {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+  }
+}
+
+.alert-dialog-color-cyan {
+  .mat-dialog-container {
+    background-color: #f0ffff;
+  }
+}
+
+.alert-dialog-color-green {
+  .mat-dialog-container {
+    background-color: $green-color;
+  }
+}
+
+.popup-buttons {
+  width: 100%;
+  margin-top: 10px;
+}
+
+mat-chip-list {
+  max-width: 100%;
+}
+
+mat-basic-chip {
+  border-radius: 24px;
+  background-color: $light-blue-color;
+  height: auto;
+  padding: 10px;
+  margin: 5px auto;
+  min-height: 42px;
+  min-width: 100px;
+  width: auto;
+  white-space: normal;
+  overflow: hidden;
+  border: 1px solid;
+  position: relative;
+  cursor: default;
+  align-items: center;
+  display: flex;
+  .mat-chip-remove {
+    color: rgba(0, 0, 0, .87);
+    opacity: .4;
+    padding: 3px;
+    margin-left: auto;
+  }
+  span {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 22px;
+    width: 100%;
+    text-align: center;
+  }
+  &:focus {
+    outline: none;
+  }
+}
+
+.flex {
+  display: flex;
+}
+
+mat-icon {
+  @extend %clickable-element;
+}
+
+.vertical-space-20 {
+  padding-top: 20px;
+}
+
+.disabled-icon {
+  cursor: default !important;
+  color: $grey-color;
+}
+
+.mat-input-element.input-with-border {
+  border: 1px solid $grey-color;
+  height: 38px;
+}
+
+.bottom-buttons {
+  text-align: center;
+  margin-top: 18px;
+  bottom: 10px;
+  left: 0;
+  padding-bottom: 5.5rem;
+
+  @include media-breakpoint-down(sm) {
+    padding-bottom: 8rem;
+  }
+
+  button {
+    background-color: $blue-250-color;
+    color: $gray-200-color;
+
+    &:disabled {
+      background-color: #DCDCDC;
+      color: $grey-color;
+    }
+  }
+}
+
+@include media-breakpoint-down(md) {
+  .mat-dialog-container {
+    max-height: 75vh !important;
+    overflow-y: auto;
+    .dialog-wrapper {
+      height: calc( 70vh - 48px );
+    }
+  }
+  .top-mat-dialog-container {
+    .mat-dialog-container textarea {
+      max-height: 30vh !important;
+    }
+  }
+}
+
+.modifier-menu .mat-menu-content {
+  background-color: $gray-250-color;
+}
+
+.mat-column-confidence,
+.mat-column-probability,
+.mat-column-ranking,
+.mat-column-contribution_abs,
+.mat-column-criticality,
+.mat-column-icd10 {
+  max-width: 9rem !important;
+  min-width: 4.5rem !important;
+  flex: 0 !important;
+  text-align: center;
+}
+
+.mat-column-ranking,
+.mat-column-probability,
+.mat-column-criticality {
+  min-width: 5rem !important;
+  justify-content: center;
+  margin: 0 2px;
+  padding: 0 !important;
+}
+
+.mat-column-icdName {
+  flex: 1;
+}
+
+.mat-cell {
+  .mat-column {
+    &-isSelected, &-editEvent {
+      overflow: visible;
+      padding-right: 0;
+    }
+    &-isSelected {
+      max-width: 30px;
+      justify-content: center;
+      mat-checkbox {
+        height: 16px;
+        margin-right: 4px;
+      }
+    }
+    &-editEvent {
+      max-width: rem(30);
+      margin-left: rem(20);
+    }
+  }
+}
+
+.circle {
+  display: block;
+  height: 56px;
+  width: 56px;
+  line-height: 56px;
+  border: 1px solid #444;
+  -moz-border-radius: 30px;
+  border-radius: 30px;
+  background-color: $white-color;
+  color: $black;
+  text-align: center;
+  font-size: 1em;
+}
+
+.element-row {
+  .mat-icon.expanded {
+    display: none;
+  }
+  &.expanded {
+    .mat-icon.expanded {
+      display: inline-block;
+    }
+    .mat-icon.collapsed {
+      display: none;
+    }
+  }
+}
+
+.mat-sort-header-container {
+  padding-left: 1px;
+  display: flex;
+  justify-content: center;
+  @extend %clickable-element;
+
+  i {
+    display: none;
+    font-size: 14px;
+    line-height: 1.09rem;
+    font-weight: bold;
+    margin-left: 0;
+  }
+  &.asc i.up, &.desc i.down {
+    display: block;
+  }
+}
+
+.chip-item {
+  max-width: 280px;
+  margin: auto;
+}
+
+button.mat-green {
+  background-color: $green-color;
+}
+
+.page-container {
+  .page-content {
+    margin: rem(24);
+    background-color: $white-color;
+    border-radius: rem(7);
+    box-shadow: 0 0 rem(6) 0 transparentize($black, (100 - 25) / 100);
+    padding: {
+      top: rem(23);
+      bottom: rem(23);
+      left: rem(30);
+      right: rem(30);
+    }
+    height: auto;
+    min-height: auto;
+  }
+  $_height-lg-up: calc(100% - #{$page-bottom-height} - 5rem);
+  min-height: $_height-lg-up;
+  height: $_height-lg-up;
+  overflow-y: auto;
+  will-change: transform;
+  &> .mat-card, mat-card { // TODO: only material, delete for MDB
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+}
+
+.page-container-full {
+  height: inherit !important;
+}
+
+.ellipsis {
+  white-space: pre !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  -o-text-overflow: ellipsis;
+  .mat-button-wrapper {
+    display: inline-block;
+    width: 280px;
+  }
+}
+
+@media (min-width: 992px) {
+  .mat-column-confidence,
+  .mat-column-probability,
+  .mat-column-ranking,
+  .mat-column-contribution_abs,
+  .mat-column-criticality {
+    max-width: 9rem !important;
+    flex: 0 !important;
+  }
+
+  .mat-column-ranking,
+  .mat-column-probability,
+  .mat-column-criticality {
+    min-width: 6rem !important;
+    justify-content: center;
+    margin: 0 10px;
+  }
+
+  .mat-sort-header-container {
+    justify-content: start;
+  }
+}
+
+.mat-tooltip {
+  font-size: 13px !important;
+  max-width: 350px !important;
+}
+
+.green {
+  mat-dialog-container {
+    background-color: $green-color;
+  }
+}
+
+.red {
+  mat-dialog-container {
+    background-color: $red-color;
+  }
+}
+
+mat-checkbox.longnames {
+  .mat-checkbox-layout {
+    white-space: pre-line !important;
+    margin-bottom: .25rem!important;
+  }
+}
+
+.pa-dialog-backdrop {
+  background: $backdrop-bg;
+}
+
+.select-panel {
+  margin-top: -65px;
+}
+
+.link {
+  text-decoration: underline;
+  cursor: pointer;
+  &.primary {
+    color: $primary-color;
+  }
+  &.warning {
+    color: #FF5353;
+  }
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.subtext {
+  opacity: 0.6;
+}
+
+.dialog-wrapper {
+  height: calc( 80vh - 48px );
+  box-shadow: none !important;
+  padding: 0;
+}
+
+.top-banner {
+  top: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  height: rem(75);
+  position: sticky;
+  z-index: 99;
+  -webkit-box-shadow: 0px 0px 12px 0px #888888;
+  box-shadow: 0px 0px 12px 0px #888888;
+}
+
+.no-info {
+  background-color: #F5F5F5;
+  color: #C4C4C4;
+  font-size: rem(20);
+  border-radius: 5px;
+  text-align: center;
+}
+
+.tooltip-black {
+  background-color: #2E2E2E;
+  padding: 12px 20px !important;
+}
+
+.select-panel {
+  margin-top: 45px;
+}
+
+.lib-select {
+  label {
+    color: #181818 !important;
+    opacity: 0.7;
+  }
+  .mat-form-field-ripple {
+    display: none;
+  }
+  .mat-arrow {
+    color: rgba(0, 0, 0, 0.54) !important;
+  }
+}
+
+.toast-notification {
+  opacity: .9 !important;
+}
+
+@warn 'Material button only Material';
+
+.mat-button {
+  box-sizing: border-box;
+  position: relative;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  outline: 0;
+  border: none;
+  -webkit-tap-highlight-color: transparent;
+  display: inline-block;
+  white-space: nowrap;
+  text-decoration: none;
+  vertical-align: baseline;
+  text-align: center;
+  margin: 0;
+  min-width: 64px;
+  line-height: 36px;
+  padding: 0 16px;
+  border-radius: 4px;
+  overflow: visible;
+  i {
+    vertical-align: middle;
+  }
+}
+
+.mat-button {
+  font-weight: 400 !important;
+}
+
+.mat-button {
+  color: inherit;
+  background: transparent;
+}
+
+.mat-button {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 14px;
+}
+
+
+.group {
+  column-count: 1;
+  column-gap: 3em;
+  .category {
+    break-inside: avoid;
+    margin: 0 0 1em;
+    width: 100%;
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  .group {
+    column-count: 2;
+  }
+}
+
+.classic-tabs {
+  .container-fluid {
+    margin: -23px -30px;
+    background-color: $white-color;
+    border-radius: rem(7);
+    box-shadow: 0 0 rem(6) 0 transparentize($black, (100 - 25) / 100);
+    padding: 0;
+    height: auto;
+    min-height: inherit;
+    width: auto;
+  }
+  .tabs {
+    background-color: #E4F1F2;
+    margin: 0 !important;
+    .nav-item {
+      margin: 0 !important;
+      a {
+        padding: 23px 36px !important;
+        font-size: 20px;
+        color: black;
+        &.active {
+          background-color: $primary-color;
+          border-color: #02ABC0;
+          border-top-right-radius: rem(5.5);
+          border-top-left-radius: rem(5.5);
+        }
+      }
+    }
+  }
+  .nav li a {
+    text-transform: none;
+  }
+}
+
+.divider {
+  border-bottom: 1px solid #D2D2D2;
+  &.double {
+    border-bottom-width: 2px;
+  }
+  &.triple {
+    border-bottom-width: 3px;
+  }
+}
+
+.auth-wrapper {
+  position: fixed;
+  @include full-screen;
+  background-image: url('/DoctorApp/assets/img/sys/Login_BG.svg');
+  background-color: #0CDBF2;
+  background-size: cover !important;
+  @include media-breakpoint-down(md){
+    background-size: 80%;
+  }
+
+  #wrapper-logo {
+    position: fixed;
+    @include full-screen;
+    background: url('/DoctorApp/assets/img/sys/AdviNOW_Horizontal_Blk_white.svg') no-repeat;
+    background-position-y: calc( 50% - 250px );
+    background-size: 50%;
+    background-position-x: center;
+  }
+}
+
+%label-active {
+  -webkit-transform: translateY(-120%);
+  transform: translateY(-120%);
+  font-size: 0.8rem;
+}
+
+button {
+  text-transform: capitalize !important;
+  &.btn-primary {
+    background-color: #0277bd !important;
+  }
+
+  &.btn.btn-sm, &.btn.btn-md {
+    font-size: 1rem;
+  }
+
+  &.btn-outline-green {
+    border: 1px solid #388e3c!important;
+  }
+
+  &.btn-outline-red {
+    border: 1px solid #d32f2f!important;
+  }
+}
+
+mdb-checkbox {
+  .custom-control-label {
+    cursor: pointer!important;
+  }
+}

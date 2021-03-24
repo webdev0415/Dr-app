@@ -1,0 +1,62 @@
+@import '../../../../../../../src/styles/shared/variables';
+@import '../../../../../../../src/styles/shared/functions';
+@import '../../../../../../../src/styles/shared/mixins';
+
+.btn {
+  &.allergy {
+    padding: 10px;
+    margin: 5px 0;
+    min-height: 42px;
+    width: 100%;
+    white-space: normal;
+    background-color: rgb(128, 200, 255);
+    font-size: 11pt;
+    overflow: hidden;
+    border: 1px solid;
+    border-radius: 4px;
+    position: relative;
+    cursor: default;
+    i {
+      @extend %clickable-element;
+      position: absolute;
+      right: 10px;
+      top: 8px;
+    }
+    span {
+      font-size: 11pt;
+    }
+  }
+}
+
+hr, .hr {
+  color: #C6C6C6;
+}
+
+section {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.transparent {
+  color: #747474;
+  margin-bottom: 25px;
+  font-weight: 300;
+}
+
+.item-half {
+  width: 100%;
+}
+
+@media (min-width: 1600px) {
+  .item-half {
+    width: 48%;
+  }
+}
+
+.date {
+  margin-bottom: 15px;
+}
+
+.dash-right-margin {
+  margin-right: 10px;
+}

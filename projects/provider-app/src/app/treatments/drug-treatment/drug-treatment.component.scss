@@ -1,0 +1,247 @@
+@import '../../../../src/styles/shared/mixins';
+@import '../../../../src/styles/shared/variables';
+@import '../../../styles/drapp';
+
+#directions-message {
+  word-break: break-word;
+  max-width: 500px;
+}
+
+.modifier-button {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.unit-form {
+  min-width: 50px;
+  flex: 0;
+}
+
+.drug-select {
+  width: auto;
+  &.strength {
+    min-width: 140px;
+  }
+  &.dosage {
+    min-width: 140px;
+  }
+  &.route {
+    min-width: 140px;
+  }
+}
+
+.more-btn {
+  @extend %clickable-element;
+  position: absolute;
+  top: 10px;
+  right: 0;
+  .dropdown-menu {
+    cursor: default;
+    top: -20px;
+    left: -140px;
+  }
+}
+
+#wizard-container {
+  margin-top: .25rem;
+  position: absolute;
+  top: 45px;
+  left: 0px;
+  z-index: 1;
+  .item {
+    @extend %clickable-element;
+  }
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+#wizard-values-container {
+  position: absolute;
+  top: 4px;
+  left: -2px;
+  overflow-x: auto;
+  background-color: #fff;
+  max-width: calc( 100% - 60px );
+  span {
+    padding: 0 2px;
+    white-space: nowrap;
+  }
+  .item {
+    @extend %clickable-element;
+    &:hover {
+      background-color: #E0E0E0;
+      box-shadow: 0px 0px;
+    }
+    &.selected {
+      background-color: #02BBD3;
+    }
+  }
+}
+
+.directions-input {
+  max-width: calc( 100% - 60px);
+}
+
+.active-border {
+  border-bottom: 1px solid #ced4da !important;
+}
+
+.directions-label {
+  position: absolute;
+  top: 10px;
+  left: 0px;
+  &.small {
+    top: -13px;
+    left: 0px;
+    font-size: 0.8rem;
+  }
+}
+
+#input-directions {
+  padding-right: 60px;
+  width: calc( 100% - 60px );
+}
+
+.menu {
+  padding: 1px 1px 0px 1px;
+  border: 1px solid #E0E0E0;
+  border-radius: 4px;
+  background: #fff;
+  .item {
+    font-size: $font-size-16;
+    background-color: #fff;
+    color: #000 !important;
+    border: 1px solid #E0E0E0;
+    border-radius: 3px;
+    text-align: center;
+    margin-bottom: 1px;
+    min-height: 40px;
+    &.md {
+      min-width: 120px;
+    }
+    &.sm {
+      min-width: 40px;
+    }
+    &:hover {
+      background-color: #E0E0E0;
+      box-shadow: 0px 0px;
+    }
+    &.disabled {
+      color: #AFABAB !important;
+    }
+  }
+  .input-item {
+    border: 1px solid #E0E0E0;
+    border-radius: 3px;
+    text-align: center;
+    margin-bottom: 1px;
+  }
+  button {
+    margin: 0 0 1px 0px;
+  }
+}
+
+.quantity-input {
+  width: 210px;
+}
+
+.dismiss {
+  width: 250px;
+  button {
+    width: 122px;
+  }
+}
+
+.action-unit {
+  width: 245px;
+}
+
+.was-validated .form-control {
+  background-image: none;
+}
+
+@include media-breakpoint-down(sm) {
+  .material-icons.icon-link {
+    font-size: 16pt !important;
+  }
+}
+
+.span-clickable {
+  @extend %clickable-element;
+}
+
+.label-active {
+  @extend %label-active
+}
+
+.pv-field {
+  width: 30% !important;
+}
+
+.strength-field {
+  width: 40% !important;
+}
+
+.dosage-field {
+  width: 60% !important;
+}
+
+::ng-deep .dropdown-content {
+  top: .75rem!important;
+}
+
+.header-input {
+  max-width: 5rem!important;
+}
+
+.reset-container {
+  height: 0px;
+  .reset {
+    font-size: small;
+    margin-top: -10px;
+    z-index: 5;
+  }
+}
+
+.header-fields {
+  label {
+    top: -10px;
+  }
+
+  .drug-name {
+    font-size: large;
+    font-weight: bold;
+  }
+
+  .drug-description {
+    font-size: small;
+  }
+}
+
+.select-form {
+  width: 110px;
+}
+
+.drug-name {
+  white-space: normal;
+}
+
+.closecross {
+  @extend %clickable-element;
+  color: red;
+  position: absolute;
+  right: 1px;
+}
+
+.directions-edit {
+  text-decoration: underline;
+  @extend %clickable-element;
+  position: absolute;
+  right: .5rem;
+  top: -.6rem;
+  color: $base-blue-color;
+}
+
+mdb-checkbox {
+  color: $input-label-color;
+}

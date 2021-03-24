@@ -1,0 +1,128 @@
+.rx-row {
+  display: grid;
+  grid-template-columns: calc(25% - 65px) calc(20% - 65px) calc(25% - 65px) calc(25% - 65px) 70px 70px 30px 0 0 30px;
+  column-gap: 5px;
+  grid-template-rows: auto;
+  grid-template-areas:
+    "drug-name drug-strength drug-form drug-sig drug-quantity drug-refills drug-helper drug-information drug-warnings drug-remove"
+    ". helper helper helper helper helper helper helper helper .";
+  margin: 20px 0;
+}
+
+.drug-name {
+  grid-area: drug-name;
+}
+
+.helper {
+  grid-area: helper;
+}
+
+.drug-strength {
+  grid-area: drug-strength;
+}
+
+.drug-form {
+  grid-area: drug-form;
+}
+
+.drug-sig {
+  grid-area: drug-sig;
+}
+
+.drug-quantity {
+  grid-area: drug-quantity;
+}
+
+.drug-refills {
+  grid-area: drug-refills;
+}
+
+.drug-helper {
+  grid-area: drug-helper;
+  padding: 1.2rem;
+  margin-left: 1rem;
+  justify-self: center;
+}
+
+.drug-information {
+  grid-area: drug-information;
+  padding: .6rem;
+  margin-left: 1rem;
+  justify-self: center;
+}
+
+.drug-warnings {
+  grid-area: drug-warnings;
+  padding: .6rem;
+  margin-left: 1rem;
+  justify-self: center;
+}
+
+.drug-remove {
+  grid-area: drug-remove;
+  padding: 1.2rem;
+  margin-left: 1rem;
+  justify-self: center;
+}
+
+.helper-amount {
+  grid-area: helper-amount;
+}
+
+.helper-unit {
+  grid-area: helper-unit;
+}
+
+.helper-freq {
+  grid-area: helper-freq
+}
+
+.helper-duration {
+  grid-area: helper-duration;
+}
+
+.helper-time {
+  grid-area: helper-time;
+}
+
+.helper-route {
+  grid-area: helper-route;
+}
+
+.helper-indication {
+  grid-area: helper-indication;
+}
+
+.rx-row label {
+  margin: 0;
+  font-size: 12px;
+}
+
+.rx-row input {
+  width: 100%;
+  height: 22px;
+}
+
+.rx-row ::ng-deep .mdb-select-value {
+  padding: 0;
+  margin: 0;
+}
+
+.rx-row ::ng-deep .mdb-select-arrow {
+  top: 0px;
+  right: 3px;
+}
+
+::ng-deep .mdb-option {
+  height: 28px !important;
+  padding: 0 8px !important;
+}
+
+::ng-deep .cdk-overlay-pane {
+  width: unset !important;
+}
+
+.option-disabled {
+  color: #9e9e9e;
+  cursor: default;
+}

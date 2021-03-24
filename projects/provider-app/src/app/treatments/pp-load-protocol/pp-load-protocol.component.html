@@ -1,0 +1,31 @@
+<form [formGroup]="protocolLoadForm" class="h-100" (ngSubmit)="submitProtocols()">
+  <div class="d-flex flex-column w-100 h-100">
+    <div class="w-100 d-flex flex-column">
+      <p class="font-weight-bold fs-24 text-left text-capitalize">select protocols to load</p>
+      <div class="d-flex flex-column w-100" [formArrayName]="'treatments'">
+        <form *ngFor="let treatment of treatmentsFormArray.controls; let i=index" [formGroupName]="i">
+          <mat-checkbox class="text-capitalize" [formControlName]="'isSelected'" [color]="'primary'" [labelPosition]="'after'">{{treatment.get('name').value}}</mat-checkbox>
+          <mat-form-field class="w-100 mb-3" *ngIf="!dialogData.nonTreatmentType">
+            <mat-label>Assigned Diagnoses</mat-label>
+            <mat-select [formControlName]="'toTreat'" [multiple]="true" class="text-capitalize">
+              <mat-option *ngFor="let option of dialogData.selectedIllnesses"
+                          [value]="option.value"
+                          class="text-capitalize">{{option.label}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </form>
+      </div>
+    </div>
+
+    <div class="popup-btn-group d-flex flex-column justify-content-end mt-auto">
+      <div class="d-flex justify-content-center">
+        <button mdbBtn type="button" color="primary" class="mx-2 my-0" [outline]="true" size="md" mdbWavesEffect
+                matDialogClose>Cancel
+        </button>
+        <button mdbBtn type="submit" color="primary" class="mx-2 my-0" size="md" mdbWavesEffect
+                [disabled]="protocolLoadForm.invalid">Confirm
+        </button>
+      </div>
+    </div>
+  </div>
+</form>

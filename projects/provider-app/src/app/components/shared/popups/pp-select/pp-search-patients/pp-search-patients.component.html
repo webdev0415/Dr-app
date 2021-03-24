@@ -1,0 +1,99 @@
+<div class="dialog-wrapper d-flex flex-column">
+  <div class="dialog-wrapper-title d-flex justify-content-between">
+    <p class="m-0 d-flex align-items-center">{{data.name}}</p>
+    <button mdbBtn type="button" color="primary" class="mx-2 my-0 tablet-buttons"
+            [outline]="true" size="md" mdbWavesEffect
+            matDialogClose (click)="cancelDialog()">Close
+    </button>
+  </div>
+  <div class="dialog-wrapper-header">
+    <div class="text-center p-2">
+      <div class="d-flex justify-content-around align-items-center flex-wrap mb-2">
+        <div class="input-group px-2 flex-nowrap w-100 max-width-920">
+          <input matInput placeholder="Search" class="form-control popup-input mt-0"
+                 id="patient" [formControl]="formInputControl" (keyup.enter)="onClickSearch()"/>
+          <span class="placeholder-top" *ngIf="formInputControl.value">Search</span>
+          <div class="input-group-append">
+            <span class="input-group-text span-clickable" (click)="onClickSearch()">
+              <fa-icon icon="search"></fa-icon>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="dialog-wrapper-content" #contentWrapper>
+
+    <div id="loading-spinner" *ngIf="showPreloader$ | async">
+      <div id="loading-hourglass"></div>
+    </div>
+
+    <div class="result-placeholder-container"
+         [hidden]="formInputControl.value.trim().replace(' ', '').length >= 3 || (data.list && data.list.length)">
+      <div>
+        <p class="result-placeholder faded">Search by Last Name or Patient ID</p>
+        <p class="faded">(3 letters are minimum)</p>
+      </div>
+    </div>
+
+    <div class="result-placeholder-container"
+         *ngIf="formInputControl.value.trim().replace(' ', '').length >= 3 && formInputControl.valid && data.list && !data.list.length">
+      <div *ngIf="isNil(showPreloader$ | async)">
+        <p class="result-placeholder faded">No results found</p>
+      </div>
+    </div>
+
+    <div class="result-placeholder-container"
+         *ngIf="formInputControl.value.trim().replace(' ', '').length >= 3 && formInputControl.invalid">
+      <div>
+        <p class="incorrect-value-placeholder faded">Incorrect value</p>
+      </div>
+    </div>
+
+    <div class="row w-100">
+      <cdk-virtual-scroll-viewport itemSize="20" minBufferPx="700" maxBufferPx="700" class="virtual-scroll-viewport"
+                                   *ngIf="data.list && data.list.length !== 0">
+          <mat-table [dataSource]="dataSource" [trackBy]="trackByIndex" class="pl-4">
+            <ng-container matColumnDef="patientId">
+              <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+              <mat-cell *matCellDef="let patient" class="d-flex align-items-center">
+                <div class="location-name">{{ patient.patientId }}</div>
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="patientName">
+              <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+              <mat-cell *matCellDef="let patient" class="d-flex align-items-center">
+                {{patient.fullName}}
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="locationName">
+              <mat-header-cell *matHeaderCellDef> Location </mat-header-cell>
+              <mat-cell *matCellDef="let patient"> {{patient.location}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="completedTime">
+              <mat-header-cell *matHeaderCellDef> Completed </mat-header-cell>
+              <mat-cell *matCellDef="let patient"> {{patient.completedTime}} </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="patientTableColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: patientTableColumns;" class="completed clickable"
+                      (click)="onPatientClick(row)">
+
+            </mat-row>
+          </mat-table>
+      </cdk-virtual-scroll-viewport>
+    </div>
+
+  </div>
+
+  <div class="popup-btn-group d-flex flex-column justify-content-end desktop-buttons">
+    <div class="d-flex justify-content-center">
+      <button mdbBtn type="button" color="primary" class="mx-2 my-0" [outline]="true" size="md" mdbWavesEffect
+              matDialogClose (click)="cancelDialog()">Close
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,131 @@
+<form [formGroup]="procedureForm">
+  <div class="w-100 d-flex flex-row procedure-row min-w400" *ngIf="procedureForm?.get('state')?.value as orderState"
+       [ngClass]="{ 'completed': orderState === OrderStateEnum.COMPLETED,
+       'ordered': orderState === OrderStateEnum.ORDERED,
+       'cancelled': orderState === OrderStateEnum.CANCELLED }">
+
+    <div class="md-form ml-1 mb-0 drug-name">
+      <span class="input-group-text span-clickable">
+        <div class="icons-container">
+          <ng-container *ngIf="!procedureForm?.disabled">
+                      <fa-icon (click)="orderStateChange(OrderStateEnum.CANCELLED)"
+                               *ngIf="userRole === UserRoleEnum.PRACTITIONER && orderState === OrderStateEnum.ORDERED"
+                               [icon]="['fal', 'window-close']" class="window-close-icon"></fa-icon>
+          <fa-icon (click)="orderStateChange(OrderStateEnum.ORDERED)"
+                   *ngIf="orderState !== OrderStateEnum.ORDERED"
+                   [icon]="['fal', 'undo']" class="undo-icon"></fa-icon>
+          </ng-container>
+        </div>
+      </span>
+      <div class="d-flex flex-column">
+        <div class="d-flex name flex-column with-icon">
+          <label class="active">
+            Drug
+          </label>
+          <span>{{procedureForm?.get('name')?.value}}</span>
+          <button class="form-control complete-procedure-button p-2" mdbBtn type="button"
+                  [disabled]="procedureForm?.disabled || orderState !== OrderStateEnum.ORDERED"
+                  color="primary" size="sm" outline="true"
+                  mdbWavesEffect (click)="orderStateChange(OrderStateEnum.COMPLETED)">
+            Complete procedure
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <mat-divider [vertical]="true"></mat-divider>
+
+    <div class="d-flex flex-row procedure-fields">
+      <div class="ml-1 md-form mb-0">
+        <mdb-select
+          [formControlName]="'dosage'"
+          label="Dosage"
+          class="drug-select unit mr-1 mb-0"
+          placeholder="Dosage"
+          [options]="businessProcedure?.dosages | selectOptions: procedureForm?.get('dosage')?.value"
+        ></mdb-select>
+      </div>
+      <div class="ml-1 md-form mb-0">
+        <mdb-select
+          [formControlName]="'route'"
+          label="Route"
+          class="drug-select unit mr-1 mb-0"
+          placeholder="Route"
+          [options]="businessProcedure?.routes | selectOptions: procedureForm?.get('route')?.value"
+        ></mdb-select>
+      </div>
+      <div class="ml-1 md-form mb-0">
+        <mdb-select
+          [formControlName]="'form'"
+          label="Form"
+          class="drug-select unit mr-1 mb-0"
+          placeholder="Form"
+          [options]="businessProcedure?.forms | selectOptions: procedureForm?.get('form')?.value"
+        ></mdb-select>
+      </div>
+      <div class="ml-1 md-form mb-0">
+        <label for="brandName" class="active" [class.error]="procedureForm?.get('brandName')?.invalid">
+          Brand Name
+        </label>
+        <input id="brandName" class="form-control" matInput
+               [formControlName]="'brandName'"
+               [type]="'text'"/>
+      </div>
+      <div class="ml-1 md-form mb-0">
+        <label for="NDC" class="active" [class.error]="procedureForm?.get('NDC')?.invalid">
+          NDC
+        </label>
+        <input id="NDC" class="form-control" matInput
+               [formControlName]="'NDC'"
+               [type]="'text'"/>
+      </div>
+      <div class="ml-1 md-form mb-0">
+        <label for="lotNumber" class="active" [class.error]="procedureForm?.get('lotNumber')?.invalid">
+          lot Number
+        </label>
+        <input id="lotNumber" class="form-control" matInput
+               [formControlName]="'lotNumber'"
+               [type]="'text'"/>
+      </div>
+      <div class="ml-1 md-form mb-0">
+        <label for="timeWaited" class="active" [class.error]="procedureForm?.get('timeWaited')?.invalid">
+          Time Waited
+        </label>
+        <input id="timeWaited" class="form-control" matInput
+               [formControlName]="'timeWaited'"
+               [type]="'number'"/>
+      </div>
+      <div class="ml-1 md-form mb-0">
+        <label for="expiration" class="active" [class.error]="procedureForm?.get('expiration')?.invalid">
+          Expiration Date
+        </label>
+        <mdb-date-picker id="expiration"
+                         [formControlName]="'expiration'"
+                         [options]="{dateFormat: 'yyyy-mm-dd'}">
+        </mdb-date-picker>
+      </div>
+      <div class="md-form ml-1">
+        <label class="active" [class.error]="procedureForm?.get('toleratedWell')?.invalid">
+          Tolerated Well
+        </label>
+        <mat-checkbox [formControlName]="'toleratedWell'">&nbsp;</mat-checkbox>
+      </div>
+      <div class="md-form ml-1">
+        <label class="active" [class.error]="procedureForm?.get('noDifficulty')?.invalid">
+          No Difficulty
+        </label>
+        <mat-checkbox [formControlName]="'noDifficulty'">&nbsp;</mat-checkbox>
+      </div>
+      <div class="ml-1 md-form complications mb-0" *ngIf="!(procedureForm.get('noDifficulty')?.value && procedureForm.get('toleratedWell')?.value)">
+        <label for="complications" class="active" [class.error]="procedureForm?.get('complications')?.invalid">
+          Complications
+        </label>
+        <textarea cdkTextareaAutosize id="complications" class="w-100 form-control fs-16 overflow-hidden"
+                  [formControlName]="'complications'"
+                  maxlength="500" [cdkAutosizeMinRows]="3"></textarea>
+        <span class="error-message error-message-top" *ngIf="procedureForm?.get('complications')?.invalid">This field may not be blank.</span>
+      </div>
+
+    </div>
+  </div>
+</form>

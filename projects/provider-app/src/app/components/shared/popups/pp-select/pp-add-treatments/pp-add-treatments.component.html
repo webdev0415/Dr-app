@@ -1,0 +1,37 @@
+<div class="dialog-wrapper d-flex flex-column">
+  <div class="dialog-wrapper-title">
+    <p>{{data.name}}</p>
+  </div>
+
+  <div class="dialog-wrapper-content" #contentWrapper>
+    <div class="w-100 d-flex flex-column">
+      <div *ngFor="let item of list; let index = index;" class="w-100">
+        <div class="py-1 px-2 list-item d-flex flex-row justify-content-between w-100">
+          <mat-checkbox class="longnames text-left" color="primary" [checked]="selected.includes(index)"
+                        (change)="toggleItem(index)">
+            {{item.icdName}}
+          </mat-checkbox>
+          <span class="icd-code text-right">{{item.icdCode}}</span>
+        </div>
+        <div *ngIf="item.sources.length">
+          <span><strong>Sources: </strong></span>
+          <ng-container *ngFor="let link of item.sources; let idx = index">
+            <a *ngIf="idx < 2" class="source-link" target="_blank" [href]="link | sanitizer:'url'">{{ domainOf(link) }}<span *ngIf="idx === 0 && item.sources.length > 1">,&nbsp;</span></a>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
+    <div class="popup-btn-group d-flex flex-column justify-content-end">
+      <div class="d-flex justify-content-center">
+        <button mdbBtn type="button" color="primary" class="mx-2 my-0" [outline]="true" size="md" mdbWavesEffect
+                matDialogClose (click)="cancelDialog()">Cancel
+        </button>
+        <button mdbBtn type="button" color="primary" class="mx-2 my-0" size="md" mdbWavesEffect
+                (click)="confirmSelected()"
+                [disabled]="confirmButtonDisabled">Confirm
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

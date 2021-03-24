@@ -1,0 +1,287 @@
+@import '../../../styles/shared/mixins';
+@import '../../../styles/shared/variables';
+@import '../../../styles/theme';
+
+$btn-width: 125px;
+
+$ordered-status-color: $base-blue-color;
+
+.procedures-table {
+  td {
+    padding: 3px 0;
+
+    &.name {
+      padding-right: 5px;
+      font-size: 18px;
+      position: relative;
+      &.prefix {
+        width: 10%;
+        min-width: 42px;
+      }
+      &.adjusted {
+        width: 20%;
+        min-width: 68px;
+        word-break: break-all;
+      }
+      &.single {
+        width: 30%;
+        min-width: 110px;
+      }
+      mat-icon {
+        position: absolute;
+        top: 4px;
+      }
+      span {
+        white-space: pre-wrap;
+      }
+    }
+  }
+}
+
+.procedure-select {
+  mdb-select {
+    min-width: 90px;
+  }
+}
+
+.drug-select {
+  width: auto;
+  min-width: 140px;
+}
+
+.procedure-row {
+  border-radius: 4px;
+  margin: 20px 0;
+  padding: 5px 0;
+  .drug-name {
+    width: 20%;
+    max-width: 20%;
+    min-width: 20%;
+    align-self: center;
+    display: flex;
+    justify-content: flex-start;
+    span {
+      align-self: center;
+    }
+    label {
+      left: 3.4rem;
+    }
+    .name {
+      label {
+        transform: translateY(-22px) scale(0.8);;
+      }
+      span {
+        margin-left: 30px;
+        align-self: normal;
+      }
+      button {
+        margin-left: 30px;
+      }
+    }
+    .with-icon {
+      span {
+        margin-left: 0;
+      }
+      button {
+        margin-left: 0;
+      }
+    }
+  }
+  justify-content: space-between;
+  input {
+    padding-top: .5rem;
+    max-width: 140px;
+  }
+  mat-divider {
+    padding: 0 8px;
+  }
+  .procedure-fields {
+    width: 80%;
+    flex-wrap: wrap;
+    div {
+      width: 19%;
+    }
+    @media screen and (max-width: 1280px) {
+      width: 80%;
+      div { width: 24%; }
+    }
+    @media screen and (max-width: 1024px) {
+      width: 70%;
+      div { width: 32%; }
+    }
+    @media screen and (max-width: 768px) {
+      width: 60%;
+      div { width: 48%; }
+    }
+    @media screen and (max-width: 640px) {
+      width: 50%;
+      div { width: 100%; }
+    }
+    @media screen and (max-width: 480px) {
+      width: 40%;
+      div { width: 100%; }
+    }
+  }
+  textarea {
+    margin-top: .5rem;
+  }
+  .unused-fields {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    width: 100%;
+    div:first-of-type {
+      max-width: 20px;
+      margin-left: 1.4rem!important;
+    }
+    div {
+      margin: 0 5px;
+      display: flex;
+    }
+    span {
+      align-self: center;
+    }
+  }
+
+  ::ng-deep .dropdown-content {
+    width: auto !important;
+    min-width: 140px;
+    li {
+      white-space: nowrap;
+    }
+  }
+}
+
+.complications {
+  width: 80%!important;
+}
+
+.completed {
+  background-color: $completed-status-color;
+}
+
+.ordered {
+  background-color: $ordered-status-color;
+  color: white;
+  ::ng-deep label.active {
+    color: white!important;
+  }
+  ::ng-deep mdb-select {
+    div.value, div.toggle, div.placeholder {
+      color: white;
+    }
+  }
+  ::ng-deep .mat-input-element {
+    &:focus {
+      color: #ffffff;
+      box-shadow: 0 1px 0 0 #ffffff!important;
+    }
+    caret-color: white;
+    color: white;
+  }
+  ::ng-deep .mat-checkbox-frame {
+    border-color: #fdfdfd8a;
+  }
+
+  ::ng-deep input.mydp-date {
+    color: white;
+  }
+
+  button {
+    border-color: white !important;
+    color: white !important;
+  }
+
+  textarea {
+    color: white;
+    caret-color: white;
+  }
+
+  ::ng-deep .mdb-select-toggle {
+    color: white !important;
+  }
+
+}
+
+.cancelled {
+  background-color: $cancelled-status-color;
+}
+
+.unused {
+  font-size: 18px;
+  mat-divider {
+    height: 0;
+  }
+}
+
+.span-clickable {
+  @extend %clickable-element;
+  border: none;
+  background: bottom;
+  fa-icon {
+    font-size: 30px;
+  }
+  .undo-icon {
+    color: $ordered-status-color;
+  }
+  .window-close-icon {
+    color: $cancelled-status-color;
+  }
+  .angle-down-icon {
+    color: $completed-status-color;
+    font-size: 50px;
+  }
+}
+
+.error {
+  color: #f44336!important;
+}
+
+.order-headers {
+  div:first-of-type {
+    visibility: hidden;
+  }
+}
+
+.label-for-MA {
+  left: 3.4rem !important;
+}
+
+:host ::ng-deep mdb-date-picker .form-control {
+  width: 140px !important;
+}
+
+:host ::ng-deep .mat-checkbox-layout, :host ::ng-deep .mat-radio-label {
+  cursor: pointer !important;
+}
+
+.min-w400 {
+  min-width: 400px;
+}
+
+.error-message-top {
+  top: 52px;
+}
+input:-webkit-autofill {
+  -webkit-box-shadow: inset 0 0 0 50px transparent !important;
+  -webkit-text-fill-color: #fff !important;
+  -webkit-animation-name: autofill !important;
+  -webkit-animation-fill-mode: both !important;
+}
+
+:host::ng-deep .mydp-date {
+  padding-bottom: 0!important;
+}
+
+:host::ng-deep mdb-select {
+  .form-control {
+    padding-bottom: 0!important;
+  }
+}
+
+.icons-container {
+  min-width: 30px!important;
+}
+
+//:host::ng-deep .mat-checkbox-inner-container {
+//  margin-top: 20px!important;
+//}

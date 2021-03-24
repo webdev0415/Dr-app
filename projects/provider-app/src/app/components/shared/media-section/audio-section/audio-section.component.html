@@ -1,0 +1,41 @@
+<div class="body-part-section">
+  <div class="mb-2 header">
+    <div class="d-flex align-items-center">
+      <span class="mediatitleheader">{{type}}</span>
+    </div>
+  </div>
+  <mat-divider [inset]="true" class="media-section-title-divider my-2"></mat-divider>
+  <div class="select-container d-flex flex-row">
+    <div class="audio-selection {{typeLower()}}-section">
+      <img class="body-background" [src]="'assets/images/audio/body_sound_sources_2.png'" />
+      <ng-container *ngFor="let item of locations[type]; let index = index;">
+        <img *ngIf="item"
+             [src]="'assets/images/audio/' + (isSelected(item) ? 'selected.svg' : 'point.svg')"
+             class="point location-{{formatLocationName(item)}}" (click)="select(item, index)" />
+      </ng-container>
+    </div>
+
+    <div id="audit-photo-layer" class="{{type}}-audit" *ngIf="audit.length && getAudit()">
+      <img id="audit-photo" [src]="getAudit()"
+           (click)="viewAudit(getAudit())">
+    </div>
+
+    <div class="players-container">
+      <pa-waveform [bodyPart]="type" (change)="onChange($event)" [selectedLocation]="selectedLocation"
+                   [lib]="false" [locations]="locations" [index]="selectedLocationIndex"
+                   [audit]="getAudit()" #audioWaveform></pa-waveform>
+      <mat-form-field *ngIf="libAudio[type]" class="lib-select">
+        <mat-select panelClass="select-panel" [(ngModel)]="libIndex" placeholder="Select Reference">
+          <mat-option *ngFor="let lib of libAudio[type]; let i = index;" [value]="i">
+            {{lib.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div id="ada0f9c3-35a5-43f3-bf4a-4ec794e2e284" *ngIf="libAudio[type] && libIndex > -1">
+        <pa-waveform id="7f7f7f96-0dd1-48e2-9cf5-653489dbf8d7" [bodyPart]="type" [locations]="libAudio"
+                     (change)="onLibChange($event)" [lib]="true" [index]="libIndex"></pa-waveform>
+      </div>
+    </div>
+  </div>
+
+</div>

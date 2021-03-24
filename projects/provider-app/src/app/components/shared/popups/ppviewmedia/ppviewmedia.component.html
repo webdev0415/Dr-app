@@ -1,0 +1,61 @@
+<div class="fh">
+  <div #body id="viewmedia-body" (click)="close($event, body)">
+    <!-- left -->
+    <div [class.side-panel]="panelOpened" #ll id="viewmedia-left" (click)="close($event, ll)">
+      <div #sbld id="viewmedia-left-data" (click)="close($event, sbld)">
+        <div *ngIf="correspondingImageUrl" id="viewmedia-switch">
+          <div class="viewmedia-switchlayer">
+            <img #swapimg class="viewmedia-switchimage" [src]="correspondingImageUrl" (click)="swap()">
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- left -->
+
+    <!-- mid -->
+    <div #mm id="viewmedia-mid" class="d-flex flex-column dragscroll" [ngClass]="{ 'originalsize' : imageFullsize, 'smallerimage': !imageFullsize, 'rotate': urls[index].url2 && !imageFullsize }" (click)="close($event, mm)">
+      <div #headerControls id="header-controls">
+        <span id="viewmedia-title" #imgtitle (click)="close($event, imgtitle)">{{urls[index].name | titlecase}}{{urls[index].url2 ? backSide ? ' - back' : ' - front' : ''}}</span>
+        <ng-content></ng-content>
+      </div>
+
+      <div class="dragscroll" [ngClass]="{ 'originalsize' : imageFullsize, 'smallerimage': !imageFullsize, 'rotate': urls[index].url2 && !imageFullsize }">
+        <img *ngIf="!data.video" (load)="checkImageSizeRelation()" id="midimage" [ngClass]="{ 'originalsize' : imageFullsize, 'normalsize' : !imageFullsize, 'w-100': urls[index].url2 && !imageFullsize }" [src]="backSide ? urls[index].url2 : urls[index].url">
+        <video *ngIf="data.video" controls>
+          <source [src]="urls[index].url" type="video/webm">
+        </video>
+      </div>
+
+      <div id="bottom-controls" #controls>
+        <div class="viewmedia-slidebutton">
+          <div #sbd *ngIf="this.urls.length > 1" id="prev" (click)="prev()" [className]="index === 0 ? 'disabled' : ''" (click)="close($event, sbd)">
+            <i class="material-icons">chevron_left</i>
+          </div>
+        </div>
+        <div *ngIf="urls[index].url2 && !imageFullsize" class="viewmedia-slidebutton rotate-button">
+          <div id="rotate" (click)="rotate()">
+            <i class="material-icons">sync</i>
+          </div>
+        </div>
+        <div #sbrd class="viewmedia-slidebutton" (click)="close($event, sbrd)">
+          <div *ngIf="urls.length > 1" id="next" (click)="next()" [className]="index === (urls.length - 1) ? 'disabled' : ''">
+            <i class="material-icons">chevron_right</i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- mid -->
+
+    <!-- right -->
+    <div [class.side-panel]="panelOpened" #rr id="viewmedia-right" (click)="close($event, rr)">
+      <div id="viewmedia-right-controllers">
+        <i *ngIf="imageLargerThanHost && !imageFullsize" class="material-icons" (click)="switchFullSize()">zoom_in</i>
+        <i *ngIf="imageLargerThanHost && imageFullsize" class="material-icons" (click)="switchFullSize()">zoom_out</i>
+        <span *ngIf="!imageLargerThanHost" class="maxsize-info" #maxsizeinfo (click)="close($event, maxsizeinfo)">Image at maximum size</span>
+        <div *ngIf="imageLargerThanHost" id="controllers-separator"></div>
+        <i class="material-icons" #x (click)="close($event, x)">close</i>
+      </div>
+    </div>
+    <!-- right -->
+  </div>
+</div>

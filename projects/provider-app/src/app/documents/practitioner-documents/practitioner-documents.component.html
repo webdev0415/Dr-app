@@ -1,0 +1,37 @@
+<dg-document-container [generate]="generatePdfView" [fullWidth]="false" (file)="uploadForm($event)" [userSignature]="userSignature$ | async" (blobUrl)="showPdf($event)" #generator>
+
+  <doc-documents-header class="w-100"
+                        [patientInformation]="patientProfileData$('contactRecord') | async"
+                        [patientName]="patientProfileData$('patientProfile') | async | fullName"
+                        [kioskMode]="kioskMode"></doc-documents-header>
+
+  <div class="w-100" [ngSwitch]="section$ | async">
+    <doc-final-notes *ngSwitchCase="'summary'"
+                     [patient]="Patient$ | async"
+                     [patientListEntity]="patientListEntity$ | async" [vitals]="measurementsService.vitals"
+                     [parsedSymptoms]="parsedSymptoms" [symptomCategories]="symptomCategories"
+                     [showIllnesses]="preFinalizeEmitted" [ddx]="ddx$ | async"
+                     [RTWSInfo]="RTWSInfo" [dischargeNotes]="(Patient$ | async).dischargeNotes.data"></doc-final-notes>
+    <doc-discharge-notes *ngSwitchCase="'discharge'"
+                         [completedDoctor]="completedDoctor" [patient]="Patient$ | async"
+                         [date]="date$ | async" [dischargeArticles]="dischargeInstructions.articles"
+                         [customArticles]="dischargeInstructions.custom" (update)="documentUpdate($event)"
+                         (naClick)="onClickNA()" (articleReview)="reportArticleReview($event)"></doc-discharge-notes>
+    <doc-receipt *ngSwitchCase="'receipt'"
+                 [paymentInfo]="paymentInfo$ | async" [date]="date$ | async"></doc-receipt>
+    <doc-authorization-to-work *ngSwitchCase="'authorization'"
+                               [completedDoctor]="completedDoctor" [date]="date$ | async" [patientName]="patientProfileData$('patientProfile') | async | fullName"
+                               [dischargeNotes]="(Patient$ | async).dischargeNotes.data" (update)="documentUpdate($event)"
+                               [RTWSInfo]="RTWSInfo.data" [RTWSUsed]="RTWSInfo.isUsed"></doc-authorization-to-work>
+    <doc-sports-physical-exam *ngSwitchCase="'sports'" [patientInformation]="patientProfileData$('patientProfile') | async"
+                              [patientAdditionalInformation]="(Patient$ | async).additionalInformation"
+                              [vitals]="measurementsService.vitals"
+                              [date]="date$ | async" [sportsExam]="(Patient$ | async).sportsExam.data"
+                              [completedDoctor]="completedDoctor"></doc-sports-physical-exam>
+
+    <div id="signature" class="w-100 px-5" *ngIf="(userSignature$ | async) && (section$ | async) === 'summary'">
+      <ng-container *ngTemplateOutlet="generator.userSignatureTemplate"></ng-container>
+    </div>
+  </div>
+
+</dg-document-container>

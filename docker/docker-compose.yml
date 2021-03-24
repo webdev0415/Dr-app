@@ -1,0 +1,15 @@
+version: '3.7'
+
+services:
+
+  portal-internal:
+    build:
+      context: . # Using . (current directory)
+      dockerfile: Dockerfile.local
+    env_file: .env
+    environment: 
+      - NODE_OPTIONS=--max-old-space-size=4096
+    ports:
+      - "4200:4200"
+    stdin_open: true
+    tty: true

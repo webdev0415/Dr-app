@@ -1,0 +1,149 @@
+<div id="ff98364a-5eb6-4496-a88e-d0f574053559" *ngIf="!data.isPatientCardDialog"
+     class="d-flex flex-column align-items-center dialog-container">
+  <button class="close" *ngIf="data.isAlertDialog" (click)="cancelDialog()">
+    <i class="material-icons text-right">close</i>
+  </button>
+  <p class="title {{data.background ? data.background : ''}}" *ngIf="data.title"
+     [class.mb-0]="data.isAlertDialog">{{data.title}}
+    <strong *ngIf="data.isAlertDialog">&nbsp;{{data.message}}</strong>
+  </p>
+  <p [class.message]="data.title" *ngIf="data.message && !data.isAlertDialog && !data.isWarningDialog">
+    {{data.message}}
+  </p>
+  <p class="title mb-0" *ngIf="data.secondRow && data.isAlertDialog">
+    {{data.secondRow}}
+  </p>
+  <div id="2d4e89db-d3e4-4882-9daf-c776d71d70a1" [class]="data.srcImage ? 'content imgcontent d-flex' : 'content d-flex'"
+       [class.justify-content-center]="data.input !== undefined">
+    <mat-list *ngIf="data.list && !data.contribList && !data.measurementList">
+      <mat-list-item *ngFor="let item of data.list">
+        <mat-icon matListIcon class="bullet">lens</mat-icon>
+        <span matLine>
+          <span> {{item}} </span>
+        </span>
+      </mat-list-item>
+    </mat-list>
+    <table mdbTable *ngIf="data.list && data.measurementList">
+      <thead>
+      <tr>
+        <th scope="col"> Date </th>
+        <th scope="col"> Hours </th>
+        <th scope="col"> {{data.title}} </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr mdbTableCol *ngFor="let item of data.list">
+        <th scope="row">{{item.timestamp.split(', ')[0]}}</th>
+        <td>{{item.timestamp.split(', ')[1]}}</td>
+        <td>{{item.value}} {{item.measurement}}</td>
+      </tr>
+      </tbody>
+    </table>
+    <mat-list *ngIf="data.list && data.contribList">
+      <mat-list-item *ngFor="let item of contribList">
+        <mat-icon matListIcon class="bullet">lens</mat-icon>
+        <span matLine>
+          <span> {{item}} </span>
+        </span>
+      </mat-list-item>
+    </mat-list>
+    <mat-list *ngIf="data.linkList">
+      <mat-list-item *ngFor="let item of data.linkList">
+        <mat-icon matListIcon class="bullet">lens</mat-icon>
+        <span matLine>
+          <a [href]="item.source" target="_blank"> {{item.name || item.source}} </a>
+        </span>
+      </mat-list-item>
+    </mat-list>
+    <mat-form-field class="drnotes-area w-100" *ngIf="data.textArea !== undefined">
+      <textarea title="" class="drnotes-area" matInput [(ngModel)]="data.textArea" [formControl]="inputNumberControl"></textarea>
+    </mat-form-field>
+    <mat-form-field *ngIf="data.input !== undefined">
+        <input title="" matInput [formControl]="inputNumberControl" paAutoFocus>
+    </mat-form-field>
+    <div *ngIf="data.patient !== undefined" [formGroup]="nameFormGroup" class="d-flex flex-column">
+      <div class="d-flex flex-row align-items-center">
+        <span class="mr-3"> First Name </span>
+        <mat-form-field class="d-flex flex-row">
+          <input class="input-style" title="" matInput [value]="nameControl.firstName" maxlength="30" (keyup)="onNameFormEnter(nameControl, 'firstName')" formControlName="firstName" paAutoFocus>
+          <mat-error *ngIf="nameFormGroup.invalid">This field is required.</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="d-flex flex-row align-items-center">
+        <span class="mr-3"> Middle Name </span>
+        <mat-form-field>
+          <input class="input-style" title="" matInput [value]="nameControl.middleName" maxlength="1" (keyup)="onNameFormEnter(nameControl, 'middleName')" formControlName="middleName" paAutoFocus>
+          <mat-error *ngIf="nameFormGroup.invalid">This field can't be more than 1 characters long.</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="d-flex flex-row align-items-center">
+        <span class="mr-3"> Last Name </span>
+        <mat-form-field>
+          <input class="input-style" title="" matInput [value]="nameControl.lastName" maxlength="30" (keyup)="onNameFormEnter(nameControl, 'lastName')" formControlName="lastName" paAutoFocus>
+          <mat-error *ngIf="nameFormGroup.invalid">This field is required.</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <mat-form-field class="w-100" *ngIf="data.selectRoom">
+      <mat-label>Choose the room</mat-label>
+      <mat-select>
+        <mat-option *ngFor="let room of roomValues" [value]="room" (onSelectionChange)="onRoomSelected($event)">
+          {{ room }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div id="2f72d8c4-5c32-4f38-b5ed-039f2f315279" *ngIf="data.isWarningDialog"
+         class="d-flex flex-column align-items-center dialog-container">
+      <p>{{ data.descriptionWarning }}</p>
+      <strong>{{data.message}}</strong>
+    </div>
+  </div>
+  <div id="c5ed4762-ce4c-4810-878a-a5d1fb57e932" *ngIf="!data.isViewAssign && !data.isAlertDialog"
+       class="d-flex popup-buttons justify-content-around"  [class.flex-column-reverse]="data.column">
+    <button mdbBtn type="button" color="primary" [outline]="true" size="md" mdbWavesEffect class="my-2" matDialogClose *ngIf="data.isDialog" (click)="cancelDialog()">
+      {{ data.cancelText || 'Cancel' }}
+    </button>
+    <button mdbBtn type="button" color="light" size="md" mdbWavesEffect class="my-2" *ngIf="data.diagnosisConfirm" (click)="editNotes('diagnostic')">
+      Edit Diagnostic notes
+    </button>
+    <button mdbBtn type="button" color="light" size="md" mdbWavesEffect class="my-2" *ngIf="data.treatmentConfirm" (click)="editNotes('treatment')">
+      Edit Treatment notes
+    </button>
+    <button mdbBtn type="button" color="light" size="md" mdbWavesEffect class="my-2" *ngFor="let button of data.additionalButtons" (click)="buttonClick(button)">
+      {{button}}
+    </button>
+    <button mdbBtn type="button" color="primary" size="md" mdbWavesEffect class="my-2" *ngIf="!data.isWarningDialog && !data.isAlertDialog && !data.isYesCancelDialog && !data.isChangeNameDialog" matDialogClose
+            (click)="okDialog()" [disabled]="disableOkButton()">
+      {{data.okText ? data.okText : 'OK'}}
+    </button>
+    <button mdbBtn type="button" color="primary" size="md" mdbWavesEffect class="my-2" *ngIf="data.isChangeNameDialog" matDialogClose
+            (click)="okDialog()" [disabled]="nameFormGroup.invalid || nameFormGroup.pristine">
+      Save
+    </button>
+  </div>
+  <div id="72acf8d5-f095-408c-95f8-599920b53d8d" *ngIf="data.isViewAssign"
+       class="d-flex popup-buttons justify-content-around">
+    <button mdbBtn type="button" color="primary" [outline]="true" size="md" mdbWavesEffect matDialogClose (click)="cancelDialog()">
+      Cancel
+    </button>
+    <button mdbBtn type="button" color="green" size="md" mdbWavesEffect matDialogClose (click)="assignPatient()" cdkFocusInitial>
+      {{data.viewOnly ? 'View' : 'Accept'}}
+    </button>
+  </div>
+  <div id="87cacf02-5954-46c6-b8a1-c6925a136cf5" *ngIf="data.isWarningDialog"
+       class="d-flex popup-buttons justify-content-center">
+    <button mdbBtn type="button" color="red" size="md" mdbWavesEffect matDialogClose (click)="okDialog()" cdkFocusInitial>Acknowledged</button>
+  </div>
+  <div *ngIf="data.isYesCancelDialog" class="d-flex popup-buttons justify-content-around">
+    <button mdbBtn type="button" color="primary" [outline]="true" size="md" mdbWavesEffect matDialogClose (click)="cancelDialog()">Cancel</button>
+    <button mdbBtn type="button" color="primary" size="md" mdbWavesEffect matDialogClose (click)="okDialog()" cdkFocusInitial>Yes</button>
+  </div>
+</div>
+<div id="d3975ad2-408b-4fe1-b689-0cd861c8fb77" *ngIf="data.isPatientCardDialog"
+     class="d-flex flex-column dialog-container">
+  <button class="close" (click)="cancelDialog()">
+    <i class="material-icons text-right">close</i>
+  </button>
+  <pa-patientcard id="26dffa88-b8d5-45d7-82cf-4746c6a164fd" class="d-flex" [patient]="data.patient"
+                     [isFull]="true" [isDialog]="true"></pa-patientcard>
+</div>

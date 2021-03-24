@@ -1,0 +1,3 @@
+<dg-document-container #generator (blobUrl)="showPdf($event)" (file)="uploadForm($event)" [generate]="generatePdfView">
+  <doc-surveys #surveys [contactInformation]="patientContactInformation$ | async" [patientFullName]="patientProfile$ | async | fullName"></doc-surveys>
+</dg-document-container>

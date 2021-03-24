@@ -1,0 +1,68 @@
+@import '../../../styles/theme';
+
+$ordered-status-color: $base-blue-color;
+
+.ordered {
+  background-color: $ordered-status-color;
+  color: white;
+  ::ng-deep label.active {
+    color: white!important;
+  }
+  ::ng-deep mdb-select {
+    div.value, div.toggle, div.placeholder {
+      color: white;
+    }
+  }
+  ::ng-deep .mat-input-element {
+    &:focus {
+      color: #ffffff;
+      box-shadow: 0 1px 0 0 #ffffff!important;
+    }
+    caret-color: white;
+    color: white;
+  }
+  ::ng-deep .mat-checkbox-frame {
+    border-color: #fdfdfd8a;
+  }
+
+  ::ng-deep input.mydp-date {
+    color: white;
+  }
+
+  button {
+    border-color: white !important;
+    color: white !important;
+  }
+
+  textarea {
+    color: white;
+    caret-color: white;
+  }
+
+  ::ng-deep .mdb-select-toggle {
+    color: white !important;
+  }
+}
+
+:host::ng-deep.mat-radio-label {
+  margin-bottom: 2px;
+}
+
+.order-row {
+  div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    width: 19%;
+    padding-right: 8px;
+  }
+  div:first-child {
+    padding-left: 8px;
+    max-width: 20px!important;
+  }
+  .md-form {
+    margin-top: 0!important;
+    margin-bottom: 0!important;
+  }
+}

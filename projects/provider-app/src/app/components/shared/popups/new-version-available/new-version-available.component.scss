@@ -1,0 +1,22 @@
+#new-version {
+  z-index: 101;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #fde073;
+  text-align: center;
+  line-height: 2.5;
+  overflow: hidden;
+  -webkit-box-shadow: 0 0 5px black;
+  -moz-box-shadow:    0 0 5px black;
+  box-shadow:         0 0 5px black;
+}
+
+.cssanimations.csstransforms #new-version {
+  transform:         translateY(-50px);
+  animation:         slideDown 2.5s 1.0s 1 ease forwards;
+  -webkit-transform: translateY(-50px);
+  -webkit-animation: slideDown 2.5s 1.0s 1 ease forwards;
+  -moz-transform:    translateY(-50px);
+  -moz-animation:    slideDown 2.5s 1.0s 1 ease forwards;
+}

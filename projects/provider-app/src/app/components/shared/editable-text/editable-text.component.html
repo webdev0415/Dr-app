@@ -1,0 +1,38 @@
+<div id="69667c41-880d-4221-b406-7089bf04d215" *ngIf="data">
+  <div id="8630b02b-fa68-443f-ba67-7d1f87bafbeb" class="d-flex"
+       [ngClass]="illnessPresentation === illnessPresentationEnum.CONFIDENCE ? 'justify-content-between' : ''"  *ngIf="!isEditable">
+      <div [class.prefix]="prefix" class="d-flex flex-column text-column">
+        <span *ngIf="prefix">{{prefix}}</span>
+        <mat-divider [vertical]="true" *ngIf="prefix"></mat-divider>
+        <span [ngClass]="multiline ? 'text-data' : ''">{{data}}</span>
+        <span *ngIf="subtext" class="subtext">{{subtext}}</span>
+      </div>
+      <i *ngIf="!disabled && !viewOnly" class="material-icons align-self-center justify-content-center"
+         [ngClass]="illnessPresentation === illnessPresentationEnum.CONFIDENCE ? 'edit-icon' : 'edit-icon-ranking'"
+         (click)="edit(); $event.stopPropagation()" [class.disabled]="isEditable">create
+      </i>
+  </div>
+  <div id="cbd0c00a-e1d2-4d79-b155-3fcc1820ba12" *ngIf="isEditable"
+       class="input-group input-group-sm mb-2">
+    <input *ngIf="!multiline" type="text" class="form-control" title="{{ data }}"
+           placeholder="" [formControl]="control">
+    <textarea *ngIf="multiline" id="text-input" class="form-control fs-16"
+              placeholder="" [formControl]="control" cdkTextareaAutosize>{{ data }}</textarea>
+    <div id="bf0da8a5-0f38-4cc3-a898-b23d47bb0032" class="input-group-append">
+      <button mdbBtn type="button" (click)="save(); $event.stopPropagation()"
+              class="btn-outline-blue-grey m-0 px-2 py-1 z-depth-0"
+              [disabled]="control.invalid"
+              outline="true"
+              size="lg">
+        <fa-icon icon="check" aria-hidden="true"></fa-icon>
+      </button>
+      <button mdbBtn (click)="cancel(); $event.stopPropagation()" type="button"
+              class="btn-outline-blue-grey m-0 px-2 py-1 z-depth-0"
+              outline="true"
+              size="lg">
+        <fa-icon icon="times" aria-hidden="true"></fa-icon>
+      </button>
+    </div>
+  </div>
+  <span *ngIf="control.errors?.maxlength" class="error">This field can't be more than {{maxLength || 255}} characters long.</span>
+</div>

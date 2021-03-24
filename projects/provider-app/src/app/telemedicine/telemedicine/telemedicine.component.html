@@ -1,0 +1,56 @@
+<div id="videos"
+     cdkDrag
+     cdkDragRootElement=".cdk-global-overlay-wrapper"
+     cdkDragHandle
+     [cdkDragDisabled]="!(isMinified | async)"
+     [cdkDragFreeDragPosition]="dragPosition"
+>
+
+  <mat-sidenav-container [hasBackdrop]="false" class="h-100">
+    <mat-sidenav #matSidenav [mode]="'side'" [position]="'end'" class="h-unset">
+      <mat-tab-group [(selectedIndex)]="selectedTabIndex" class="h-inherit">
+        <mat-tab #contacts [class.mat-focus-indicator]="contacts.isActive">
+          <ng-template mat-tab-label>
+            <div class="d-flex flex-row" [class.icon-blue]="contacts.isActive">
+              <span class="mr-2">Views:</span>
+              <i class="material-icons active">contacts</i>
+            </div>
+          </ng-template>
+          <pa-telemedicine-streams (error)="handleError($event)" (noStreamsLeft)="checkSessionAvailability()"></pa-telemedicine-streams>
+        </mat-tab>
+        <mat-tab class="h-inherit" #chat [class.mat-focus-indicator]="chat.isActive">
+          <ng-template mat-tab-label>
+            <div class="d-flex flex-row hide-text" [class.icon-blue]="chat.isActive" matBadge="0" matBadgeColor="primary" [matBadgeHidden]="!(unreadMessages | async)" matBadgeSize="small">
+              <span class="mr-2">Chat:</span>
+              <i class="material-icons-outlined active">chat</i>
+            </div>
+          </ng-template>
+          <pa-telemedicine-chat class="h-inherit" [active]="chat.isActive && matSidenav.opened" (error)="handleError($event)" (unread)="unreadMessagesHandler($event)"></pa-telemedicine-chat>
+        </mat-tab>
+      </mat-tab-group>
+      <i class="material-icons end-session-icon icon-black" (click)="matSidenav.close()">close</i>
+    </mat-sidenav>
+
+    <mat-sidenav-content class="h-100">
+      <div id="subscriber" [class.overflow-hidden]="!(mainStreamActive$ | async)">
+        <div *ngIf="!(mainStreamActive$ | async)" class="align-items-center d-flex flex-column h-100 justify-content-center overflow-hidden">
+          <div id="loading-spinner">
+            <div id="loading-hourglass"></div>
+          </div>
+          <ng-container *ngIf="reconnectObserver$ | async">
+            <h4>Patient's connection is lost.</h4>
+            <h4>Waiting for reconnection.</h4>
+          </ng-container>
+          <h4 *ngIf="!(reconnectObserver$ | async)">Waiting for patient to connect.</h4>
+        </div>
+        <div [id]="videoSource.MAIN"></div>
+      </div>
+
+      <pa-telemedicine-controls class="controls" [class.d-none]="isMinified | async"
+                                (endSessionEvent)="endSession()"
+                                (error)="handleError($event)" (openPanel)="openPanel($event)"
+                                [sidePanelOpened]="matSidenav.opened"
+                                [unreadMessages]="unreadMessages | async"></pa-telemedicine-controls>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

@@ -1,0 +1,22 @@
+textarea {
+  max-height: 60vh;
+}
+
+.notes-wrapper {
+  max-height: calc( 80vh - 120px);
+  overflow-y: auto;
+  .content {
+    max-height: calc( 80vh - 180px);
+  }
+}
+
+.bottom-input {
+  outline: none;
+  border-width: 0px 0 1px 0;
+  border-color: #aaaaaa;
+}
+
+.group {
+  font-weight: bold;
+  font-size: 18px;
+}

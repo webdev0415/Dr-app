@@ -1,0 +1,107 @@
+<div
+  *ngFor="let helper of prescription.dosageHelper.rows; index as i"
+  class="d-flex flex-row justify-content-start w-100 container"
+>
+  <div class="amount">
+    <label for="drug-amount-input-{{i}}">Amount:</label>
+    <mdb-select-2
+      id="drug-amount-input-{{i}}"
+      placeholder="Amount"
+      [(ngModel)]="helper.amount"
+      (ngModelChange)="buildSig()"
+    >
+      <mdb-select-option *ngFor="let amount of PVAmounts" [value]="amount.value">
+        {{ amount.label }}
+      </mdb-select-option>
+    </mdb-select-2>
+  </div>
+  <div class="unit">
+    <label for="drug-unit-input-{{i}}">Unit:</label>
+    <mdb-select-2
+      id="drug-unit-input-{{i}}"
+      placeholder="Unit"
+      [(ngModel)]="helper.unit"
+      (ngModelChange)="buildSig()"
+    >
+      <mdb-select-option
+        *ngFor="let unit of units"
+        [value]="unit.value"
+        [ngClass]="{ 'option-disabled': unit.disabled }"
+        (ngModelChange)="onOptionChange('unit', $event, i)"
+      >
+        {{ unit.label }}
+      </mdb-select-option>
+    </mdb-select-2>
+  </div>
+  <div class="freq">
+    <label for="drug-freq-input-{{i}}">Frequency:</label>
+    <mdb-select-2
+      id="drug-freq-input-{{i}}"
+      placeholder="Frequency"
+      [(ngModel)]="helper.freq"
+      (ngModelChange)="buildSig()"
+    >
+      <mdb-select-option
+        *ngFor="let freq of freqs"
+        [value]="freq.value"
+        [ngClass]="{ 'option-disabled': freq.disabled }"
+        (ngModelChange)="onOptionChange('freq', $event, i)"
+      >
+        {{ freq.label }}
+      </mdb-select-option>
+    </mdb-select-2>
+  </div>
+  <div class="durationAmount">
+    <label for="drug-durationAmount-input-{{i}}">Duration #:</label>
+    <input
+      id="drug-durationAmount-input-{{i}}"
+      type="number"
+      min="0"
+      max="10"
+      placeholder="#"
+      [(ngModel)]="helper.durationAmount"
+      (change)="buildSig()"
+    >
+  </div>
+  <div class="durationUnit">
+    <label for="drug-durationUnit-input-{{i}}">Duration Unit:</label>
+    <mdb-select-2
+      id="drug-durationUnit-input-{{i}}"
+      placeholder="Duration Unit"
+      [(ngModel)]="helper.durationUnit"
+      (ngModelChange)="buildSig()"
+    >
+      <mdb-select-option *ngFor="let durationUnit of timeDurations" [value]="durationUnit">
+        {{ durationUnit }}
+      </mdb-select-option>
+    </mdb-select-2>
+  </div>
+  <div *ngIf="i === prescription.dosageHelper.rows.length - 1" class="route">
+    <label for="drug-route-input">Route:</label>
+    <mdb-select-2
+      id="drug-route-input"
+      placeholder="Route"
+      [compareWith]="compareFn"
+      [ngModel]="{ value: prescription.route }"
+      (ngModelChange)="onOptionChange('route', $event)"
+    >
+      <mdb-select-option
+        *ngFor="let route of routes"
+        [value]="route"
+        [ngClass]="{ 'option-disabled': route.disabled }"
+      >
+        {{ route.label }}
+      </mdb-select-option>
+    </mdb-select-2>
+  </div>
+  <div *ngIf="i === prescription.dosageHelper.rows.length - 1">
+    <button class="btn btn-primary" (click)="addRow()">+</button>
+  </div>
+</div>
+<div class="flex-row d-flex justify-content-start align-items-center w-100">
+  <div class="sig">
+    <textarea class="form-control" placeholder="SIG" [(ngModel)]="prescription.dosageHelper.sig"></textarea>
+  </div>
+  <button class="btn btn-primary" (click)="sendSig()">Confirm</button>
+  <button class="btn btn-primary" (click)="savePrescription()">Save to Favorites</button>
+</div>

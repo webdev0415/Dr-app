@@ -1,0 +1,286 @@
+@import 'projects/provider-app/src/styles/shared/variables';
+
+// Defining variables here until can fix sass-loader issue
+// https://github.com/webpack-contrib/sass-loader/issues/556
+// $warning-color: #fff829;
+// $firstStage-complete: #c3df00;
+// $finalStage-complete: #00CA19;
+$background-completed: #f0fff0;
+$background-waiting: #f0ffff;
+$background-registered: #fef0f0;
+$background-assigned: #fffd7c;
+
+.disabled {
+  @extend %clickable-element;
+}
+
+#plist-container {
+  min-width: 600px;
+  padding: 5px;
+}
+
+#nolocations {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  font-size: xx-large;
+  font-weight: 600;
+  color: rgba(0, 0, 0, .8);
+}
+
+@media screen and (max-width: 1280px) {
+  .patient-status-icon-container {
+    min-width: 80px;
+    flex-wrap: wrap;
+  }
+  .patient-status-icon {
+    margin-bottom: 0.25rem;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  #nolocations {
+    font-size: x-large;
+  }
+  .buttons-column {
+    width: 120px;
+    justify-content: flex-end;
+  }
+  .icons-column {
+    width: 30px;
+  }
+
+  :host ::ng-deep .mat-form-field-infix {
+    width: 130px;
+  }
+
+  .room-select {
+    width: 130px !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #nolocations {
+    font-size: initial;
+  }
+}
+
+button.remove-assignment {
+  pointer-events: visible !important;
+  position: absolute;
+  right: 5%;
+  margin: inherit;
+}
+
+.remove-assignment {
+  color: #6c757d;
+  background-color: #fff;
+}
+
+.remove-assignment:hover {
+  color: #fff;
+  background-color: #6c757d;
+}
+
+.labs-legend {
+  width: 430px;
+}
+
+.patient-status-icon-container {
+  width: 50%;
+}
+
+.patient-status-icon {
+  border-radius: 20px;
+  padding: 0.2rem;
+  margin-right: 0.25rem;
+  width: 35px;
+  height: 35px;
+
+  &.patient-status-ordered-icon {
+    background-color: $ordered-status-color;
+  }
+
+  &.patient-status-completed-icon {
+    background-color: $completed-status-color;
+  }
+}
+
+.ehr-icon {
+  --fa-primary-color: 'blue';
+  --fa-secondary-opacity: 1.0;
+  --fa-secondary-color: #0B77BC;
+  &.tablet {
+    --fa-secondary-color: #c3df00;
+  }
+  &.doc-started {
+    --fa-secondary-color: #fff829;
+  }
+  &.ehr-completed {
+    --fa-secondary-color: #00CA19;
+  }
+}
+
+.completed-icons {
+  justify-content: space-between;
+  .location-name, .patient-status-icon-container {
+    width: unset;
+  }
+}
+
+.gender-icon {
+  font-size: 1.25em;
+}
+
+.mat-icon {
+  &.remove {
+    color: #F26666;
+  }
+  &.disabled {
+    opacity: 0.5;
+    color: initial !important;
+  }
+}
+
+.room-select {
+  width: 180px;
+  min-width: 75px;
+}
+
+.divider {
+  height: 25px;
+}
+
+.room-controls {
+  min-width: 65px;
+}
+
+:host ::ng-deep .mat-form-field .mat-form-field-wrapper {
+  padding-bottom: 0;
+}
+
+:host ::ng-deep .mat-form-field .mat-form-field-underline {
+  bottom: 0;
+}
+
+:host ::ng-deep .mat-form-field-infix {
+  border-top: none;
+}
+
+.table td {
+  vertical-align: middle;
+  padding: 0.6rem;
+}
+
+.table tr {
+  transition: background-color .1s;
+  height: 58px;
+  &.treatment_complete {
+    background-color: $background-completed;
+  }
+  &.patient_with_doctor {
+    background-color: $background-assigned;
+  }
+  &.patient_waiting {
+    background-color: $background-waiting;
+  }
+  &.registered {
+    background-color: $background-registered;
+  }
+  &.awaiting {
+    background-color: $background-completed;
+  }
+  &.notified {
+    background-color: $background-assigned;
+  }
+  &.offline {
+    background-color: $background-registered;
+  }
+}
+
+.table th {
+  &.name-column {
+    width: 350px;
+    min-width: 200px;
+  }
+  &.id-column {
+    width: 110px;
+  }
+  &.complaint-column {
+    width: 265px;
+    min-width: 165px;
+  }
+  &.location-column {
+    width: 350px;
+    min-width: 250px;
+  }
+  &.telemedecine-url-column {
+    width: 50px;
+  }
+  &.exam-room-column {
+    width: 330px;
+  }
+  &.completed-column {
+    width: 120px;
+  }
+  &.ehr-column {
+    width: 130px;
+  }
+  &.provider-column {
+    width: 330px;
+  }
+  &.waiting-column {
+    width: 153px;
+  }
+}
+
+.table-header-clickable {
+  @extend %clickable-element;
+}
+
+mat-expansion-panel-header.mat-expanded {
+  background-color: #E4F1F2 !important;
+  border-bottom: 2px solid #02ABC0;
+  &:hover {
+    background-color: #ddebec;
+  }
+}
+
+.select-button {
+  width: 120px;
+
+  &.select-patient-button {
+    height: 20px;
+    padding: 0;
+  }
+
+  &.close-patient-button {
+    height: 20px;
+    margin-top: 8px !important;
+    background-color: #f48fb1;
+    color:white;
+    padding: 0;
+  }
+}
+
+:host ::ng-deep mdb-table-pagination .pagination {
+  margin-bottom: 0;
+}
+
+@media screen and (max-width: 1280px) {
+  .desktop-view {
+    display: none !important;
+    height: 0;
+    width: 0;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .tablet-view {
+    display: none !important;
+    height: 0;
+    width: 0;
+  }
+}

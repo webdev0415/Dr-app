@@ -1,0 +1,95 @@
+<div id="00d14e2d-56ad-43b9-9856-b46119c96283" class="row">
+  <div id="79cd69c3-3364-47fc-9b9f-9e3f7fafebb0" class="col-12">
+    <div class="row">
+      <div class="col-sm-6">
+        <h3 id="data">{{ title }}</h3>
+      </div>
+      <div class="col-sm-6">
+        <div id="52d2e7b2-f7ac-4f3c-b060-65ne7b749fe8" class="d-flex justify-content-end">
+          <pa-continue-button class="m-0"></pa-continue-button>
+        </div>
+      </div>
+    </div>
+    <section class="row">
+      <section class="col-md-12 col-lg-6">
+        <pa-item-list id="a122b9ce-d07b-4e7b-9ee3-787daf76d887" [section]="sections.personalHistory"
+                         [patient]="patient"
+                         [symptomCategories]="symptomCategories"
+                         [viewOnly]="viewOnly" (change)="otherInformationUpdate($event)">
+        </pa-item-list>
+      </section>
+      <section class="col-md-12 col-lg-6">
+        <pa-item-list id="9ad80939-c91c-4131-9187-93fecfdcc82e" [section]="sections.familyHistory"
+                         [patient]="patient"
+                         [symptomCategories]="symptomCategories"
+                         [viewOnly]="viewOnly" (change)="otherInformationUpdate($event)">
+        </pa-item-list>
+      </section>
+    </section>
+    <section class="row">
+      <section class="col-md-12 col-lg-6">
+        <pa-item-list id="793aa938-f7bc-4a5f-9ecb-afeabf439331" [section]="sections.patientSurgicalHistory" [patient]="patient"
+                         [symptomCategories]="symptomCategories"
+                         [viewOnly]="viewOnly" (change)="otherInformationUpdate($event)">
+        </pa-item-list>
+      </section>
+      <section class="col-md-12 col-lg-6" id="medications">
+        <pa-item-list id="9ad80939-c91c-4131-9187-93fac3dc382e" [section]="sections.medications" [patient]="patient"
+                         [symptomCategories]="symptomCategories"
+                         [viewOnly]="viewOnly" (change)="otherInformationUpdate($event)">
+        </pa-item-list>
+      </section>
+    </section>
+
+    <section class="row">
+      <section class="col-md-12 col-lg-6">
+        <pa-item-list [section]="sections.immunization" [patient]="patient"
+                      [symptomCategories]="symptomCategories"
+                      [viewOnly]="viewOnly" (change)="otherInformationUpdate($event)">>
+        </pa-item-list>
+      </section>
+    </section>
+
+    <hr>
+
+    <section class="row" id="allergies">
+      <section class="col-md-12 col-lg-6">
+        <pa-item-list id="drug-allergies" [section]="sections.drugAllergies" [patient]="patient"
+                         [symptomCategories]="symptomCategories"
+                         [viewOnly]="viewOnly" (change)="otherInformationUpdate($event)">
+        </pa-item-list>
+      </section>
+      <section class="col-md-12 col-lg-6">
+        <pa-item-list id="non-drug-allergies" [section]="sections.nonDrugAllergies" [patient]="patient"
+                         [symptomCategories]="symptomCategories"
+                         [viewOnly]="viewOnly">
+        </pa-item-list>
+      </section>
+    </section>
+
+    <hr *ngIf="previousVisits.length">
+
+    <section class="category" *ngIf="previousVisits.length">
+      <div id="2c9d382b-d35e-4f1f-a15d-b703dedd9a4d">
+        <div id="f8744606-a8d4-4523-aba4-2fd10334e12a" class="d-flex justify-content-start">
+          <h5>Previous Visits</h5>
+          <div class="divider my-2"></div>
+        </div>
+        <div id="bb8ab84a-5305-48d3-b780-b08cdb0a4df3" class="mt-3 mb-3 d-flex justify-content-between flex-wrap">
+          <div class="item-half" *ngFor="let visit of groupedPreviousVisits">
+            <div class="date">{{visit.key}} ({{getDateAgo(visit.key).length ? getDateAgo(visit.key) + ' ago' : 'today'}})</div>
+            <div class="d-flex justify-content-start transparent" *ngFor="let illness of visit.value">
+              <span class="dash-right-margin">-</span>
+              <span class="mr-2 flex-1">{{illness.name}}</span>
+              <span>{{illness.icd10code}}</span>
+            </div>
+          </div>
+        </div>
+        <button
+                mdbBtn type="button" color="primary" outline="true" size="md" mdbWavesEffect (click)="togglePreviousVisits()">
+          {{ isPreviousVisitsShownMore ? 'More' : 'Less' }}
+        </button>
+      </div>
+    </section>
+  </div>
+</div>

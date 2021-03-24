@@ -1,0 +1,14 @@
+@import "../../../styles/shared/variables";
+@import "../../../styles/shared/mixins";
+
+.active {
+  background-color: $green-color !important;
+}
+
+.btn-green {
+  background-color: $light-green-color !important;
+}
+
+.btn {
+  font-size: 18px !important;
+}

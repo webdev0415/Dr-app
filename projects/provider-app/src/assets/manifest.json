@@ -1,0 +1,26 @@
+{
+  "name": "Kiosk Web App",
+  "short_name": "Kiosk",
+  "start_url": "/patients/",
+  "lang": "en-US",
+  "display": "standalone",
+  "background_color": "#37474F",
+  "theme_color": "#37474F",
+  "icons": [
+    {
+      "src": "img/manifest/anm-96x96.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "img/manifest/anm-144x144.png",
+      "type": "image/png",
+      "sizes": "144x144"
+    },
+    {
+      "src": "img/manifest/anm-256x256.png",
+      "type": "image/png",
+      "sizes": "256x256"
+    }
+  ]
+}

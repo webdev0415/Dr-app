@@ -1,0 +1,38 @@
+<form [formGroup]="protocolDetailsForm" class="h-100" (ngSubmit)="closeDialog()">
+  <div class="w-100 h-100 d-flex flex-column">
+    <div class="w-100 d-flex flex-column">
+      <p class="font-weight-bold fs-24 text-left text-capitalize">Protocol saving details</p>
+      <mat-form-field class="w-100">
+        <mat-label>Protocol Alias</mat-label>
+        <input matInput [formControlName]="'alias'"/>
+      </mat-form-field>
+      <mat-form-field class="w-100 mb-3">
+        <mat-label>Keys</mat-label>
+        <mat-select [formControlName]="'keys'" [multiple]="true" class="text-capitalize">
+          <mat-option *ngFor="let option of keysOptions"
+                      [value]="option.value"
+                      class="text-capitalize">{{option.label}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div class="d-flex flex-row w-100 mb-3">
+        <mat-checkbox [formControl]="entirePlanSaveControl" [color]="'primary'" [labelPosition]="'before'">Save Entire Plan</mat-checkbox>
+      </div>
+      <div class="w-100 d-flex flex-column" [formArrayName]="'treatments'">
+        <p class="font-weight-bold fs-20 text-left text-capitalize">Select treatments to save</p>
+        <form *ngFor="let treatment of treatmentsFormArray.controls; let i = index;" [formGroupName]="i" class="w-100">
+          <mat-checkbox class="text-capitalize" [labelPosition]="'after'" [color]="'primary'" [formControlName]="'isSelected'">{{treatment.get('name').value}}</mat-checkbox>
+        </form>
+      </div>
+    </div>
+    <div class="popup-btn-group d-flex flex-column justify-content-end mt-auto">
+      <div class="d-flex justify-content-center">
+        <button mdbBtn type="button" color="primary" class="mx-2 my-0" [outline]="true" size="md" mdbWavesEffect
+                matDialogClose>Cancel
+        </button>
+        <button mdbBtn type="submit" color="primary" class="mx-2 my-0" size="md" mdbWavesEffect
+                [disabled]="protocolDetailsForm.invalid">Confirm
+        </button>
+      </div>
+    </div>
+  </div>
+</form>

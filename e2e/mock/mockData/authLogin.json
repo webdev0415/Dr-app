@@ -1,0 +1,26 @@
+{
+  "expression": "^/auth/user_login/$",
+  "method": "POST",
+  "name": "login",
+  "isArray": false,
+  "responses": {
+    "success": {
+      "default": true,
+      "status": 200,
+      "headers": {     },
+      "data": {
+        "user_token":"(2cW;CCngzhU9rx4J&-C3+?7$u{E16XqhpR-W9G3662&jz{IikFVEfVZW$51<Usq__Fmez3&g=Qvd5~e_mqKVuz#XTiNx|uAQg3!Q_93sMw>s?sQn<=@44OI",
+        "state_issued":"AK",
+        "debug_mode":false,
+        "full_name":"Evgeny F. Rozhnov",
+        "license_number":"sss"
+      }
+    },
+    "invalidLogin": {
+      "status": 403,
+      "data": {
+        "message": "invalid credentials"
+      }
+    }
+  }
+}

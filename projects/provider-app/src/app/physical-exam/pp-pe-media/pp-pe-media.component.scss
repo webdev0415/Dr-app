@@ -1,0 +1,49 @@
+:host {
+  & {
+    width: 100%;
+    height: 100%;
+    color: #FFF;
+  }
+}
+
+
+.disabled {
+  pointer-events: none;
+  opacity: .2;
+}
+
+.rotate {
+  flex-direction: column !important;
+  div {
+    z-index: 2;
+  }
+  #midimage {
+    padding-top: 90px;
+  }
+}
+
+#rotate {
+  margin-top: 2rem;
+}
+
+.dragscroll {
+  flex-direction: column !important;
+  justify-content: center;
+}
+
+.mat-drawer-container {
+  background-color: unset!important;
+  color: unset!important;
+}
+
+mat-sidenav {
+  width: 40%
+}
+
+.side-panel {
+  width: 0!important;
+}
+
+mat-sidenav-container mat-sidenav pa-exam-panel.exam-panel-container{
+  width: 100%!important;
+}

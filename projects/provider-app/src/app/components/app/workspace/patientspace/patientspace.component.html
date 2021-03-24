@@ -1,0 +1,25 @@
+<mat-sidenav-container class="fh space-container" autosize>
+  <mat-sidenav #exampanel opened="false" [mode]="'over'" position="end" [autoFocus]="false">
+    <pa-exam-panel #paExampanel [panel]="exampanel" [section]="examPanelSection" [store]="PEStore" [viewOnly]="viewOnly"></pa-exam-panel>
+  </mat-sidenav>
+  <mat-sidenav-content class="fh">
+    <main #main>
+      <div *ngIf="isPICBusiness" class="d-flex justify-content-end mt-2 pr-1">
+        <div class="d-flex justify-content-between border border-info rounded labs-legend mr-4">
+          <div class="d-flex flex-row">
+            <div *ngFor="let location of ehrLocations" class="mx-1 my-1 mr-3 ehr-location" (click)="ehrLogin(location)">
+              <span class="badge badge-pill" [ngClass]="ehrLoggedStatus[location] ? 'badge-success' : 'badge-danger'" >{{ location | titlecase }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="page-container clearfix" [class.page-container-full]="!(isShowBottomSpace$ | async)">
+        <div id="91064f73-97c3-44c2-946a-4cdef5ca33ab" class="page-content">
+          <router-outlet (activate)='onActivateComponent($event)'></router-outlet>
+        </div>
+      </div>
+      <pa-bottom-space [instanceComponent]="activatedComponent$ | async" (changeShow)="onChangeShowBottomSpace($event)">
+      </pa-bottom-space>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

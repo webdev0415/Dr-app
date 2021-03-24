@@ -1,0 +1,8 @@
+<ng-template>
+  <div class="d-flex flex-column w-100 p-1" tabindex="0" *ngIf="findings.length">
+    <pa-subsystem-results-editable *ngFor="let subsystem of PESystem.descriptionsArray" [PESubsystem]="subsystem" (examResultChange)="examResultChange($event)">
+      <span><strong>{{ getSubSystemDescription(subsystem) }}:</strong></span>
+    </pa-subsystem-results-editable>
+  </div>
+</ng-template>
+

@@ -1,0 +1,66 @@
+<div id="70e3e454-b676-4cc8-b892-a19285cfcdce" class="mat-header-row diagnosis">
+  <div class="mat-header-cell mat-column-toggle toggle">
+    <span></span>
+  </div>
+  <div *ngIf="illnessPresentation === illnessPresentationEnum.CONFIDENCE" class="mat-header-cell mat-column-probability probability">
+    <span>Probability</span>
+  </div>
+  <div *ngIf="illnessPresentation === illnessPresentationEnum.RANKING" class="mat-header-cell mat-column-ranking ranking">
+    <span>Rank</span>
+  </div>
+  <div class="mat-header-cell mat-column-criticality criticality">
+    <span>Criticality</span>
+  </div>
+  <div class="mat-header-cell mat-column-icdGroup icdGroup pl-2 d-flex w-100 justify-content-between">
+    <span>Illness</span>
+    <span *ngIf="title.length" class="fs-18 mr-2">{{title}}</span>
+  </div>
+</div>
+
+<div id="a4166b75-62ad-4a15-8439-afb2ce21a6d5" *ngFor="let icdGroup of sortedAccordionGroups; let idx = index;">
+  <div id="27120bf8-b2c2-434e-b362-d73266af00c2"
+       class="element-row mat-row clickable-row"  (click)="toggleRow(icdGroup)"
+       [class.expanded]="expandedElements[icdGroup]">
+
+    <div id="5697958d-786b-4430-927a-9015f50a8377" class="mat-cell toggle">
+      <mat-icon class="collapsed">keyboard_arrow_right</mat-icon>
+      <mat-icon class="expanded">keyboard_arrow_down</mat-icon>
+    </div>
+
+    <div id="3e2fdab0-9131-4f61-9a9b-48e93c3deca7" class="mat-cell mat-column-probability">
+      <div id="1a647aed-d539-4b03-af43-bf9efe8e2b91">
+        {{ formatRanking(accordionGroups[icdGroup]) }}
+      </div>
+    </div>
+
+    <div id="201d39e7-d59c-44ef-bbe3-5a2223a1ddaa" class="mat-cell mat-column-criticality"
+         [ngClass]="helpers.rowsStyler(getGroupCriticality(icdGroup)) ? 'danger font-weight-bold' : ''">
+      <div id="ddc1500b-f4db-4992-9611-42eee1b2bfc7">
+        {{ icdGroup !== 'Doctor added' ? getGroupCriticality(icdGroup) : 'NA' }}
+      </div>
+    </div>
+
+    <div id="201d39e7-d59c-145f-bbe3-5a22g3a1ddaa" class="mat-cell mat-column-group w-100 px-2">
+      <div id="d2cu500b-f4db-4992-9611-42e9e1b2bfc7" class="d-flex justify-content-between w-100">
+        <span class="flex-grow-1">{{ icdGroup }}</span>
+        <span *ngIf="getGroupSelection(icdGroup)" class="selected-highlight">{{getGroupSelection(icdGroup)}} Selected</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="4317fae5-ccc3-40a2-aad4-0ab27405931d" class="element-row mat-row expandedDetail">
+    <div id="2c14bd76-624f-4172-8a9c-9a8cc23043a0" class="mat-cell">
+      <pa-contributortable *ngIf="isContributorTableView" id="f23e8156-d0cd-48f5-88e1-dc65e04089c8"
+                           [source]="groupedContributors[icdGroup]" [illnessPresentation]="illnessPresentation"
+                           [infoSources]="getIllnessSourceInfo(accordionGroups[icdGroup][0].icd10) | async" [icd10GroupName]="icdGroup" class="w-100"></pa-contributortable>
+      <pa-illnesstable *ngIf="isIllnessTableView" id="f23e8156-d0ecd-48f5-88e1-dc65e04189c8" (change)="onIllnessChange($event)" (toggleAccordionEvent)="$event"
+                       [reviewed]="reviewed && examReviewed" [illnessPresentation]="illnessPresentation"
+                       [topIllnessQuantity]="topIllnessQuantity" [source]="accordionGroups[icdGroup]"
+                       [accordionName]="'illnesses'" [expanded]="false" [group]="icdGroup"
+                       (reviewDialog)="reviewDialog.emit()" class="w-100"></pa-illnesstable>
+    </div>
+  </div>
+</div>
+<div *ngIf="!sortedAccordionGroups.length" class="w-100 p-4 text-center no-info">
+  No Illness Data
+</div>

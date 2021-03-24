@@ -1,0 +1,14 @@
+{
+  "expression": "^/patients/.*/assign/$",
+  "method": "POST",
+  "name": "assign",
+  "isArray": false,
+  "responses": {
+    "success": {
+      "default": true,
+      "status": 200,
+      "headers": {},
+      "data": null
+    }
+  }
+}

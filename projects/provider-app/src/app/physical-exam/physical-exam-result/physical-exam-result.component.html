@@ -1,0 +1,4 @@
+<div class="d-flex flex-row">
+  <ng-content></ng-content>
+  <textarea [id]="finding.code+index+'textarea'" #findingsText cdkTextareaAutosize [(ngModel)]="text" [tabIndex]="0" (blur)="onBlur()" (keydown)="textareaKeydown($event)"></textarea>
+</div>

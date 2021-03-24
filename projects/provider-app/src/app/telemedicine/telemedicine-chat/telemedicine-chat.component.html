@@ -1,0 +1,21 @@
+<div id="container" class="w-100">
+  <div class="d-flex flex-column mt-2 ml-4 flex-nowrap overflow-auto" id="messages" #messagesContainer>
+    <div class="d-flex flex-column w-100 mb-3" *ngFor="let message of (messages | async) as messagesArray; let index=index"
+         id="message-{{index}}">
+      <div class="d-flex flex-row w-100 flex-wrap justify-content-start align-items-end">
+        <span class="text-capitalize"><strong>{{message.from}}</strong></span>
+        <span class="text-black-50 ml-2">{{parseMessageTime(message.time)}}</span>
+      </div>
+      <textarea cdkTextareaAutosize disabled class="text-break border-0 overflow-hidden">{{message.text}}</textarea>
+    </div>
+  </div>
+  <div class="d-flex flex-row w-100 flex-nowrap">
+    <form [formGroup]="messageForm" class="message-form ml-4">
+      <mat-form-field class="w-100">
+        <textarea cdkTextareaAutosize matInput [cdkAutosizeMaxRows]="5" [cdkAutosizeMinRows]="1" [formControlName]="'message'" class="w-100 py-0" [errorStateMatcher]="errorStateMatcher" [maxLength]="messageMaxLength" #messageInput></textarea>
+        <i matSuffix class="material-icons" [class.icon-blue]="messageForm.valid"
+           (click)="sendMessage($event)">send</i>
+      </mat-form-field>
+    </form>
+  </div>
+</div>

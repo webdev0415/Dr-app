@@ -1,0 +1,16 @@
+<div id="fv98s64a-5eb6-4496-a88e-d0f5j405y859" class="d-flex flex-column align-items-start wrapper">
+  <span class="title">{{info.title}}</span>
+  <span class="message text-left mb-4">{{info.message}}</span>
+  <mat-list class="list" *ngIf="data.type === 'ReviewBoth'">
+    <mat-list-item *ngFor="let item of list">
+      <mat-icon matListIcon class="bullet">warning</mat-icon>
+      <span>{{item}}</span>
+    </mat-list-item>
+  </mat-list>
+  <button mdbBtn type="button" color="primary" size="lg" [block]="true" mdbWavesEffect class="mt-2" *ngIf="data.type === 'ReviewSymptoms' || data.type === 'ReviewBoth'"
+          (click)="saveDialog('symptoms')">Review Patient Symptoms</button>
+  <button mdbBtn type="button" color="primary" size="lg" [block]="true" mdbWavesEffect class="mt-2" *ngIf="data.type === 'ReviewExams' || data.type === 'ReviewBoth'"
+          (click)="saveDialog('vm')">Review Patient Physical Exams</button>
+  <mat-divider class="divider w-100"></mat-divider>
+  <button mdbBtn type="button" color="primary" size="lg" [outline]="true" [block]="true" mdbWavesEffect (click)="cancelDialog()">{{data.type === 'ReviewBoth' ? 'Close' : 'Cancel'}}</button>
+</div>

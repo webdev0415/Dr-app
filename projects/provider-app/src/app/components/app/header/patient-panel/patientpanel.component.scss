@@ -1,0 +1,132 @@
+@import '../../../../../styles/shared/variables';
+
+$patient-profile-min-height: 170px;
+
+.header-image{
+  height: 220px;
+}
+.patient-profile {
+  background: inherit;
+  min-height: $patient-profile-min-height;
+  color: inherit;
+  position: relative;
+  .p-content {
+    .photo-container {
+      cursor: pointer;
+    }
+    margin-right: 15px;
+    word-wrap: break-word;
+    padding: {
+      top: rem(15);
+      left: rem(10);
+      right: rem(10);
+      bottom: rem(12);
+    }
+    @media screen and (max-width: 1280px) {
+      .above-item{
+        margin-left: rem(10);
+        margin-bottom: 0.5em;
+      }
+    }
+
+    @media screen and (min-width: 1281px) {
+      .above-item{
+        margin: 0 auto 1em;
+      }
+      .patient-name {
+        display: none !important;
+      }
+    }
+
+    .item {
+      margin: {
+        right: rem(10);
+        left: rem(10);
+      }
+      max-width: 600px;
+    }
+    h5 {
+      font-size: rem(21);
+      font-weight: bold;
+      max-width: 100%;
+      margin-right: 5%;
+    }
+    .p-info {
+      color: #E0F4FD;
+      font-size: 16px;
+      padding: {
+        top: rem(5);
+        bottom: rem(5);
+      };
+    }
+  }
+}
+
+.info-icon {
+  position: absolute;
+  top: 20px;
+  right: 10px;
+}
+
+.info-text {
+  opacity: 0.8;
+}
+
+.mat-divider {
+  border-top-color: white;
+  border-right-color: white;
+  margin-right: rem(3);
+}
+
+.icon-style {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+::ng-deep .mat-select-content {
+  width: 100px;
+  color: white !important;
+
+  .mat-select-value {
+    color: white !important;
+  }
+
+}
+
+::ng-deep .DOB-date-picker-style {
+
+  .mydp {
+    width: 50% !important;
+  }
+
+  .form-control {
+    color: white !important;
+  }
+
+}
+
+.error-message {
+  top: 30px !important;
+}
+
+.btn-outline-white {
+  border: 2px solid #ffffff !important;
+  background-color: transparent !important;
+  color: #ffffff !important;
+
+  &:hover{
+    box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15) !important;
+  }
+}
+
+
+::ng-deep .patient-documents-buttons {
+  .btn svg {
+    color: #ffffff !important;
+
+    &:hover {
+      color: #ffffff !important;
+    }
+  }
+}

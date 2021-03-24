@@ -1,0 +1,189 @@
+<!-- discharge section { -->
+<div id="3b0f2370-b4da-414c-a7de-40e60e4ab007" class="docbody doc">
+  <br><br>
+  <h3 class="text-center" id="dischargeTitle">Discharge Instructions</h3>
+
+  <div id="17f7cfc0-f452-4bbb-9da9-8a5d242be0f0" class="section">
+    <div id="af5f4479-9c19-483f-94e7-b7b49b88be10" class="col px-0">
+      <span><strong class="name" id="dischargeDisposition">Discharge Disposition:</strong></span>
+      <ng-container *ngIf="getTreatmentsOfSpecifiedType(treatmentTypes.DISCHARGE_DISPOSITION); else homeDischarge">
+        <pa-discharge-disposition-table *ngFor="let item of getTreatmentsOfSpecifiedType(treatmentTypes.DISCHARGE_DISPOSITION)"
+                                        [treatment]="item">
+        </pa-discharge-disposition-table>
+      </ng-container>
+      <ng-template #homeDischarge>
+        <span>Home</span>
+      </ng-template>
+    </div>
+  </div>
+  <div id="45870ac3-2d6e-4783-8538-c1e774210337"
+       class="section">
+    <div id="4f11a8fd-4dd2-43a0-b489-b334f35b8d05" class="row">
+      <span><strong id="diet" class="name">Diet/Nutrition:</strong></span> <span *ngIf="!getDietNutrition.size">No
+                      Restrictions</span><span *ngIf="getDietNutrition.size"><span
+      *ngFor="let dn of getDietNutrition; let idx = index">{{dn}}{{idx
+                        < getDietNutrition.size - 1 ? ', ' : '' }}</span> </span></div>
+  </div>
+  <div id="ffef1b0f-6bc0-4489-a4e9-48a0579d60d2"
+       class="section">
+    <div id="11d5da0f-ba92-4efe-8d57-a64f87e0dfac" class="row">
+      <strong class="name" id="prescribed_instructions">Medications Prescribed: Please check with
+        your physician regarding medication orders and
+        refer to General Information related to Medication Use printed along with your
+        prescriptions once they are
+        filled.
+      </strong>
+    </div>
+    <div id="21604789-a2a7-4327-9a06-19d4f2a0ea31" *ngIf="!getMedications.length" class="row">None</div>
+    <div id="2030b829-23c4-4d2d-97b0-18a0a39cc05c" *ngIf="getMedications.length" class="section">
+      <div id="520d8610-d7cd-4fbd-9e29-fd594717c0ee" *ngFor="let drug of getMedications"
+           class="row align-items-start">
+        <div class="drug-name">
+          <strong>{{ drug.name }}</strong>
+        </div>
+        <div>
+          {{ drug.instr.strength }}, count:
+          {{ drug.instr.quantity }}, route: {{ drug.instr.route}};
+          {{ drug.instr.directionsString }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="5a4925f0-3ee9-4eb6-9660-c283806df2fc" class="section">
+    <div id="27f1ffa1-9de1-4d61-ac43-3b34072e9258" class="row">
+      <span><strong class="name" id="homeMedications">Home Medications:</strong></span>
+    </div>
+    <div id="d101f64f-9279-4251-995d-b7a5fe7b4781" *ngIf="!getHomeMedications.length" class="row">None</div>
+    <div id="3e0bb3a7-048f-43a0-9e27-ef3d6e10dbcb" *ngIf="getHomeMedications.length" class="section">
+      <div id="3f27154d-ed39-4d7b-a24f-ec8a76fb3924" *ngFor="let drug of getHomeMedications"
+           class="row align-items-start">
+        <div class="drug-name">
+          <strong>{{ drug.name.toUpperCase() }}</strong>
+        </div>
+        <div>
+          {{ drug.instr.strength }}, count: {{ drug.instr.quantity }},
+          route: {{ drug.instr.route }}; {{ drug.instr.directionsString }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="instructions">
+    <span><strong class="name">Special Medication Instructions:</strong></span>
+    <div id="c04d2b76-3cf4-4a68-93e3-6f96451b0ddc" class="row">
+            <textarea class="area" id="medicationArea" cdkTextareaAutosize cdkAutosizeMinRows="5"
+                      cdkAutosizeMaxRows="43" data-gramm_editor="false" [(ngModel)]="data.medicationInstructions" (change)="update.emit({section: 'discharge', data: data})"></textarea>
+    </div>
+  </div>
+  <div id="24984285-b755-4c88-aae3-9bf6d48db7f7" class="section">
+    <div id="327505cc-911a-45b5-af50-9b82d8114ed5" class="row">
+      <input type="checkbox" class="form-check-input" name="food_med_provided" id="food_med_provided"
+             [(ngModel)]="data.foodMedProvided"/>
+      <label class="check-label" for="food_med_provided">Food/Medication instructions provided</label>
+    </div>
+    <div id="c3ea5ac3-3750-4174-89f9-29b4f2d844e9" class="row">
+      <span><strong class="name" id="smokingStatus">Tobacco/Smoking Status: </strong></span>
+    </div>
+    <div id="fb9e4f9e-7355-46ff-942a-beec058e70b7" class="row">
+      <input type="checkbox" class="form-check-input" name="patient_smoking_status" id="patient_smoking_status" [checked]="!!getSmokingStatus"/>
+      <label class="check-label" for="patient_smoking_status">Current Tobacco Consumer</label>
+    </div>
+    <div id="63292ac0-148d-45a4-847a-23498bcc2bde" class="row">
+      <input type="checkbox" class="form-check-input" name="patient_given_nfo_quit" id="patient_given_nfo_quit"
+             [(ngModel)]="data.patientGivenInfoQuit"/>
+      <label class="check-label" for="patient_given_nfo_quit">Patient given information on quitting</label>
+    </div>
+    <div id="b4c6cd0f-3bb9-4dfe-8feb-ae5cd19e6b4f" class="row">
+      <input type="checkbox" class="form-check-input" name="conditions_given" id="conditions_given"
+             [(ngModel)]="data.conditionHangoutsGiven"/>
+      <label class="check-label" for="conditions_given">Condition specific handouts given</label>
+    </div>
+  </div>
+
+  <div id="a941eec8-faf3-4761-95fd-7266c904f45a" class="section">
+    <span id="selectedNeeds">Based on your individual needs you have selected the following:</span>
+    <div id="27f74735-a361-451f-8728-0f2e7ac1feb9" class="row" id="homeHealthAgencyName">
+      <span><strong class="name">Home Health Agency Name:</strong></span>
+      <input *ngIf="!data.homeHealthAgencyName" type="checkbox" class="form-check-input" name="no_hhan" id="no_hhan"
+             [(ngModel)]="data.hhanNA" (click)="naClick.emit(true)"/>
+      <label *ngIf="!data.homeHealthAgencyName" class="check-label" for="no_hhan">NA</label>
+      <input *ngIf="!data.hhanNA" type="text" class="grow" [(ngModel)]="data.homeHealthAgencyName"/>
+    </div>
+    <div id="hhaPhoneNumber" *ngIf="!data.hhanNA" class="row">
+      The phone number for this agency is <input type="text" [(ngModel)]="data.hhaPhoneNumber" class="grow"/>
+    </div>
+    <div id="no_hhaPhoneNumber" *ngIf="!data.hhanNA" class="row">
+      Please contact this number if you are not contacted in the next 24 hours.
+    </div>
+    <div id="equipment" class="row">
+      <span><strong class="name">Equipment:</strong></span>
+      <input *ngIf="!data.equipment" type="checkbox" class="form-check-input" name="no_equipment" id="no_equipment"
+             [(ngModel)]="data.equipmentNA" (click)="naClick.emit(true)"/>
+      <label *ngIf="!data.equipment" class="check-label" for="no_equipment">NA</label>
+      <input *ngIf="!data.equipmentNA" class="grow" type="text" [(ngModel)]="data.equipment"/>
+    </div>
+    <div id="equipmentProvidedBy" *ngIf="!data.equipmentNA" class="row">
+      <span>Your medical equipment will be provided by:</span>
+      <input type="text" [(ngModel)]="data.equipmentProvidedBy" class="grow"/>
+    </div>
+    <div id="b1f3f02b-56eb-449c-ae9c-786e3e3df6fe" *ngIf="!data.equipmentNA" class="row">
+      <label for="equipmentPhone">The phone number for this agency is</label>
+      <input name="equipmentPhone" id="equipmentPhone" type="text" [(ngModel)]="data.equipmentPhone" class="grow"/>
+    </div>
+    <div id="13a7a4e1-ba96-44e3-8bd8-9d9e3d827687" *ngIf="!data.equipmentNA" class="row">
+      <label for="equipmentProvidedDate">Delivery of this equipment is expected on this <br/>date:</label>
+      <input name="equipmentProvidedDate" type="text" id="equipmentProvidedDate"
+             [(ngModel)]="data.equipmentProvidedDate" [textMask]="dateInputMask"/>.
+      <span id="not_arrived">If it has not arrived, contact the above number.</span>
+    </div>
+  </div>
+  <div id="understand_care" class="section">
+    <div id="97f00b0c-156c-460e-bcb6-b55b1f4b5117" class="row">
+      <span><strong class="name">I understand the guidelines for my care:</strong></span>
+    </div>
+    <div id="5ac460a9-7fb9-4a33-a639-b403b875aa22" class="row">
+      <div id="47a64ee9-3de0-4ec6-a579-848088bd0743" class="underlabeled subscript">
+        <input type="text" id="responsiblePerson" name="responsiblePerson" [(ngModel)]="data.responsiblePerson"/>
+        <label for="responsiblePerson">Responsible Person</label>
+      </div>
+      <div id="a49a402a-8340-4576-ab13-4432ea50243b" class="underlabeled">
+        <input type="text" id="rp_date" name="rp_date" [value]="date" readonly>
+        <label for="rp_date">Date</label>
+      </div>
+    </div>
+    <div id="48c4a614-041e-412c-82ed-759d12015357" class="row">
+      <div id="2817882d-3ef5-48af-925f-b3fa5880030c" class="underlabeled subscript">
+        <input type="text" [(ngModel)]="completedDoctor"/>
+        <label>NP/PA/DO/MD</label>
+      </div>
+      <div id="f8528b5f-ffa4-4399-8235-d3641a94906b" class="underlabeled">
+        <input type="text" id="dr_date" name="dr_date" [value]="date" readonly>
+        <label for="dr_date">Date</label>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="dischargeArticles.length" id="discharge_articles" class="section">
+    <div id="ae6ba871-e7d6-42bc-b452-c3ddd286d627" class="row">
+      <span><strong class="name" id="49302fcf-eb99-4393-bf7e-7596432a3a67">Discharge Articles:</strong></span>
+    </div>
+    <table>
+      <tbody>
+      <tr *ngFor="let article of dischargeArticles; let index=index;">
+        <td class="px-1 text-center">{{ index + 1 }}</td>
+        <td class="px-1 text-center">{{ article.title }}</td>
+        <td class="px-1"><a [href]="article.link" target="_blank" (click)="reviewReport(article)">{{ article.link }}</a></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="customArticles" class="section custom-instruction">
+    <span><strong class="name">Doctor's Articles:</strong></span>
+    <div class="row">
+      <textarea cdkTextareaAutosize class="area bg-white" data-gramm_editor="false" disabled>{{customArticles}}</textarea>
+    </div>
+  </div>
+
+</div>
+<!-- } discharge section  -->

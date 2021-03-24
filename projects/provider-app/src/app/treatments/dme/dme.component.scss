@@ -1,0 +1,85 @@
+.dme-container {
+  border: 2px solid #45e9e9;
+  border-radius: 5px;
+  padding: 1.5rem;
+
+  .new-dme {
+    border-bottom: 1px solid grey;
+    padding-bottom: 10px;
+    width: 100%;
+  }
+
+  .created-dmes {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .dme-row {
+      margin-top: 1.2%;
+    }
+  }
+
+  .dme-row {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+
+    padding-left: 3%;
+    padding-right: 3%;
+
+    > div {
+      margin-right: 1.5%;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+
+    margin-bottom: 3%;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .no-maring-padding {
+    padding: 0;
+    margin: 0;
+  }
+
+  .dme-search {
+    width: 20%;
+  }
+
+  .dme-qty {
+    width: 12%;
+  }
+
+  .dme-instructions {
+    width: 45%;
+  }
+
+  .dme-ICD {
+    width: 18%;
+    overflow-wrap: break-word;
+
+    .md-form {
+      margin: 0 !important;
+
+      label: {
+        display: none;
+      }
+    }
+  }
+
+  .iconWrapper {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+
+    &.disabled {
+      color: grey;
+      pointer-events: none;
+    }
+  }
+}

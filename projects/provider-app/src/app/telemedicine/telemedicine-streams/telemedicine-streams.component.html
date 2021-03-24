@@ -1,0 +1,25 @@
+<div class="d-flex flex-column justify-content-between h-100">
+
+  <div class="d-flex flex-column justify-content-between" id="navigation" *ngIf="mainStream$ | async as main">
+    <div [id]="videoSource.PATIENT"
+         [class.d-none]="main === videoSource.PATIENT || !streams[videoSource.PATIENT]"
+         (click)="focus(videoSource.PATIENT); $event.preventDefault(); $event.stopPropagation()">
+      <span>Patient</span>
+    </div>
+    <div [id]="videoSource.EAR"
+         [class.d-none]="main === videoSource.EAR || !streams[videoSource.EAR]"
+         (click)="focus(videoSource.EAR); $event.preventDefault(); $event.stopPropagation()">
+      <span>Ear</span>
+    </div>
+    <div [id]="videoSource.MOUTH"
+         [class.d-none]="main === videoSource.MOUTH || !streams[videoSource.MOUTH]"
+         (click)="focus(videoSource.MOUTH); $event.preventDefault(); $event.stopPropagation()">
+      <span>Mouth</span>
+    </div>
+    <div [id]="videoSource.NOSE"
+         [class.d-none]="main === videoSource.NOSE || !streams[videoSource.NOSE]"
+         (click)="focus(videoSource.NOSE); $event.preventDefault(); $event.stopPropagation()">
+      <span>Nose</span>
+    </div>
+  </div>
+</div>

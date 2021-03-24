@@ -1,0 +1,64 @@
+@import '../../../../../../src/styles/shared/variables';
+
+.waveform {
+  width: 100%;
+  background-color: #181818;
+  background-size: 8px 100px;
+  background-repeat: repeat-x;
+  background-image: linear-gradient(to right, #363636 1px, transparent 1px, transparent);
+  background-position: left 7px top;
+}
+
+.audio-button {
+  background-color: $blue-250-color;
+  color: $gray-200-color;
+}
+
+.controls {
+  background-color: #363636;
+  height: 40px;
+  i {
+    @extend %clickable-element;
+    color: #ffffff;
+  }
+}
+
+.player-top {
+  background-color: #363636;
+  color: #ffffff;
+  border: solid #ABABAB;
+  border-width: 0 0 1px 0;
+  padding: 8px 12px;
+  i {
+    @extend %clickable-element;
+    color: #ffffff;
+  }
+}
+
+#timer {
+  color: #fff;
+  margin: 0 20px;
+}
+
+.track-text {
+  color: #0DA9F2;
+  text-decoration: underline;
+  cursor: pointer;
+  text-transform: capitalize;
+}
+
+.disabled {
+  cursor: default !important;
+  opacity: 0.5;
+}
+
+.menu-button, .menu-item {
+  width: 276px;
+   &:focus {
+     outline: none;
+   }
+ }
+
+::ng-deep .mat-progress-spinner {
+  stroke: #fff!important;
+}

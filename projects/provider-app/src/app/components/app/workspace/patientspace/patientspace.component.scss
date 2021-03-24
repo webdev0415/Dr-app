@@ -1,0 +1,16 @@
+@import "../../../../../../src/styles/shared/mixins";
+@import "../../../../../../src/styles/shared/variables";
+
+main {
+  margin-left: 0;
+  height: 100%;
+  transition: .5s;
+}
+
+.ehr-location {
+  cursor: pointer;
+}
+
+.space-container ::ng-deep .mat-sidenav-content {
+  overflow: hidden;
+}

@@ -1,0 +1,69 @@
+<div *ngIf="age < 13" class="d-flex w-100 justify-content-center">
+  <div class="weight-container p-3">
+    <label for="weight">Weight:</label>
+    <input type="text" id="weight" [ngModel]="weight" disabled>
+    <span>(1kg = 2.2lbs)</span>
+  </div>
+</div>
+
+<h6 id="current-symptoms-header"><strong>Current Symptoms</strong></h6>
+
+<div class="w-100 d-flex justify-content-center">
+  <div class="symptoms-container w-75">
+    <div *ngFor="let symptomQuestion of currentSymptomsQuestions; let i = index;">
+      <label class="text-nowrap">
+        <input type="checkbox" class="mr-2" [disabled]="true" [checked]="symptomQuestion.answer.toLowerCase() === 'yes'">
+        {{symptomQuestion.question}}
+      </label>
+    </div>
+  </div>
+</div>
+
+<h6 class="mt-2"><strong>Patient History</strong></h6>
+<ng-container *ngTemplateOutlet="questionnaireTable;context: {questions: patientHistoryQuestions}"></ng-container>
+
+<h6 class="text-center mb-3 mt-4"><strong>FOR PHARMACY USE ONLY</strong></h6>
+
+<h6><strong>Patient Screenings</strong></h6>
+<ng-container *ngTemplateOutlet="questionnaireTable;context: {questions: screeningsQuestions}"></ng-container>
+
+<p class="mt-2">If the answers to questions above are yes, the pharmacist may exercise professional discretion in performing the physical assessment listed below.</p>
+
+<h6><strong>Physical Assessment</strong></h6>
+<ph-physical-assessment-table></ph-physical-assessment-table>
+
+<p>
+  If all assessment values are within the acceptable range, the pharmacist may perform the rapid influenza test.
+  If the rapid influenza test is positive, the pharmacist may prescribe appropriate product to treat the patient’s influenza.
+  The pharmacist must ensure the service is provided in a manner consistent with the service outline.
+</p>
+
+<div class="w-100">
+  <span><strong>Rapid Influenza Test Result:</strong></span>
+  <label class="text-nowrap">
+    <input type="checkbox" class="mr-2" [disabled]="true" [checked]="rapidInfluenzaTestQuestion.answer.toLowerCase() === 'yes'">
+    Positive (Prescribe treatment)
+  </label>
+  <label class="text-nowrap">
+    <input type="checkbox" class="mr-2" [disabled]="true" [checked]="rapidInfluenzaTestQuestion.answer.toLowerCase() === 'no'">
+    Negative (Refer)
+  </label>
+</div>
+
+<ng-template #questionnaireTable let-questions="questions">
+  <table class="w-100">
+    <tr>
+      <th ></th>
+      <th class="text-center">Yes</th>
+      <th class="text-center">No</th>
+      <th class="text-center not-answered-column">Not Answered</th>
+    </tr>
+    <tr *ngFor="let questionItem of questions; let i=index">
+      <td class="pl-2">{{i+1}}. {{questionItem.question}}</td>
+      <td class="text-center"><input type="checkbox" [disabled]="true" [checked]="questionItem.answer === pharmacistAnswerEnum.yes"></td>
+      <td class="text-center"><input type="checkbox" [disabled]="true" [checked]="questionItem.answer === pharmacistAnswerEnum.no"></td>
+      <td class="text-center"><input type="checkbox" [disabled]="true" [checked]="questionItem.answer === pharmacistAnswerEnum.unknown"></td>
+    </tr>
+  </table>
+</ng-template>
+

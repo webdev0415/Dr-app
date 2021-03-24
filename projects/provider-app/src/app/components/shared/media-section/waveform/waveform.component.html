@@ -1,0 +1,41 @@
+<mat-menu #loc="matMenu" xPosition="before">
+  <ng-container *ngFor="let location of getLocations(); let i = index">
+    <button mat-menu-item *ngIf="location" class="menu-item" (click)="selectLocation(location, i)">{{location}}</button>
+  </ng-container>
+</mat-menu>
+
+<mat-menu #frequencyDropDown="matMenu" xPosition="before">
+  <ng-container *ngFor="let freq of getFrequencies(); let index = index;">
+    <button mat-menu-item class="menu-item" (click)="selectFrequency(index)">{{freq}}</button>
+  </ng-container>
+</mat-menu>
+
+<div>
+  <div class="player-top d-flex justify-content-between">
+    <span class="font-weight-bold text-capitalize mr-2">{{namePretty}}</span>
+    <span class="track-text" *ngIf="nameNext" (click)="changeTrack('next')">Next - {{nameNext}}</span>
+    <div class="d-flex align-items-center">
+      <span *ngIf="!lib" class="track-text mr-3" [matMenuTriggerFor]="loc">Locations</span>
+      <i *ngIf="audit" (click)="viewAudit()" class="material-icons down d-xl-none" (click)="close()">account_box</i>
+      <i *ngIf="lib" class="material-icons down" (click)="close()">close</i>
+    </div>
+  </div>
+  <div id="waveform{{bodyPart ? bodyPart : ''}}{{lib ? 'lib' : ''}}" class="waveform"></div>
+
+  <div id="86b04010-8dcd-469b-ac2f-378ac59b81b5" class="controls d-flex justify-content-between align-items-center">
+    <div class="d-flex align-items-center ml-2">
+      <i class="material-icons down" [class.disabled]="!(prevTrack >= 0)" (click)="changeTrack('prev')">skip_previous</i>
+      <i class="material-icons down mx-3" (click)="waveSurferPlay()">{{playing ? 'pause' : 'play_arrow'}}</i>
+      <i class="material-icons down" [class.disabled]="!(nextTrack > 0)" (click)="changeTrack('next')">skip_next</i>
+      <span class="mr-3" [matMenuTriggerFor]="frequencyDropDown" *ngIf="!lib">
+        <button class="btn btn-light btn-sm rounded">{{ frequency }} <i class="fas fa-sort-down"></i></button>
+      </span>
+      <div class="ml-2 spinner-light-blue-color-only"><mdb-spinner *ngIf="!lib && loading" spinnerType="small" spinnerColor="none"></mdb-spinner></div>
+    </div>
+    <div id="fd886ad3-0ee5-47f3-99f7-471bde2cd6a1" class="volume-container d-flex align-items-center">
+      <i class="material-icons down" (click)="mute()">{{gageVolume(volume)}}</i>
+      <mat-slider class="volume-bar" min="0" max="1" step="0.01" value="1" (input)="changeVolume($event)"></mat-slider>
+      <span id="timer" class="fs-16">{{time}} / {{duration}}</span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,126 @@
+<div class="rx-row">
+  <div class="drug-name">
+    <label for="drug-name-input">Drug Name:</label>
+    <mdb-select-2
+      id="drug-name-input"
+      placeholder="Drug Name"
+      [(ngModel)]="prescribingItem.prescription.drugName"
+      (ngModelChange)="drugNameChanged($event)"
+    >
+      <mdb-select-option *ngFor="let drugName of drugNames" [value]="drugName.value">
+        {{ drugName.label }}
+      </mdb-select-option>
+    </mdb-select-2>
+  </div>
+  <div class="drug-strength">
+    <label for="drug-strength-input">Strength:</label>
+    <mdb-select-2
+      id="drug-strength-input"
+      placeholder="Strength"
+      [ngModel]="{ value: prescribingItem.prescription.strength }"
+      [compareWith]="compareFn"
+      (ngModelChange)="optionChanged('strength', $event)"
+    >
+      <mdb-select-option
+        *ngFor="let strength of strengths"
+        [value]="strength"
+        [ngClass]="{ 'option-disabled': strength.disabled }"
+      >
+        {{ strength.label }}
+      </mdb-select-option>
+    </mdb-select-2>
+  </div>
+  <div class="drug-form">
+    <label for="drug-form-input">Form:</label>
+    <mdb-select-2
+      id="drug-form-input"
+      placeholder="Form"
+      [ngModel]="{ value: prescribingItem.prescription.form }"
+      [compareWith]="compareFn"
+      (ngModelChange)="optionChanged('form', $event)"
+    >
+      <mdb-select-option
+        *ngFor="let form of forms"
+        [value]="form"
+        [ngClass]="{ 'option-disabled': form.disabled }"
+      >
+        {{ form.label }}
+      </mdb-select-option>
+    </mdb-select-2>
+  </div>
+  <div class="drug-sig">
+    <label for="drug-sig-input">Sig:</label>
+    <mdb-select-2
+      id="drug-sig-input"
+      placeholder="SIG or Key"
+      [ngModel]="{ value: prescribingItem.prescription.sig }"
+      [compareWith]="compareFn"
+      (ngModelChange)="optionChanged('sig', $event)"
+    >
+      <mdb-select-option
+        *ngFor="let sig of sigs"
+        [value]="sig"
+        [ngClass]="{ 'option-disabled': sig.disabled }"
+      >
+        {{ sig.label }}
+      </mdb-select-option>
+    </mdb-select-2>
+  </div>
+  <div class="drug-quantity">
+    <label for="drug-quantity-input">Quantity:</label>
+    <input
+      mdbInput
+      type="number"
+      id="drug-quantity-input"
+      pattern="[0-9]*"
+      inputmode="numeric"
+      min="1"
+      placeholder="Quantity"
+      [(ngModel)]="prescribingItem.prescription.quantity"
+    />
+  </div>
+  <div class="drug-refills">
+    <label for="drug-refills-input">Refills:</label>
+    <input
+      mdbInput
+      type="number"
+      id="drug-refills-input"
+      pattern="[0-9]*"
+      inputmode="numeric"
+      min="1"
+      placeholder="Refills"
+      [(ngModel)]="prescribingItem.prescription.refills"
+    />
+  </div>
+  <div class="drug-helper">
+    <mdb-icon fas icon="tablets" mdbTooltip="Open Dose Helper" placement="top" (click)="dosageHelper = !dosageHelper"></mdb-icon>
+  </div>
+<!--  <div class="drug-information">-->
+<!--    <mdb-icon fas icon="question-circle" size="lg" class="grey-text" [mdbTooltip]="reason" placement="top" ></mdb-icon>-->
+<!--  </div>-->
+<!--  <div class="drug-warnings">-->
+<!--    <mdb-icon fas icon="exclamation-circle" size="lg" [ngClass]="conflictLevel === 'Warning' ? 'red-text' : 'amber-text'" [mdbPopover]="conflictPopover" #pop="bs-mdbPopover" triggers="focus"></mdb-icon>-->
+<!--  </div>-->
+  <div class="drug-remove">
+    <mdb-icon fas icon="trash" mdbTooltip="Remove item" placement="top" (click)="removeSingleItem(prescribingItem)"></mdb-icon>
+  </div>
+
+
+  <pa-sig-builder
+    *ngIf="dosageHelper"
+    class="helper"
+    (sigCreated)="handleSig($event)"
+    (optionChanged)="optionChanged($event.key, $event.option, $event.rowIndex)"
+    (prescriptionSave)="prescriptionSave($event)"
+    [prescription]="prescribingItem.prescription"
+    [routes]="routes"
+    [freqs]="freqs"
+    [units]="units"
+    [route]="prescribingItem.prescription.route"
+  ></pa-sig-builder>
+</div>
+
+<ng-template #conflictPopover>
+    <p>{{ conflictMessage }}</p>
+    <button type="button" mdbBtn color="primary" (click)="acknowledgeConflict(); " mdbWavesEffect>Yes</button>
+</ng-template>

@@ -1,0 +1,53 @@
+<div id="19118db5-0c2e-4bd4-b6ef-9616e237a6cc" class="notes-wrapper d-flex flex-column align-items-center">
+  <mat-tab-group [selectedIndex]="index" class="content w-100"
+                 (selectedTabChange)="onTabChange()" (selectedIndexChange)="index = $event">
+    <mat-tab label="HPI Notes">
+      <mat-form-field class="w-100">
+        <textarea class="w-100" matInput matTextareaAutosize matAutosizeMinRows="8" index="0" [attr.value]="diagnotes" [formControl]="formControlDiagNotes">{{diagnotes}}</textarea>
+      </mat-form-field>
+    </mat-tab>
+    <mat-tab label="Treatment Notes" isActive="nT">
+      <mat-form-field class="w-100">
+        <textarea class="w-100" matInput matTextareaAutosize matAutosizeMinRows="8" index="1" [(ngModel)]="treatnotes" [attr.value]="treatnotes"></textarea>
+      </mat-form-field>
+    </mat-tab>
+    <mat-tab label="Summary Visit Notes" isActive="nN">
+      <mat-form-field class="w-100">
+          <textarea class="w-100" matInput matTextareaAutosize matAutosizeMinRows="8" index="2"  [(ngModel)]="notes" [attr.value]="notes" #notesArea></textarea>
+      </mat-form-field>
+    </mat-tab>
+    <mat-tab label="Medication Instructions" isActive="nN">
+      <mat-form-field class="w-100">
+        <textarea class="w-100" matInput matTextareaAutosize matAutosizeMinRows="8" index="3" [(ngModel)]="medicationInstructions" [attr.value]="medicationInstructions"></textarea>
+      </mat-form-field>
+    </mat-tab>
+
+    <mat-tab label="Return to School" isActive="nN">
+      <mat-form-field class="w-100">
+        <textarea class="w-100" matInput matTextareaAutosize matAutosizeMinRows="8" index="4" [(ngModel)]="schoolNotes" [attr.value]="schoolNotes"></textarea>
+      </mat-form-field>
+    </mat-tab>
+    <mat-tab label="Return to Work" isActive="nN">
+      <mat-form-field class="w-100">
+        <textarea class="w-100" matInput matTextareaAutosize matAutosizeMinRows="8" index="5" [(ngModel)]="workNotes" [attr.value]="workNotes"></textarea>
+      </mat-form-field>
+    </mat-tab>
+    <mat-tab label="Therapy Notes" isActive="nN">
+      <mat-form-field class="w-100">
+        <textarea class="w-100" matInput matTextareaAutosize matAutosizeMinRows="8" index="6" [(ngModel)]="therapyOrders" [attr.value]="therapyOrders"></textarea>
+      </mat-form-field>
+    </mat-tab>
+    <mat-tab label="Provider2Provider" isActive="nN">
+      <mat-form-field class="w-100">
+        <textarea class="w-100" matInput matTextareaAutosize matAutosizeMinRows="8" index="7" [(ngModel)]="doc2doc" [attr.value]="doc2doc"></textarea>
+      </mat-form-field>
+    </mat-tab>
+
+  </mat-tab-group>
+  <div id="9ea20abb-7d28-43de-832d-333358d06850" class="d-flex popup-buttons justify-content-around">
+    <button mdbBtn type="button" color="primary" size="md" mdbWavesEffect matDialogClose (click)="closeDialog()">Close</button>
+    <button mdbBtn type="button" color="red" size="md" mdbWavesEffect  *ngIf="!viewOnly"
+            [disabled]="formControlDiagNotes.invalid" matDialogClose (click)="saveNotes()">Save
+    </button>
+  </div>
+</div>

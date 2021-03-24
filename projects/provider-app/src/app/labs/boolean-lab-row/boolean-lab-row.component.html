@@ -1,0 +1,22 @@
+<ng-template #td>
+
+    <button mdbBtn type="button" [color]="'green'"
+            size="sm" [block]="true" mdbWavesEffect
+            [class.active]="isActive('Negative') | async"
+            (click)="updateLabResult(false)">
+      Negative
+    </button>
+
+</ng-template>
+<ng-template #td>
+
+    <button mdbBtn type="button" [color]="'red'"
+            size="sm" [block]="true" mdbWavesEffect
+            [class.active]="isActive('Positive') | async"
+            (click)="updateLabResult(true)">
+      Positive
+    </button>
+
+</ng-template>
+
+

@@ -1,0 +1,23 @@
+@import "docs-shared";
+
+.signature-container {
+  width: 200px!important;
+
+  img {
+    height: 100px!important;
+  }
+}
+
+:host::ng-deep #dischargedoc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 778px;
+}
+
+:host::ng-deep #doc-layer {
+  display: flex;
+  justify-content: center;
+  min-height: 100%;
+  font-size: 14px;
+}

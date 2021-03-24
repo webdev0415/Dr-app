@@ -1,0 +1,28 @@
+@import "variables";
+@Import "mixins";
+@import '~ng-uikit-pro-standard/assets/scss/core/_mixins.scss';
+
+::ng-deep .mat-option-pseudo-checkbox.mat-pseudo-checkbox-checked {
+  background-color: $primary;
+}
+
+.btn-group {
+  width: 190px;
+  margin: 8px auto;
+  border: 1px solid;
+  border-radius: 4px;
+  @media (max-width: 460px) {
+    width: 190px;
+  }
+  @include media-breakpoint-up(sm) {
+    width: 190px;
+  }
+
+  @include media-breakpoint-up(md) {
+    width: 220px;
+  }
+
+  @include media-breakpoint-up(lg) {
+    width: 300px;
+  }
+}

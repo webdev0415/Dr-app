@@ -1,0 +1,93 @@
+.critical-care {
+  border: solid 1px red;
+  height: 325px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.critical-care-list-item {
+  list-style: none;
+}
+
+.critical-care-list-item::before {
+  color: red;
+  content: "\2022";
+  margin-right: 10px;
+}
+
+.rx-care {
+  border: solid 1px #F6B73B;
+  height: 325px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.rx-care-list-item {
+  list-style: none;
+}
+
+.rx-care-list-item::before {
+  color: #F6B73B;
+  content: "\2022";
+  margin-right: 10px;
+}
+
+.otc-care {
+  border: solid 1px dodgerblue;
+  height: 325px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.otc-care-list-item {
+  list-style: none;
+}
+
+.otc-care-list-item::before {
+  color: dodgerblue;
+  content: "\2022";
+  margin-right: 10px;
+}
+
+.minor {
+  border: solid 1px grey;
+  height: 325px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.minor-list-item {
+  list-style: none;
+}
+
+.minor-list-item::before {
+  color: grey;
+  content: "\2022";
+  margin-right: 10px;
+}
+
+@media screen and (max-width: 1250px) {
+  .row {
+    flex-direction: column;
+  }
+
+  .col-6 {
+    max-width: 100% !important;
+  }
+}
+
+.severity-wrapper {
+  height: calc( 90vh - 40px );
+  padding: 0;
+  max-height: 700px;
+}
+
+:host ::ng-deep .mat-radio-label {
+  white-space: normal !important;
+}
+
+:host ::ng-deep .mat-radio-label-content {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}

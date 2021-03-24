@@ -1,0 +1,33 @@
+@import "docs-shared";
+
+.prescription-form {
+  display: inline-grid;
+  grid-template-columns: 75% 25%;
+}
+
+.left-container {
+  display: contents;
+  label {
+    white-space: nowrap;
+  }
+}
+
+.right-container {
+  max-width: 30%;
+  label {
+    white-space: nowrap;
+  }
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+[type=checkbox]:checked, [type=checkbox]:not(:checked) {
+  opacity: 1;
+  position: inherit;
+}

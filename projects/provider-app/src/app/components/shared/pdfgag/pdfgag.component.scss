@@ -1,0 +1,18 @@
+@import '../../../../../src/styles/shared/variables';
+@import '../../../../../src/styles/shared/mixins';
+
+div.loading-spinner-pdf {
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  @include full-screen(true);
+  background: $white-color;
+  z-index: 1099;
+}
+
+iframe.loading-spinner-pdf {
+  @include full-screen;
+  border: 0;
+}

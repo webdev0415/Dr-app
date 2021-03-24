@@ -1,0 +1,55 @@
+
+<!--Navbar-->
+<mdb-navbar #mdbNavbar SideClass="navbar navbar-expand-xl navbar-dark" [containerInside]="false">
+
+  <mdb-navbar-brand></mdb-navbar-brand>
+
+    <!-- Collapsible content -->
+    <links>
+
+        <!-- Links -->
+        <ul class="navbar-nav mr-auto">
+            <ng-container class="collapse navbar-collapse"  id="basicExampleNav" *ngFor="let link of navList">
+
+              <ng-container *ngIf="!linkExpandable(link)">
+                <li class="nav-item"
+                  [class.item-disabled]="isDisabled(link) | async"
+                  [class.active]="isLinkActive(link, null) | async">
+                    <a mdbWavesEffect class="nav-link waves-light" (click)="onLinkClick(link)">
+                      <fa-icon *ngIf="link.icon" [icon]="['fad', link.icon]" size="lg " [matTooltip]="link.tooltip ? link.tooltip : ''"></fa-icon>
+                      {{ link.name }}
+                      <span *ngIf="isLinkActive(link, null) | async" class="sr-only">(current)</span>
+                    </a>
+                </li>
+              </ng-container>
+
+              <ng-container *ngIf="linkExpandable(link)">
+                <li class="nav-item dropdown" [class.active]="isGroupActive(link) | async" dropdown>
+                  <a mdbWavesEffect dropdownToggle
+                    class="nav-link dropdown-toggle waves-light">
+                    <fa-icon *ngIf="link.icon" [icon]="['fad', link.icon]" size="lg" [matTooltip]="link.tooltip ? link.tooltip : ''"></fa-icon>
+                    {{ link.name }}
+                    <span class="caret"></span>
+                  </a>
+                  <div *dropdownMenu class="dropdown-menu dropdown dropdown-mdb-color darken-1" role="menu">
+                    <a mdbWavesEffect *ngFor="let section of linkSections(link) | async"
+                      class="dropdown-item waves-light"
+                      [class.active]="isLinkActive(section, link) | async"
+                      [class.disabled]="isDisabled(section) | async"
+                      (click)="onLinkClick(section)">
+                      <fa-icon *ngIf="section.icon" [icon]="['far', section.icon]" size="lg" [matTooltip]="section.tooltip ? section.tooltip : ''"></fa-icon>
+                      {{ section.name }}
+                    </a>
+                  </div>
+                </li>
+              </ng-container>
+
+            </ng-container>
+
+        </ul>
+        <!-- Links -->
+
+      </links>
+    <!-- Collapsible content -->
+
+</mdb-navbar>

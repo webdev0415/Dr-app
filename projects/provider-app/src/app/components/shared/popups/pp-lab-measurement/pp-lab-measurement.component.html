@@ -1,0 +1,14 @@
+<div class="d-flex flex-column align-items-center dialog-container">
+  <p class="title">Enter a value</p>
+  <p class="message">{{data.hint}}</p>
+  <div class="content d-flex justify-content-center">
+    <mat-form-field>
+      <input title="" matInput [formControl]="formInputNumberControl" paAutoFocus>
+    </mat-form-field>
+  </div>
+  <div id="c5ed4762-ce4c-4810-878a-a5d1fb57e932" class="d-flex popup-buttons justify-content-around">
+    <button mdbBtn type="button" color="primary" [outline]="true" size="md" mdbWavesEffect class="my-2" matDialogClose (click)="closeDialog()">Cancel</button>
+    <button mdbBtn type="submit" color="primary" size="md" mdbWavesEffect class="my-2" matDialogClose
+            (click)="closeDialog(formInputNumberControl.value)" [disabled]="formInputNumberControl.invalid">Ok</button>
+  </div>
+</div>

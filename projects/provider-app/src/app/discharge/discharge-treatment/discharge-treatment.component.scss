@@ -1,0 +1,54 @@
+@import "../discharge";
+
+.md-form {
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, calc(100%/3));
+}
+
+.follow-up-grid {
+  display: grid;
+  grid-template-columns: 125px 70px 125px;
+}
+
+.grid-buttons {
+  display: flex;
+  @media (max-width: 750px), (min-width: 1200px) and (max-width: 1500px) {
+    display: grid;
+    grid-template-columns: repeat(2, 50%);
+    grid-template-rows: repeat(2, auto);
+  }
+
+  button {
+    max-width: 220px;
+    justify-self: center;
+  }
+}
+
+.error-message {
+  top: 30px;
+}
+
+#container {
+  div:first-of-type {
+    margin-bottom: 2rem;
+  }
+}
+
+#therapies {
+  button {
+    width: 30%!important;
+  }
+}
+
+mdb-checkbox {
+  color: $input-label-color;
+}
+
+mdb-error {
+  left: 0;
+}

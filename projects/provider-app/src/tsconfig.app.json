@@ -1,0 +1,26 @@
+{
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../out-tsc/app",
+    "baseUrl": "./app/",
+    "types": [],
+    "paths": {
+      "@pharmacist/*": [
+        "../../pharmacist/src/lib/*"
+      ],
+      "@documents-generator/*": [
+        "../../documents-generator/src/lib/*"
+      ],
+      "@provider-documents/*": [
+        "../../provider-documents/src/lib/*"
+      ]
+    }
+  },
+  "files": [
+    "main.ts",
+    "polyfills.ts"
+  ],
+  "include": [
+    "projects/provider-app/src/**/*.d.ts"
+  ]
+}

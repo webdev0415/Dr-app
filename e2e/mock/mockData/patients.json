@@ -1,0 +1,18 @@
+{
+  "expression": "^/patients/$",
+  "method": "GET",
+  "name": "patients-list",
+  "isArray": true,
+  "responses": {
+    "success": {
+      "default": true,
+      "status": 200,
+      "headers": {},
+      "data": [
+        {"location_id":18,"doctor_name":"","doctor_id":0,"patient_name":"James H. Shelby611","session_create":"2018-06-11T20:17:28.120431+00:00","treatment_complete":"","kiosk_complete":"2018-06-11T20:58:27.405575+00:00","kiosk":"WebKiosk1","location_name":"Shelbys Secret Location","status":"PATIENT_WAITING","patient_id":6121},
+        {"location_id":17,"doctor_name":"","doctor_id":0,"patient_name":"Chaitanya Spanish","session_create":"2018-06-08T20:50:12.077863+00:00","treatment_complete":"","kiosk_complete":"2018-06-08T20:59:19.501295+00:00","kiosk":"BBBKiosk","location_name":"Shelby's House of Kiosks","status":"PATIENT_WAITING","patient_id":6075},
+        {"doctor_id":1952,"status":"TREATMENT_COMPLETE","location_id":17,"patient_id":6404,"treatment_complete":"2018-06-22T18:13:55.392183+00:00","kiosk":"KioskKiosk","location_name":"Shelby's House of Kiosks","session_create":"2018-06-22T00:24:40.519529+00:00","doctor_name":"Mv User","patient_name":"Another Test","kiosk_complete":"2018-06-22T00:35:54.014557+00:00"}
+      ]
+    }
+  }
+}

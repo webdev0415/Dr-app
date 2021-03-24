@@ -1,0 +1,13 @@
+.signature-field {
+  margin: 0 auto;
+  height: 300px;
+  max-height: 300px;
+  border: 1px solid #c1c1c1;
+}
+
+.signature-buttons-container {
+  justify-content: space-evenly;
+  button {
+    width: 180px;
+  }
+}

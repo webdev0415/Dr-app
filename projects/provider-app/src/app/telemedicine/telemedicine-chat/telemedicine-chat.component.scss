@@ -1,0 +1,60 @@
+@import "variables";
+
+#container {
+  //z-index: 1000;
+  max-width: 320px;
+  display: grid;
+  grid-template-rows: 1fr auto;
+}
+
+textarea:disabled {
+  background-color: transparent;
+}
+
+.message-form {
+  width: 100%;
+  textarea {
+    color: $black;
+  }
+  mat-form-field {
+    border-top: ridge;
+  }
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: none;
+  border-radius: 0;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: $blue-dark-color;
+  border-radius: 3px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #b30000;
+}
+
+.icon-blue {
+  color: $blue-dark-color;
+}
+
+#messages {
+  min-height: fit-content;
+}
+
+.h-inherit {
+  height: inherit!important;
+}
+
+::ng-deep pa-telemedicine-chat, #container, ::ng-deep .mat-tab-body-content, ::ng-deep mat-tab-body, ::ng-deep .mat-tab-body-wrapper, ::ng-deep mat-tab-group {
+  height: inherit!important;
+}

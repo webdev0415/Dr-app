@@ -1,0 +1,133 @@
+$vital-text-color: rgba(0, 0, 0, .6);
+
+%vital-input {
+  outline: none;
+  background: transparent;
+  color: $vital-text-color;
+  caret-color: black;
+}
+
+%vital-layer {
+  display: inline-flex;
+  position: relative;
+}
+
+
+.vital-field {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+
+  .vital-field-layer {
+    @extend %vital-layer;
+    width: 160px;
+    height: 42px;
+  }
+
+  .vital-field-layer-systolic {
+    @extend %vital-layer;
+    width: 30px;
+  }
+
+  .vital-field-layer-diastolic {
+    @extend %vital-layer;
+    width: 109px;
+  }
+
+  .vitals-postfix {
+    width: 150px;
+    padding-left: 10px;
+    padding-top: 3px;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .vital-field-input {
+    @extend %vital-input;
+    width: 75px;
+  }
+
+  .vital-field-input-bp {
+    @extend %vital-input;
+    width: 30px;
+  }
+
+  .measurement-text {
+    color: $vital-text-color;
+  }
+
+  .wrong {
+    color: #FF5353 !important;
+    font-weight: 500;
+  }
+
+  .vital-media {
+    color: #0977BC;
+    display: inline-flex;
+    cursor: pointer;
+  }
+
+  .vital-media-request {
+    color: #FF5353;
+    display: inline-flex;
+    cursor: pointer;
+  }
+
+  .vital-input-pointer {
+    color: rgba(0, 0, 0, .6);
+    right: 0;
+    font-size: small;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  label {
+    margin: 0;
+    width: 62px;
+  }
+
+  .vital-field-label {
+    width: 10px;
+    margin-left: 0.25rem;
+  }
+
+  .all-measurements-pointer {
+    cursor: pointer;
+  }
+
+}
+
+mat-form-field {
+  width: 75px;
+}
+
+::ng-deep .select-eyes-value {
+  width: 75px;
+
+  .value {
+    color: $vital-text-color !important;
+    padding: 5px 0 5px 10px !important;
+    font-size: 14px;
+  }
+
+  .placeholder {
+    color: $vital-text-color !important;
+    font-size: 14px;
+  }
+
+  .mdb-select-toggle {
+    font-size: 12px !important;
+    display: flex;
+    justify-content: flex-end;
+    height: 30px;
+  }
+
+  .single {
+    height: 30px;
+  }
+
+  .dropdown-content {
+    width: 150px !important;
+  }
+}

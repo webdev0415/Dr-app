@@ -1,0 +1,43 @@
+@import '../../../styles/shared/variables';
+
+.avatar-block {
+  width: 45px;
+  border-radius: 30px;
+  background: $blue-250-color;
+  display: inline-block;
+  .avatar {
+    width: rem(40);
+    height: rem(40);
+    font-size: rem(26);
+    color: #fff82a;
+    text-align: center;
+    line-height: rem(40);
+    margin: rem(2.5) auto;
+  }
+}
+
+mat-card-title {
+  display: flex;
+  flex-direction: row;
+  div:first-of-type {
+    width: 50%;
+    span {
+      align-self: center;
+    }
+  }
+}
+
+.order-row {
+  div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    width: 19%;
+    padding-right: 8px;
+  }
+  div:first-child {
+    padding-left: 8px;
+    max-width: 20px!important;
+  }
+}

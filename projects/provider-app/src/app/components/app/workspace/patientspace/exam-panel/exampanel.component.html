@@ -1,0 +1,70 @@
+<div *ngIf="physicalExamSystems" id="2ee48952-cd63-4527-a4e1-22b2021151eb" class="exam-panel-container d-flex flex-column" [class.w-100]="narrow">
+  <span class="header">Add Observations, Exam Results</span>
+  <div id="40398aca-a638-4623-b2ef-e9696461de93" class="d-flex panel-content">
+    <mat-nav-list class="exam-list list" *ngIf="!selectedExamDescription">
+      <mat-list-item *ngFor="let exam of physicalExamSystems; let examIndex = index" class="list-item" (click)="navigate(examIndex, null)">
+        <span>{{exam.examName}}</span>
+      </mat-list-item>
+    </mat-nav-list>
+    <mat-nav-list class="desc-list list" *ngIf="selectedExamDescription && !selectedDescriptionMods">
+      <mat-list-item class="list-item head" (click)="navigate(null, null)">
+        <mat-icon class="mr-2">keyboard_backspace</mat-icon>
+        <span>{{selectedExamDescription.examName}}</span>
+      </mat-list-item>
+      <mat-list-item *ngFor="let desc of selectedExamDescription.descriptionsArray; let descriptionIndex = index;"
+          class="list-item" [class.normal]="desc.selected && desc.normal" [class.selected]="desc.selected && !desc.normal"
+          (click)="navigate(physicalExamSystems.indexOf(selectedExamDescription), descriptionIndex)">
+        <span>{{desc.description}}</span>
+        <mat-icon *ngIf="!desc.selected" class="add-icon">add_circle</mat-icon>
+        <mat-icon *ngIf="desc.selected && !desc.edited" class="add-icon">done</mat-icon>
+        <mat-icon *ngIf="desc.edited" class="add-icon warn"
+                  matTooltip="Default Text Edited" matTooltipClass="tooltip-black">warning</mat-icon>
+      </mat-list-item>
+    </mat-nav-list>
+    <mat-nav-list class="desc-list list" *ngIf="selectedExamDescription && selectedDescriptionMods">
+      <mat-list-item class="list-item head" (click)="navigate(undefined, null)">
+        <mat-icon class="mr-2">keyboard_backspace</mat-icon>
+        <span>{{selectedDescriptionMods.description}}</span>
+      </mat-list-item>
+      <mat-list-item *ngFor="let mod of selectedDescriptionMods.mod" class="list-item"
+          [class.normal]="mod.selected && mod.normal" [class.selected]="mod.selected && !mod.normal"
+          (click)="selectFinding(mod)">
+        <span>{{mod.key}}</span>
+        <mat-icon *ngIf="!mod.selected" class="add-icon">add_circle</mat-icon>
+        <mat-icon *ngIf="mod.selected && !mod.edited" class="add-icon">done</mat-icon>
+        <mat-icon *ngIf="mod.edited" class="add-icon warn">warning</mat-icon>
+      </mat-list-item>
+    </mat-nav-list>
+    <div id="a840cee8-a4dd-4f31-bd43-6e30c9a85d59" class="mx-3 d-flex flex-column flex-grow-1">
+      <div>
+        <span class="mediatitleheader">Preview/Edit</span>
+        <mat-divider class="media-section-title-divider mb-0 mt-3"></mat-divider>
+      </div>
+      <div>
+        <div class="mt-4 mb-2" *ngFor="let exam of physicalExamResult$ | async">
+          <ng-container>
+            <div class="d-flex justify-content-between mb-2">
+              <h5 class="font-weight-bold">{{exam.examName}} exam</h5>
+            </div>
+            <ng-container *ngFor="let desc of exam.descriptions">
+              <span class="font-weight-bold">{{desc.description}}</span>
+              <ng-container *ngFor="let result of desc.descriptions">
+                <div class="d-flex justify-content-between mb-2">
+                  <span class="font-weight-bold subheader">{{result.modifier.key}}</span>
+                  <span class="link warning" (click)="removeFinding(exam.examName, result)">Remove</span>
+                </div>
+                <div class="exam-text">
+                  <textarea id="input-{{exam.examName}}-{{desc.description}}-{{result.modifier.text[0]}}" matTextareaAutosize matAutosizeMinRows="1" [(ngModel)]="result.modifier.text" (change)="onChange($event, exam, result)"></textarea>
+                </div>
+              </ng-container>
+            </ng-container>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="text-center">
+    <mat-divider class="media-section-title-divider close-divider"></mat-divider>
+    <button mdbBtn type="button" color="primary" size="md" [outline]="true" mdbWavesEffect class="panel-close" (click)="panel.close()">Close</button>
+  </div>
+</div>

@@ -1,0 +1,12 @@
+<table class="w-100">
+  <tr>
+    <th class="text-center"><strong>Assessment</strong></th>
+    <th class="text-center"><strong>Patient Value</strong></th>
+    <th class="text-center"><strong>Acceptable Range for Prescribing</strong></th>
+  </tr>
+  <tr *ngFor="let data of tableData | async">
+    <td class="text-center">{{data.assessment}}</td>
+    <td class="text-center">{{data.value}}</td>
+    <td class="text-center">{{data.acceptableRange}}</td>
+  </tr>
+</table>

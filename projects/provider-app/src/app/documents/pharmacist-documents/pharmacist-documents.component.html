@@ -1,0 +1,4 @@
+<dg-document-container [generate]="generatePdfView" (file)="uploadForm($event)" [userSignature]="userSignature$ | async"
+                       (blobUrl)="showPdf($event)" #generator>
+  <ph-intake-form-container [locationName]="locationName | async" [practitionerName]="providerName" [businessName]="businessName" [userSignature]="generator.userSignatureTemplate"></ph-intake-form-container>
+</dg-document-container>

@@ -1,0 +1,17 @@
+<div id="reference" #ref (click)="close($event, ref)">
+  <div id="reference-header">
+    <h4 id="reference-title">{{title}}</h4>
+    <div id="filter">
+      <input type="text" id="reference-search" placeholder="Search" [(ngModel)]="filter" (input)="filterImages()" (change)="filterImages()" />
+      <i *ngIf="filter.length" id="close-icon" class="material-icons" (click)="clearFilterField()" [@fadeInOut]>close</i>
+    </div>
+  </div>
+  <hr class="reference-header-separator">
+  <div id="reference-body" #rb (click)="close($event, rb)">
+    <span [hidden]="shownSection.length" id="noresults">No results found</span>
+    <div *ngFor="let entity of shownSection; let idx = index" class="reference-image-box" (click)="showImage(idx)">
+      <img class="reference-image" [src]="entity.file">
+      <span class="reference-image-name">{{entity.name}}</span>
+    </div>
+  </div>
+</div>

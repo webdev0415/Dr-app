@@ -1,0 +1,63 @@
+<form [formGroup]="procedureForm">
+  <div class="w-100 d-flex flex-row procedure-row min-w400" *ngIf="procedureForm?.get('state')?.value as orderState"
+       [ngClass]="{ 'completed': orderState === OrderStateEnum.COMPLETED,
+       'ordered': orderState === OrderStateEnum.ORDERED,
+       'cancelled': orderState === OrderStateEnum.CANCELLED }">
+
+    <div class="md-form ml-1 mb-0 drug-name">
+      <span class="input-group-text span-clickable">
+        <div class="icons-container">
+          <ng-container *ngIf="!procedureForm?.disabled">
+                      <fa-icon (click)="orderStateChange(OrderStateEnum.CANCELLED)"
+                               *ngIf="userRole === UserRoleEnum.PRACTITIONER && orderState === OrderStateEnum.ORDERED"
+                               [icon]="['fal', 'window-close']" class="window-close-icon"></fa-icon>
+          <fa-icon (click)="orderStateChange(OrderStateEnum.ORDERED)"
+                   *ngIf="orderState !== OrderStateEnum.ORDERED"
+                   [icon]="['fal', 'undo']" class="undo-icon"></fa-icon>
+          </ng-container>
+        </div>
+      </span>
+      <div class="d-flex flex-column">
+        <div class="d-flex name flex-column with-icon">
+          <label class="active">
+            Drug
+          </label>
+          <span>{{procedureForm?.get('name')?.value}}</span>
+          <button class="form-control complete-procedure-button p-2" mdbBtn type="button"
+                  [disabled]="procedureForm?.disabled || orderState !== OrderStateEnum.ORDERED"
+                  color="primary" size="sm" outline="true"
+                  mdbWavesEffect (click)="orderStateChange(OrderStateEnum.COMPLETED)">
+            Complete procedure
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <mat-divider [vertical]="true"></mat-divider>
+
+    <div class="d-flex flex-row procedure-fields">
+      <div class="md-form ml-1">
+        <label class="active" [class.error]="procedureForm?.get('toleratedWell')?.invalid">
+          Tolerated Well
+        </label>
+        <mat-checkbox [formControlName]="'toleratedWell'">&nbsp;</mat-checkbox>
+      </div>
+      <div class="md-form ml-1">
+        <label class="active" [class.error]="procedureForm?.get('noDifficulty')?.invalid">
+          No Difficulty
+        </label>
+        <mat-checkbox [formControlName]="'noDifficulty'">&nbsp;</mat-checkbox>
+      </div>
+      <div class="ml-1 md-form complications mb-0" *ngIf="!(procedureForm.get('noDifficulty')?.value && procedureForm.get('toleratedWell')?.value)">
+        <label for="complications" class="active" [class.error]="procedureForm?.get('complications')?.invalid">
+          Complications
+        </label>
+        <textarea cdkTextareaAutosize id="complications" class="w-100 form-control fs-16 overflow-hidden"
+                  [formControlName]="'complications'"
+                  maxlength="500" [cdkAutosizeMinRows]="3"></textarea>
+        <span class="error-message error-message-top" *ngIf="procedureForm?.get('complications')?.invalid">This field may not be blank.</span>
+      </div>
+
+    </div>
+  </div>
+</form>

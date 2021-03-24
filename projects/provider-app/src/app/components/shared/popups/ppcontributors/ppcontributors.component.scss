@@ -1,0 +1,72 @@
+@import '../../../../../../src/styles/shared/variables';
+
+.content {
+  flex: 1;
+  overflow-y: auto;
+  margin-top: -2px;
+}
+
+.list-group {
+  overflow-y: auto;
+  height: calc( 80vh - 260px );
+}
+
+.list-group-item.active {
+  background-color: $green-color;
+  cursor: default;
+}
+
+.mat-header-row {
+  background-color: #F2F2F2;
+  .mat-header-cell {
+    color: black;
+    font-size: 16px;
+    font-weight: 600;
+    word-break: break-all;
+  }
+}
+
+.mat-cell {
+   &.danger {
+     span {
+       width: 55px;
+       height: 50px;
+       background-color: #FFF5F5;
+       border: 1px solid #FF5353;
+       color: #FF5454;
+     }
+   }
+ }
+
+.source-link {
+  @extend %clickable-element;
+}
+
+.info-row {
+  background-color: #F2F2F2;
+  .detail-title {
+    font-weight: 600;
+  }
+}
+
+.more-info {
+  width: 70px;
+}
+
+.presenting-indicator {
+  width: 35px;
+  height: 35px;
+  background-color: #FEEAED;
+  border-radius: 20px;
+  &.presenting {
+    background-color: #E7F4E8;
+  }
+}
+
+@media (max-width: 991px) {
+  .mat-header-row {
+    .mat-header-cell {
+      font-size: 14px;
+    }
+  }
+}

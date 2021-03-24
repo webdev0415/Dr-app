@@ -1,0 +1,15 @@
+@import '../../../../node_modules/@angular/material/theming';
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import 'shared/variables';
+
+@include mat-core();
+
+$primary: mat-palette($mat-light-blue, 800);
+$accent:  mat-palette($mat-cyan, 500);
+$warn:    mat-palette($mat-red);
+$theme: mat-light-theme($primary, $accent, $warn);
+
+$light-foreground-palette: map-get($theme, foreground);
+$light-background-palette: map-get($theme, background);
+
+@include angular-material-theme($theme);

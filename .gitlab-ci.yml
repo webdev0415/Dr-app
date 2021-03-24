@@ -1,0 +1,158 @@
+image: registry.gitlab.com/advinow/practioner-web-version
+
+stages:
+#  - test
+  - build
+  - deploy
+
+variables:
+  TERM: dumb
+  NODE_OPTIONS: --max-old-space-size=4096
+  CONTAINER_REGISTRY: registry.gitlab.com/advinow/practioner-web-version
+  K8_SERVICE_NAME: practioner-web
+
+# test:
+#   image: registry.gitlab.com/advinow/practioner-web-version
+#   stage: test
+#   only:
+#     - development
+#   tags:
+#     - DOCKER
+#   script:
+#     - export NODE_OPTIONS="--max-old-space-size=4096"
+#     - npm -v
+#     - npm i
+#     # - npm audit fix
+#     - ./node_modules/@angular/cli/bin/ng run provider-app:test -c dev --sourceMap=false --browsers ChromeHeadlessNoSandbox
+#     - ./node_modules/@angular/cli/bin/ng lint
+
+
+build_kubernetes_development:
+  stage: build
+  image: docker:19.03.1
+  only:
+    - development
+  tags:
+    - SHELL
+  script:
+    - export NODE_ENVIRONMENT=dev
+    - vault agent -config=/home/gitlab-runner/vault-agent.hcl 2>&1 >/dev/null
+    - TOKEN=$(cat /home/gitlab-runner/vault-token-via-agent)
+    - vault login $TOKEN 2>&1 >/dev/null
+    - vault kv get -field=GITLAB_ID_RSA secret/BUILD >  $CI_PROJECT_DIR/id_rsa
+    - docker build -f docker/Dockerfile --build-arg ENVIRONMENT=$NODE_ENVIRONMENT -t $CONTAINER_REGISTRY:$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA .
+    - docker build -f docker/Dockerfile.nginx -t $CONTAINER_REGISTRY:$CI_COMMIT_REF_NAME-nginx-$CI_COMMIT_SHORT_SHA .
+    - docker tag $CONTAINER_REGISTRY:$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA $CONTAINER_REGISTRY:$CI_COMMIT_REF_NAME-kube_latest
+    - docker tag $CONTAINER_REGISTRY:$CI_COMMIT_REF_NAME-nginx-$CI_COMMIT_SHORT_SHA $CONTAINER_REGISTRY:$CI_COMMIT_REF_NAME-nginx-kube_latest
+    - docker push $CONTAINER_REGISTRY:$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA
+    - docker push $CONTAINER_REGISTRY:$CI_COMMIT_REF_NAME-kube_latest
+    - docker push $CONTAINER_REGISTRY:$CI_COMMIT_REF_NAME-nginx-$CI_COMMIT_SHORT_SHA
+    - docker push $CONTAINER_REGISTRY:$CI_COMMIT_REF_NAME-nginx-kube_latest
+
+build_kubernetes_pilot:
+  stage: build
+  image: docker:19.03.1
+  only:
+    - master
+  tags:
+    - SHELL
+  script:
+    - export NODE_ENVIRONMENT=pilot
+    - vault agent -config=/home/gitlab-runner/vault-agent.hcl 2>&1 >/dev/null
+    - TOKEN=$(cat /home/gitlab-runner/vault-token-via-agent)
+    - vault login $TOKEN 2>&1 >/dev/null
+    - vault kv get -field=GITLAB_ID_RSA secret/BUILD >  $CI_PROJECT_DIR/id_rsa
+    - docker build -f docker/Dockerfile --build-arg ENVIRONMENT=$NODE_ENVIRONMENT -t $CONTAINER_REGISTRY:pilot-$CI_COMMIT_SHORT_SHA .
+    - docker build -f docker/Dockerfile.nginx -t $CONTAINER_REGISTRY:pilot-nginx-$CI_COMMIT_SHORT_SHA .
+    - docker tag $CONTAINER_REGISTRY:pilot-$CI_COMMIT_SHORT_SHA $CONTAINER_REGISTRY:pilot-kube_latest
+    - docker tag $CONTAINER_REGISTRY:pilot-nginx-$CI_COMMIT_SHORT_SHA $CONTAINER_REGISTRY:pilot-nginx-kube_latest
+    - docker push $CONTAINER_REGISTRY:pilot-$CI_COMMIT_SHORT_SHA
+    - docker push $CONTAINER_REGISTRY:pilot-kube_latest
+    - docker push $CONTAINER_REGISTRY:pilot-nginx-$CI_COMMIT_SHORT_SHA
+    - docker push $CONTAINER_REGISTRY:pilot-nginx-kube_latest
+
+build_kubernetes_production:
+  stage: build
+  image: docker:19.03.1
+  only:
+    - master
+  tags:
+    - SHELL
+  script:
+    - export NODE_ENVIRONMENT=prod
+    - vault agent -config=/home/gitlab-runner/vault-agent.hcl 2>&1 >/dev/null
+    - TOKEN=$(cat /home/gitlab-runner/vault-token-via-agent)
+    - vault login $TOKEN 2>&1 >/dev/null
+    - vault kv get -field=GITLAB_ID_RSA secret/BUILD >  $CI_PROJECT_DIR/id_rsa
+    - docker build -f docker/Dockerfile --build-arg ENVIRONMENT=$NODE_ENVIRONMENT -t $CONTAINER_REGISTRY:prod-$CI_COMMIT_SHORT_SHA .
+    - docker build -f docker/Dockerfile.nginx -t $CONTAINER_REGISTRY:prod-nginx-$CI_COMMIT_SHORT_SHA .
+    - docker tag $CONTAINER_REGISTRY:prod-$CI_COMMIT_SHORT_SHA $CONTAINER_REGISTRY:prod-kube_latest
+    - docker tag $CONTAINER_REGISTRY:prod-nginx-$CI_COMMIT_SHORT_SHA $CONTAINER_REGISTRY:prod-nginx-kube_latest
+    - docker push $CONTAINER_REGISTRY:prod-$CI_COMMIT_SHORT_SHA
+    - docker push $CONTAINER_REGISTRY:prod-kube_latest
+    - docker push $CONTAINER_REGISTRY:prod-nginx-$CI_COMMIT_SHORT_SHA
+    - docker push $CONTAINER_REGISTRY:prod-nginx-kube_latest
+
+deploy_kubernetes_development:
+  stage: deploy
+  environment: development
+  image: docker:19.03.1
+  tags:
+    - SHELL
+  only:
+    - development
+  script:
+    - export KUBE_ENVIRONMENT=dev
+    - export ENVIRONMENT=development
+    - kubectl config use-context k8advinow-$KUBE_ENVIRONMENT.k8s.local
+    - helm upgrade --set image.tag=$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA --set image.nginxtag=$CI_COMMIT_REF_NAME-nginx-$CI_COMMIT_SHORT_SHA --set service.environment=$ENVIRONMENT $K8_SERVICE_NAME $K8_SERVICE_NAME/ --debug
+    - sleep 1
+    - /usr/local/bin/kube_deploy_status $K8_SERVICE_NAME
+    - kubectl config use-context k8advinow-$KUBE_ENVIRONMENT.k8s.local
+    - kubectl rollout restart deployment $K8_SERVICE_NAME
+
+deploy_kubernetes_pilot:
+  stage: deploy
+  environment: pilot
+  image: docker:19.03.1
+  only:
+    - master
+  tags:
+    - SHELL
+  script:
+    - export KUBE_ENVIRONMENT=pilot
+    - export ENVIRONMENT=pilot
+    - kubectl config use-context k8advinow-$KUBE_ENVIRONMENT.k8s.local
+    - helm upgrade --set image.tag=pilot-$CI_COMMIT_SHORT_SHA --set image.nginxtag=pilot-nginx-$CI_COMMIT_SHORT_SHA --set service.environment=$ENVIRONMENT $K8_SERVICE_NAME $K8_SERVICE_NAME/ --debug
+    - sleep 1
+    - /usr/local/bin/kube_deploy_status $K8_SERVICE_NAME
+    - kubectl config use-context k8advinow-$KUBE_ENVIRONMENT.k8s.local
+    - kubectl rollout restart deployment $K8_SERVICE_NAME
+
+deploy_kubernetes_production:
+  stage: deploy
+  environment: production
+  image: docker:19.03.1
+  when: manual
+  only:
+    - master
+  tags:
+    - SHELL
+  script:
+    - export KUBE_ENVIRONMENT=production
+    - export ENVIRONMENT=production
+    - kubectl config use-context k8advinow-$KUBE_ENVIRONMENT.k8s.local
+    - helm upgrade --set image.tag=prod-$CI_COMMIT_SHORT_SHA --set image.nginxtag=prod-nginx-$CI_COMMIT_SHORT_SHA --set service.environment=$ENVIRONMENT $K8_SERVICE_NAME $K8_SERVICE_NAME/ --debug
+    - sleep 1
+    - /usr/local/bin/kube_deploy_status $K8_SERVICE_NAME
+    - kubectl config use-context k8advinow-$KUBE_ENVIRONMENT.k8s.local
+    - kubectl rollout restart deployment $K8_SERVICE_NAME
+
+# Trigger_AutomationTest:
+#   stage: test
+#   tags:
+#     - DOCKER
+#   only:
+#     - development
+#   script:
+#     - "curl -X POST -F token=$CI_JOB_TOKEN -F ref=master https://gitlab.com/api/v4/projects/6541560/trigger/pipeline"

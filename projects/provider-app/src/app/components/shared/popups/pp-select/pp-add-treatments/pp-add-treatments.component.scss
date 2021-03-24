@@ -1,0 +1,271 @@
+@import '../../../../../../../src/styles/shared/mixins';
+@import '../../../../../../../src/styles/shared/variables';
+@import '../../../../../../styles/theme';
+@import '../../../../../../../src/styles/shared/functions';
+
+$popup-btn-group-height: 70px;
+
+.dialog-wrapper {
+  height: 100% !important;
+
+  &-title {
+    text-align: left;
+    p {
+      font-weight: bold;
+      font-size: 24px;
+    }
+  }
+
+  &-content {
+    margin: 0 0 0 -10px;
+    padding: 9px 5px 5px 15px;
+    text-align: center;
+    overflow-y: auto;
+    flex: 1;
+    position: relative;
+    color: #747474;
+  }
+  &-header {
+    display: inline-block;
+  }
+}
+
+.disabled-btn {
+  cursor: default !important;
+  background-color: #808080 !important;
+  border: none !important;
+}
+
+mat-button-toggle-group {
+  flex-direction: column;
+}
+
+.popup-btn-group {
+  height: $popup-btn-group-height;
+  button {
+    /*height: 40px;
+    width: 110px;
+    font-size: 16px;*/
+    box-shadow: none;
+    /*border: 1px solid mat-color($primary, default);
+    color: mat-color($primary, default);
+    line-height: 28px;
+    &.mat-primary {
+      color: white;
+      background-color: mat-color($primary, default);
+    }*/
+  }
+}
+
+.btn-group {
+  width: 190px;
+  margin: 8px auto;
+  border: 1px solid;
+  border-radius: 4px;
+  .illness {
+    padding: 5px;
+    min-height: 42px;
+    width: 100%;
+    white-space: normal;
+    font-size: 11pt;
+    overflow: hidden;
+    line-height: 18px;
+    &.active {
+      background-color: $green-color;
+    }
+  }
+  @media (max-width: 460px) {
+    width: 190px;
+  }
+  @include media-breakpoint-up(sm) {
+    width: 190px;
+  }
+
+  @include media-breakpoint-up(md) {
+    width: 220px;
+  }
+
+  @include media-breakpoint-up(lg) {
+    width: 300px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn.active:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.btn > img {
+  width: 30px;
+  height: 30px;
+}
+
+.popup-input {
+  width: 200px;
+  border: 1px solid #808080;
+  height: 45px;
+  text-align: left;
+  padding-left: 15px;
+  &:focus {
+    outline: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    z-index: 0;
+  }
+}
+
+.placeholder-top {
+  position: absolute;
+  padding: 0 5px;
+  top: -10px;
+  left: 15px;
+  font-size: 12px;
+  background-color: #ffffff;
+}
+
+.bordered {
+  border: 1px solid $grey-color;
+  height: 45px;
+}
+
+.header {
+  word-break: break-all;
+}
+
+mat-checkbox {
+  ::ng-deep .mat-checkbox-frame {
+    border-color: mat-color($primary, default);
+  }
+  ::ng-deep &.mat-checkbox-focused{
+    .mat-ink-ripple{
+      background-color: mat-color($primary, default);
+    }
+  }
+}
+
+.filter-box {
+  border: 1px solid #808080;
+  height: 45px;
+  border-radius: 3px;
+  margin-top: -1px;
+}
+
+.filter-item {
+  color: mat-color($primary, 200);
+  cursor: pointer;
+  &:hover {
+    color: mat-color($primary, 400);
+    text-decoration: underline;
+  }
+}
+
+.select-checkbox {
+  height: 20px;
+}
+
+.search {
+  max-width: 600px;
+  position: relative;
+  ::-webkit-input-placeholder {
+    text-align: left;
+  }
+
+  :-moz-placeholder { /* Firefox 18- */
+    text-align: left;
+  }
+
+  ::-moz-placeholder {  /* Firefox 19+ */
+    text-align: left;
+  }
+
+  :-ms-input-placeholder {
+    text-align: left;
+  }
+}
+
+.icd-code {
+  width: 100px;
+  min-width: 100px;
+}
+
+.btn-search {
+  background-color: #ffffff;
+  border: 1px solid #808080;
+  border-left: 0;
+  margin-top: -0.0625em;
+  i {
+    vertical-align: middle;
+    color: #7D7D7D;
+  }
+}
+
+.gray {
+  color: #aba9a9;
+}
+
+.result-placeholder-container {
+  top: calc( 30% - 50px );
+  position: absolute;
+  width: calc( 100% - 20px );
+
+  .result-placeholder {
+    font-size: 44px;
+  }
+}
+
+.faded {
+  opacity: 0.33;
+}
+
+.span-clickable {
+  @extend %clickable-element;
+  &.other-span {
+    padding: 0 14.5px;
+  }
+}
+
+#loading-spinner {
+  @include full-screen(true);
+  #loading-hourglass {
+    width: inherit !important;
+    height: inherit !important;
+  }
+}
+
+@media screen and (max-device-width: 920px) {
+  .max-width-920 {
+    margin-right: 1px;
+    margin-bottom: 5px;
+    width: 100% !important;
+  }
+
+  .result-placeholder-container {
+    top: calc( 30% - 15px );
+
+    .result-placeholder {
+      font-size: 22px;
+    }
+  }
+}
+
+.virtual-scroll-viewport {
+  position: absolute;
+  height: 98%;
+  width: 98%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.no-overflow {
+  overflow: hidden;
+}
+
+.source-link {
+  white-space: nowrap !important;
+  display: inline-block !important;
+}
+
+.mdb-error-other-input {
+  left: 51%;
+}

@@ -1,0 +1,125 @@
+<div id="8ee77ede-a279-4024-b3a7-d3a879bc9317">
+  <div id="13f65373-7f31-4581-b839-8281e0d5dd0d" class="d-flex justify-content-end" [class.card-title]="cardTitleBackground">
+    <h5 class="mr-auto mb-0">{{section.name}}</h5>
+    <button mdbBtn type="button" color="primary" size="sm" class="m-0" mdbWavesEffect *ngIf="!viewOnly && (!section.list.length || getList().length > 0)" (click)="add()">Add</button>
+  </div>
+  <ng-container *ngIf="section.name === 'Drug Allergies' || section.name === 'Medications'">
+    <div *ngIf="!viewOnly && showOtherInformationInput" class="md-form input-group my-1 flex-nowrap w-100">
+      <input #otherInfoInput mdbInput mdbValidate class="form-control input-with-border my-1 p-2 other-input"
+             placeholder="Insert a drug reaction" [formControl]="otherInformationInputControl"/>
+      <mdb-error *ngIf="otherInformationInputControl.errors?.maxlength">This field can't be more than 200 characters long.</mdb-error>
+      <mdb-error *ngIf="otherInformationInputControl.errors?.pattern">Field invalid.</mdb-error>
+      <div class="input-group-append my-1 other-input">
+        <span class="input-group-text span-clickable" (click)="onAddOtherInformationItem(section.name)" [class.disabled]="otherInformationInputControl.errors">
+          <fa-icon icon="check"></fa-icon>
+        </span>
+        <span class="input-group-text span-clickable" (click)="closeOtherInfoInput()">
+          <fa-icon icon="times" aria-hidden="true"></fa-icon>
+        </span>
+      </div>
+    </div>
+  </ng-container>
+  <div id="94aef35d-127b-4688-9d04-8547e9648d1e" class="my-3">
+    <ul class="list-unstyled" *ngIf="isData" [ngSwitch]="section.name">
+      <li *ngIf="otherPatientInformation && section.name !== 'Medications'">
+        <div class="meds-other-container">
+          <span>
+            {{ otherPatientInformationHeader ? otherPatientInformationHeader.trim() : 'OTHER' }}
+          </span>
+          <mat-divider [vertical]="true" class="h-100"></mat-divider>
+          <span class="text-break">{{ otherPatientInformation }}</span>
+        </div>
+        <div class="d-flex align-items-center float-right">
+          <mat-divider [vertical]="true" class="mx-2"></mat-divider>
+          <mat-icon *ngIf="!viewOnly" (click)="onOtherInformationEdit('')">close</mat-icon>
+        </div>
+      </li>
+
+      <ng-container *ngSwitchCase="'Family History'">
+        <li *ngFor="let item of familyHistorySection">
+          <div>
+            Family History of {{item.historyType}}{{item.historyItem && item.historyItem !== 'True' ? (' - ' + item.historyItem) : ''}}
+          </div>
+          <div class="d-flex align-items-center float-right">
+            <mat-divider [vertical]="true" class="mx-2"></mat-divider>
+            <mat-icon *ngIf="!viewOnly" (click)="removeFamilySymptom(item)" class="">close</mat-icon>
+          </div>
+        </li>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'Personal History'">
+        <li *ngFor="let item of presentationalData | slice:0:(isMinimized ? maxItems : presentationalData.length)">
+          <div>
+            {{personalHistoryName(item.symptomID)}}{{item.historyItem ? ' - ' + item.historyItem : ''}}
+          </div>
+          <div class="d-flex align-items-center float-right">
+            <mat-divider [vertical]="true" class="mx-2"></mat-divider>
+            <mat-icon *ngIf="!viewOnly" (click)="remove(item)" class="">close</mat-icon>
+          </div>
+        </li>
+        <span *ngIf="(presentationalData.length > maxItems)"
+                (click)="showMore()"
+                class="link primary fs-18">{{isMinimized === false ? 'View less' : 'View more'}}</span>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'Immunization'">
+        <li *ngFor="let item of presentationalData | slice:0:(isMinimized ? maxItems : presentationalData.length)">
+          <div>
+            {{ getImmunizationLabel(item.historyItem) }}
+          </div>
+          <div class="d-flex align-items-center float-right">
+            <mat-divider [vertical]="true" class="mx-2"></mat-divider>
+            <mat-icon *ngIf="!viewOnly" (click)="remove(item)" class="">close</mat-icon>
+          </div>
+        </li>
+        <span *ngIf="(presentationalData.length > maxItems)"
+                (click)="showMore()"
+                class="link primary fs-18">{{isMinimized === false ? 'View less' : 'View more'}}</span>
+      </ng-container>
+
+      <ng-container *ngSwitchDefault>
+        <li *ngFor="let item of presentationalData">
+          <div class="d-flex flex-row">
+            <span [class.meds-reaction]="item.customFields.length || item.details">{{item.historyItem || item.historyType}}</span>
+            <div *ngIf="item.customFields.length" class="d-flex flex-row w-100 ml-2">
+              <mat-divider [vertical]="true" class="h-100 mr-2 divider-width-0"></mat-divider>
+              <span class="text-break">{{ item.customFields[0].value }}</span>
+            </div>
+            <div *ngIf="item.details && item.details.reason" class="d-flex flex-row w-100 ml-2">
+              <mat-divider [vertical]="true" class="h-100 mr-2 divider-width-0"></mat-divider>
+              <span class="text-break">{{ item.details.reason }}</span>
+            </div>
+          </div>
+          <div class="d-flex align-items-center float-right">
+            <span *ngIf="needsRefill(item)" class="refill-request-tag">Refill Request</span>
+            <button *ngIf="!viewOnly && showOtherInfoButton(section.name, item)" mdbBtn type="button" color="primary" size="sm" class="m-0 mr-2"
+                    mdbWavesEffect (click)="showOtherInfoInput(item, section.name)">{{'Edit Reason'}}</button>
+
+            <div *ngIf="!viewOnly && section.name === 'Drug Allergies'" class="dropup" mdbDropdown [dropup]="true">
+
+              <button mdbDropdownToggle mdbBtn color="primary" size="sm" class="dropdown-toggle waves-light m-0" type="button"
+                      mdbWavesEffect>
+                Add Reaction
+              </button>
+
+              <div class="dropdown-menu dropdown-primary force-scroll">
+                <a *ngFor="let reaction of drugReactions" class="dropdown-item"
+                   (click)="showOtherInfoInput(item, section.name); onAddOtherInformationItem(section.name, reaction)">
+                  {{reaction}}
+                </a>
+              </div>
+
+            </div>
+
+            <mat-divider [vertical]="true" class="mx-2"></mat-divider>
+            <mat-icon *ngIf="!viewOnly" (click)="remove(item)" class="">close</mat-icon>
+          </div>
+        </li>
+      </ng-container>
+
+    </ul>
+    <div id="a3e78866-eddc-46d8-9743-26ec4c65a0cd" class="w-100 h-100 p-4 no-info" *ngIf="!isData">
+      No Information Available
+    </div>
+  </div>
+</div>

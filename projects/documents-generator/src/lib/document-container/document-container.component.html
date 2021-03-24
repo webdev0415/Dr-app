@@ -1,0 +1,17 @@
+<div class="page-container">
+  <div id="doc-layer">
+    <div id="dischargedoc" [class.w-100]="fullWidth">
+      <div class="docbody doc px-4">
+        <ng-content></ng-content>
+      </div>
+    </div>
+    </div>
+</div>
+
+<ng-template #userSignatureTemplate>
+  <div class="signature-container" id="signature">
+    <img [src]="userSignature" alt="Signature">
+    <hr>
+    <div class="w-100 text-center fs-16 mt-1">Signature</div>
+  </div>
+</ng-template>

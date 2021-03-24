@@ -1,0 +1,102 @@
+<div class="d-flex w-100 justify-content-center">
+  <div class="weight-container p-3">
+    <label for="weight">Weight:</label>
+    <input type="text" id="weight" [ngModel]="weight" disabled>
+    <span>(1kg = 2.2lbs)</span>
+  </div>
+</div>
+
+<h6 id="current-symptoms-header"><strong>Current Symptoms</strong></h6>
+<div class="w-100 d-flex justify-content-center">
+  <div class="symptoms-container w-75">
+    <div *ngFor="let question of patientCurrentSymptomsQuestions; let index=index" class="d-flex flex-nowrap">
+      <input id="{{question}}-{{index}}" type="checkbox" class="mr-2" [disabled]="true" [checked]="question.answer.toLowerCase() === 'yes'">
+      <label for="{{question}}-{{index}}">
+        {{question.question}}
+      </label>
+    </div>
+  </div>
+</div>
+
+<h6 class="mt-2"><strong>Patient History</strong></h6>
+<ng-container *ngTemplateOutlet="questionnaireTable;context: {questions: patientHistoryQuestions}"></ng-container>
+
+<h6 class="text-center mb-3 mt-4"><strong>FOR PHARMACY USE ONLY</strong></h6>
+
+<h6><strong>Patient Screenings</strong></h6>
+<ng-container *ngTemplateOutlet="questionnaireTable;context: {questions: screeningsQuestions}"></ng-container>
+
+<p class="mt-2">If the answer to both questions above are yes, the pharmacist may exercise professional discretion in performing the physical assessment listed below.</p>
+
+<h6><strong>Physical Assessment</strong></h6>
+<p class="mt-2">Calculate the Centor Score for the patient by using the table directly below.</p>
+<div class="w-100 d-flex justify-content-center">
+  <table class="w-75">
+    <tr>
+      <th class="text-center">Exudate or swelling on tonsils</th>
+      <th class="text-center">No (0)</th>
+      <th class="text-center">Yes (+1)</th>
+    </tr>
+    <tr>
+      <th class="text-center">Patient Age</th>
+      <th class="text-center">15 – 45 years old (0)</th>
+      <th class="text-center">6 – 14 years old (+1)</th>
+    </tr>
+    <tr>
+      <th class="text-center">Swollen/tender anterior cervical lymph nodes</th>
+      <th class="text-center">No (0)</th>
+      <th class="text-center">Yes (+1)</th>
+    </tr>
+    <tr>
+      <th class="text-center">Temperature >100.4°F</th>
+      <th class="text-center">No (0)</th>
+      <th class="text-center">Yes (+1)</th>
+    </tr>
+    <tr>
+      <th class="text-center">Cough</th>
+      <th class="text-center">Cough present (0)</th>
+      <th class="text-center">Cough absent (+1)</th>
+    </tr>
+    <tr>
+      <th class="text-center" colspan="2"><strong>TOTAL SCORE*</strong></th>
+      <th class="text-center">{{ centorScore }}</th>
+    </tr>
+  </table>
+</div>
+<span class="w-100 d-flex justify-content-center"><strong>*Patients must score 2 or greater on the Centor Score to be eligible to receive a rapid strep test.</strong></span>
+
+<div class="my-3">
+  <ph-physical-assessment-table></ph-physical-assessment-table>
+</div>
+
+<p class="mb-2">If all assessment values are within the acceptable range, the pharmacist may perform the rapid strep test.  If the rapid strep test is positive, the pharmacist may prescribe appropriate product to treat the patient’s strep throat.  The pharmacist must ensure the service is provided in a manner consistent with the service outline. </p>
+
+<div class="mb-2">
+  <strong class="fs-16">Rapid Strep Test Result:</strong>
+  <label class="text-nowrap">
+        <input type="checkbox" class="mr-2" [disabled]="true" [checked]="labs.answer.toLowerCase() === 'yes'">
+     Positive (Prescribe treatment)
+  </label>
+  <label class="text-nowrap">
+        <input type="checkbox" class="mr-2" [disabled]="true" [checked]="labs.answer.toLowerCase() === 'no'">
+     Negative (Refer)
+  </label>
+</div>
+
+<ng-template #questionnaireTable let-questions="questions">
+  <table class="w-100">
+    <tr>
+      <th class="gray-background"></th>
+      <th class="text-center">Yes</th>
+      <th class="text-center">No</th>
+      <th class="text-center not-answered-column">Not Answered</th>
+    </tr>
+    <tr *ngFor="let questionItem of questions; let i=index">
+      <td class="pl-2">{{i+1}}. {{questionItem.question}}</td>
+      <td class="text-center"><input type="checkbox" [disabled]="true" [checked]="questionItem.answer === pharmacistAnswerEnum.yes"></td>
+      <td class="text-center"><input type="checkbox" [disabled]="true" [checked]="questionItem.answer === pharmacistAnswerEnum.no"></td>
+      <td class="text-center"><input type="checkbox" [disabled]="true" [checked]="questionItem.answer === pharmacistAnswerEnum.unknown"></td>
+    </tr>
+  </table>
+</ng-template>
+

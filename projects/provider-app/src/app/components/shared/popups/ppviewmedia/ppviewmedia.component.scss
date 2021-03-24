@@ -1,0 +1,237 @@
+@import "../../../../../../src/styles/shared/mixins";
+@import "../../../../../../src/styles/shared/variables";
+
+:host {
+  & {
+    width: 100%;
+    height: 100%;
+    color: #FFF;
+  }
+}
+
+#viewmedia-body {
+  width: 100%;
+  height: 100%;
+  padding: 10px 20px 0;
+  display: flex;
+  flex-direction: row;
+  user-select: none;
+  position: relative;
+  justify-content: space-between;
+
+  #viewmedia-left, #viewmedia-right {
+    display: flex;
+    flex-direction: row;
+    width: 15%;
+  }
+
+  #viewmedia-left {
+    margin-top: 10px;
+    width: 15%;
+  }
+  #viewmedia-right {
+    right: 5px;
+    height: 100%;
+  }
+  #viewmedia-left {
+    justify-content: flex-start;
+    #viewmedia-left-data {
+      width: 100%;
+      margin-right: 20px;
+
+      #viewmedia-switch {
+        .viewmedia-switchlayer {
+          position: relative;
+          display: inline-block;
+
+          .viewmedia-switchimage {
+            max-width: 217px;
+            max-height: 144px;
+            margin-bottom: 5px;
+            border: 1px solid #75C1FF;
+            cursor: pointer;
+            width: 100%;
+          }
+        }
+
+        .viewmedia-switchlayer:after {
+          position: absolute;
+          width: 30px;
+          height: 30px;
+          right: 11px; // border + 10px
+          bottom: 16px; // margin + border + 10px;
+          font-size: 30px;
+          font-family: 'Material Icons';
+          content: 'swap_horiz';
+          pointer-events: none;
+        }
+      }
+
+      #controls {
+        display: inline-flex;
+        width: 100%;
+        justify-content: space-around;
+      }
+    }
+  }
+
+  #viewmedia-mid {
+    width:70%;
+    overflow: hidden;
+    justify-content: center;
+    display: flex;
+    flex-direction: row!important;
+    align-items: center;
+    &.smallerimage {
+      justify-content: center;
+      align-items: center;
+    }
+    #midimage {
+      &.normalsize {
+        max-height: 80vh;
+        width: auto;
+      }
+      &.originalsize {
+        width: max-content;
+        height: max-content;
+        cursor: grab;
+      }
+    }
+    #viewmedia-title {
+      display: inline-flex;
+      font-weight: bold;
+      margin: 5px 0;
+      width: 100%;
+    }
+
+    .viewmedia-slidebutton {
+      display: flex;
+      align-items: center;
+      width: 60px;
+    }
+    .viewmedia-slidebutton #prev:not(disabled) {
+      z-index: 2;
+    }
+
+    #header-controls {
+      display: inline-flex;
+      align-items: baseline;
+      #viewmedia-title {
+        padding-left: 10px;
+        font-size: 1.5rem;
+      };
+      position: absolute;
+      width: 70%;
+      align-self: baseline;
+    }
+
+    #bottom-controls {
+      display: inline-flex;
+      width: 70%;
+      justify-content: space-around;
+      padding-bottom: 1.5rem;
+      position: absolute;
+      bottom: 0;
+    }
+  }
+
+  #viewmedia-right {
+    justify-content: flex-end;
+    #viewmedia-right-controllers {
+      display: flex;
+
+      i {
+        font-size: 24px;
+        display: inline-flex;
+        height: 30px;
+        align-items: center;
+        cursor: pointer;
+      }
+
+      i:hover {
+        text-shadow: #fff 0 0 3px;
+      }
+
+      #controllers-separator {
+        width: 1px;
+        height: 30px;
+        background: #FFF;
+        opacity: .2;
+        margin: 0 20px;
+      }
+
+      .maxsize-info {
+        font-size: 12px;
+        padding-top: 6px;
+        padding-right: 5px;
+        white-space: nowrap;
+      }
+    }
+  }
+}
+
+.viewmedia-slidebutton {
+  #prev, #next, #rotate {
+    width: 58px;
+    height: 58px;
+    border-radius: 28px;
+    background: rgba(255, 255, 255, .2);
+    transition: background .3s;
+    cursor: pointer;
+    transition: opacity .3s;
+    i {
+      display: inline-flex;
+      width: 100%;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+    }
+  }
+
+  #prev:hover, #next:hover {
+    background: rgba(255, 255, 255, .4);
+  }
+}
+
+
+.disabled {
+  pointer-events: none;
+  opacity: .2;
+}
+
+.rotate {
+  flex-direction: column !important;
+  div {
+    z-index: 2;
+  }
+  #midimage {
+    padding-top: 90px;
+  }
+}
+
+#rotate {
+  margin-top: 2rem;
+}
+
+.dragscroll {
+  flex-direction: column !important;
+  justify-content: center;
+}
+
+.mat-drawer-container {
+  background-color: unset!important;
+  color: unset!important;
+}
+
+mat-sidenav {
+  width: 40%
+}
+
+.side-panel {
+  width: 0!important;
+}
+
+mat-sidenav-container mat-sidenav pa-exam-panel.exam-panel-container{
+  width: 100%!important;
+}

@@ -1,0 +1,16 @@
+{
+  "name": "documents-generator",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^8.2.13",
+    "@angular/core": "^8.2.13",
+    "rxjs": "^6.5.5"
+  },
+  "dependencies": {
+    "html2canvas": "1.0.0-alpha.12",
+    "html2pdf.js": "^0.9.1"
+  },
+  "devDependencies": {
+    "@types/jspdf": "^1.3.3"
+  }
+}

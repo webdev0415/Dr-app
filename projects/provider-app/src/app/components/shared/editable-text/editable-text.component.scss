@@ -1,0 +1,67 @@
+@import '../../../../../src/styles/shared/variables';
+@import '../../../../../src/styles/shared/functions';
+
+$edit-icon-color: #9E9E9E;
+
+:host {
+  width: 100%;
+}
+
+.edit-icon {
+  color: $edit-icon-color;
+  font-size: rem(20);
+  vertical-align: middle;
+  float: right;
+  @extend %clickable-element;
+}
+
+.edit-icon-ranking {
+  color: $edit-icon-color;
+  font-size: rem(16);
+  vertical-align: middle;
+  float: right;
+  margin-left: 0.5rem;
+  @extend %clickable-element;
+}
+
+.text-column {
+  max-width: calc( 100% - 20px );
+}
+
+.btn-outline-blue-grey {
+  @warn 'Temporary added - only MDB FIX';
+  color: $edit-icon-color;
+  border: 1px solid #ced4da !important;
+  &:last-child {
+    border-left: 0 !important;
+  }
+  &:hover {
+    color: black;
+  }
+}
+
+.error {
+  color: $red-color
+}
+
+.text-data {
+  white-space: pre-wrap;
+}
+
+textarea {
+  resize: none;
+  min-height: 35px !important;
+}
+
+.prefix {
+  span:first-of-type {
+    padding-right: .25rem;
+  }
+  mat-divider {
+    height: 27px;
+    margin: 0 8px;
+  }
+  display: flex!important;
+  flex-direction: row!important;
+  flex-wrap: wrap;
+}

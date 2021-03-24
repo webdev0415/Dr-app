@@ -1,0 +1,96 @@
+@import '../../../../../../src/styles/shared/variables';
+@import '../../../../../../src/styles/shared/mixins';
+
+.images-container {
+  padding: 0px 16px 0px 25px;
+  .header {
+    font-size: 20px;
+  }
+  .body-part-section {
+    @include media-breakpoint-up(xl) {
+      width: 48%;
+    }
+    width: 100%;
+    padding: 40px 0px;
+  }
+}
+
+button {
+  font-size: 18px !important;
+  pointer-events: all;
+  &.open-btn {
+    width: 92px;
+  }
+  &.normal-btn {
+    width: 137px;
+  }
+  &.btn-outline-primary:not([disabled]):not(.disabled).active {
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: $btn-normal-active-bg !important;
+    border-color: $btn-normal-active-color !important;
+    color: $btn-normal-active-color !important;
+  }
+}
+
+.normal-icon {
+  color: #64BA6B;
+}
+
+.media-section-title-divider {
+  margin-top: 7px;
+}
+
+.mediatitleheader {
+  margin-bottom: 10px;
+  font-weight: 900;
+  display: inline-flex;
+  margin-right: auto;
+}
+
+.body-part-img {
+  @extend %clickable-element;
+  img, video, .no-info {
+    object-fit: contain;
+    width: 220px;
+    height: 165px;
+    border-radius: 2px;
+  }
+  padding: 0 2px 16px 2px;
+  position: relative;
+}
+
+.with-audits:after {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  bottom: 25px;
+  left: 195px;
+  font-size: 16px;
+  background: #FFF;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+  font-family: 'Material Icons';
+  content: 'person';
+  opacity: .7;
+}
+
+@media screen and (max-width: 768px) {
+  .body-part-img {
+    img, video, .no-info {
+      width: 160px;
+      height: 120px;
+    }
+  }
+  .with-audits:after {
+    left: 138px;
+    bottom: 20px;
+  }
+}
+
+.images {
+  display: grid;
+  grid-template-columns: 50% 50%;
+}

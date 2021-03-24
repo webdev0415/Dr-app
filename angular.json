@@ -1,0 +1,638 @@
+{
+  "$schema": "node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "provider-app": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "prefix": "pa",
+          "style": "scss"
+        },
+        "@schematics/angular:directive": {
+          "prefix": "pa"
+        }
+      },
+      "root": "projects/provider-app",
+      "sourceRoot": "projects/provider-app/src",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/DoctorApp",
+            "index": "projects/provider-app/src/index.html",
+            "main": "projects/provider-app/src/main.ts",
+            "tsConfig": "projects/provider-app/src/tsconfig.app.json",
+            "polyfills": "projects/provider-app/src/polyfills.ts",
+            "aot": true,
+            "assets": [
+              "projects/provider-app/src/assets",
+              "projects/provider-app/src/favicon.ico"
+            ],
+            "styles": [
+              "node_modules/@fortawesome/fontawesome-pro/scss/fontawesome.scss",
+              "node_modules/@fortawesome/fontawesome-pro/scss/solid.scss",
+              "node_modules/@fortawesome/fontawesome-pro/scss/regular.scss",
+              "node_modules/@fortawesome/fontawesome-pro/scss/brands.scss",
+              "node_modules/ng-uikit-pro-standard/assets/scss/bootstrap/bootstrap.scss",
+              "node_modules/ng-uikit-pro-standard/assets/scss/mdb.scss",
+              "node_modules/animate.css/animate.css",
+              "projects/provider-app/src/styles/styles.scss"
+            ],
+            "progress": true,
+            "sourceMap": true,
+            "baseHref": "/DoctorApp/",
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules/ng-uikit-pro-standard/assets",
+                "styles",
+                "../../styles"
+              ]
+            },
+            "scripts": [
+              "node_modules/chart.js/dist/Chart.js",
+              "node_modules/easy-pie-chart/dist/easypiechart.js",
+              "node_modules/screenfull/dist/screenfull.js",
+              "node_modules/hammerjs/hammer.min.js",
+              "node_modules/jspdf/dist/jspdf.min.js"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": false,
+              "serviceWorker": false,
+              "fileReplacements": [
+                {
+                  "replace": "projects/provider-app/src/environments/environment.ts",
+                  "with": "projects/provider-app/src/environments/environment.prod.ts"
+                }
+              ]
+            },
+            "development": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": true,
+              "extractCss": true,
+              "namedChunks": true,
+              "extractLicenses": true,
+              "vendorChunk": true,
+              "buildOptimizer": false,
+              "serviceWorker": false,
+              "fileReplacements": [
+                {
+                  "replace": "projects/provider-app/src/environments/environment.ts",
+                  "with": "projects/provider-app/src/environments/environment.dev.ts"
+                }
+              ]
+            },
+            "developmentPE": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": true,
+              "extractCss": true,
+              "namedChunks": true,
+              "extractLicenses": true,
+              "vendorChunk": true,
+              "buildOptimizer": false,
+              "serviceWorker": false,
+              "fileReplacements": [
+                {
+                  "replace": "projects/provider-app/src/environments/environment.ts",
+                  "with": "projects/provider-app/src/environments/environment.dev.ts"
+                }
+              ],
+              "baseHref": "/DoctorApp2/",
+              "outputPath": "dist/DoctorApp2"
+            },
+            "pilot": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": false,
+              "vendorChunk": false,
+              "buildOptimizer": false,
+              "serviceWorker": false,
+              "fileReplacements": [
+                {
+                  "replace": "projects/provider-app/src/environments/environment.ts",
+                  "with": "projects/provider-app/src/environments/environment.pilot.ts"
+                }
+              ]
+            },
+            "local": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "optimization": false,
+              "outputHashing": "all",
+              "sourceMap": true,
+              "extractCss": true,
+              "namedChunks": true,
+              "extractLicenses": false,
+              "vendorChunk": true,
+              "buildOptimizer": false,
+              "serviceWorker": false,
+              "fileReplacements": [
+                {
+                  "replace": "projects/provider-app/src/environments/environment.ts",
+                  "with": "projects/provider-app/src/environments/environment.local.ts"
+                }
+              ]
+            },
+            "china": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": false,
+              "serviceWorker": false,
+              "fileReplacements": [
+                {
+                  "replace": "projects/provider-app/src/environments/environment.ts",
+                  "with": "projects/provider-app/src/environments/environment.china.ts"
+                }
+              ]
+            },
+            "proxy": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "optimization": false,
+              "outputHashing": "all",
+              "sourceMap": true,
+              "extractCss": true,
+              "namedChunks": true,
+              "extractLicenses": false,
+              "vendorChunk": true,
+              "buildOptimizer": false,
+              "serviceWorker": false,
+              "fileReplacements": [
+                {
+                  "replace": "projects/provider-app/src/environments/environment.ts",
+                  "with": "projects/provider-app/src/environments/environment.proxy.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "provider-app:build:local",
+            "aot": true,
+            "baseHref": "/DoctorApp/",
+            "sourceMap": true,
+            "progress": true
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "provider-app:build:production"
+            },
+            "mock": {
+              "browserTarget": "provider-app:build:mock"
+            },
+            "development": {
+              "browserTarget": "provider-app:build:development",
+              "aot": false,
+              "optimization": true,
+              "sourceMap": true
+            },
+            "local": {
+              "browserTarget": "provider-app:build:local",
+              "aot": false,
+              "optimization": false,
+              "sourceMap": true
+            },
+            "pilot": {
+              "browserTarget": "provider-app:build:pilot"
+            },
+            "china": {
+              "browserTarget": "provider-app:build:china"
+            },
+            "proxy": {
+              "browserTarget": "provider-app:build:proxy",
+              "aot": false,
+              "optimization": false,
+              "sourceMap": true,
+              "proxyConfig": "./proxy.config.json"
+            }
+          }
+        },
+        "mockE2e": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "provider-app:build",
+            "aot": true,
+            "baseHref": "/DoctorApp/",
+            "sourceMap": true,
+            "progress": true
+          },
+          "configurations": {
+            "mock": {
+              "browserTarget": "provider-app:build:mock"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "provider-app:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/provider-app/src/test.ts",
+            "karmaConfig": "projects/provider-app/karma.conf.js",
+            "polyfills": "projects/provider-app/src/polyfills.ts",
+            "tsConfig": "projects/provider-app/src/tsconfig.spec.json",
+            "watch": false,
+            "styles": [
+              "node_modules/ng-uikit-pro-standard/assets/scss/bootstrap/bootstrap.scss",
+              "node_modules/ng-uikit-pro-standard/assets/scss/mdb.scss",
+              "projects/provider-app/src/styles/styles.scss"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules/ng-uikit-pro-standard/assets",
+                "projects/provider-app/src/styles/shared",
+                "projects/provider-app/src/app/documents",
+                "projects/provider-app/src/styles/styles.scss",
+                "styles/"
+              ]
+            },
+            "scripts": [
+              "node_modules/chart.js/dist/Chart.js",
+              "node_modules/easy-pie-chart/dist/easypiechart.js",
+              "node_modules/screenfull/dist/screenfull.js",
+              "node_modules/hammerjs/hammer.min.js",
+              "node_modules/jspdf/dist/jspdf.min.js"
+            ],
+            "assets": [
+              "projects/provider-app/src/assets",
+              "projects/provider-app/src/favicon.ico"
+            ],
+            "codeCoverageExclude": [
+              "projects/provider-app/src/assets/drug-name-map.ts"
+            ]
+          },
+          "configurations": {
+            "local": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/provider-app/src/environments/environment.ts",
+                  "with": "projects/provider-app/src/environments/environment.local.ts"
+                }
+              ],
+              "watch": true
+            },
+            "dev": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/provider-app/src/environments/environment.ts",
+                  "with": "projects/provider-app/src/environments/environment.dev.ts"
+                }
+              ]
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/provider-app/src/tsconfig.app.json",
+              "projects/provider-app/src/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "**/static.symptomgroups.ts",
+              "**/**constants.ts",
+              "**/**spec.ts",
+              "**/versions.ts",
+              "**/drug-name-map.ts",
+              "**/networkservice.ts",
+              "**/responseHandler.ts"
+            ],
+            "format": "verbose"
+          }
+        }
+      }
+    },
+    "provider-app-e2e": {
+      "root": "e2e/",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "./protractor.conf.js",
+            "devServerTarget": "provider-app:mockE2e:mock"
+          },
+          "configurations": {
+            "no-serve": {
+              "devServerTarget": ""
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "**/static.symptomgroups.ts",
+              "**/**constants.ts",
+              "**/**spec.ts",
+              "**/versions.ts",
+              "**/drug-name-map.ts",
+              "**/networkservice.ts",
+              "**/responseHandler.ts"
+            ]
+          }
+        }
+      }
+    },
+    "pharmacist": {
+      "projectType": "library",
+      "root": "projects/pharmacist",
+      "sourceRoot": "projects/pharmacist/src",
+      "prefix": "ph",
+      "schematics": {
+        "@schematics/angular:component": {
+          "prefix": "ph",
+          "style": "scss"
+        },
+        "@schematics/angular:directive": {
+          "prefix": "ph"
+        }
+      },
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/pharmacist/tsconfig.lib.json",
+            "project": "projects/pharmacist/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/pharmacist/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/pharmacist/src/test.ts",
+            "tsConfig": "projects/pharmacist/tsconfig.spec.json",
+            "karmaConfig": "projects/pharmacist/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/pharmacist/tsconfig.lib.json",
+              "projects/pharmacist/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "provider-documents": {
+      "projectType": "library",
+      "root": "projects/provider-documents",
+      "sourceRoot": "projects/provider-documents/src",
+      "prefix": "doc",
+      "schematics": {
+        "@schematics/angular:component": {
+          "prefix": "doc",
+          "style": "scss"
+        },
+        "@schematics/angular:directive": {
+          "prefix": "doc"
+        }
+      },
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/provider-documents/tsconfig.lib.json",
+            "project": "projects/provider-documents/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/provider-documents/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/provider-documents/src/test.ts",
+            "tsConfig": "projects/provider-documents/tsconfig.spec.json",
+            "karmaConfig": "projects/provider-documents/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/provider-documents/tsconfig.lib.json",
+              "projects/provider-documents/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "documents-generator": {
+      "projectType": "library",
+      "root": "projects/documents-generator",
+      "sourceRoot": "projects/documents-generator/src",
+      "prefix": "dg",
+      "schematics": {
+        "@schematics/angular:component": {
+          "prefix": "dg",
+          "style": "scss"
+        },
+        "@schematics/angular:directive": {
+          "prefix": "dg"
+        }
+      },
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/documents-generator/tsconfig.lib.json",
+            "project": "projects/documents-generator/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/documents-generator/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/documents-generator/src/test.ts",
+            "tsConfig": "projects/documents-generator/tsconfig.spec.json",
+            "karmaConfig": "projects/documents-generator/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/documents-generator/tsconfig.lib.json",
+              "projects/documents-generator/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "shared-models": {
+      "projectType": "library",
+      "root": "./projects/shared-models",
+      "sourceRoot": "./projects/shared-models/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "./projects/shared-models/tsconfig.lib.json",
+            "project": "./projects/shared-models/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/shared-models/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/shared-models/src/test.ts",
+            "tsConfig": "projects/shared-models/tsconfig.spec.json",
+            "karmaConfig": "projects/shared-models/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/shared-models/tsconfig.lib.json",
+              "projects/shared-models/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "patient-profile": {
+      "projectType": "library",
+      "root": "projects/patient-profile",
+      "sourceRoot": "projects/patient-profile/src",
+      "prefix": "profile",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/patient-profile/tsconfig.lib.json",
+            "project": "projects/patient-profile/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/patient-profile/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/patient-profile/src/test.ts",
+            "tsConfig": "projects/patient-profile/tsconfig.spec.json",
+            "karmaConfig": "projects/patient-profile/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/patient-profile/tsconfig.lib.json",
+              "projects/patient-profile/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "provider-app",
+  "cli": {
+    "analytics": "f1589447-a24a-443d-87da-97419e32530c"
+  }
+}

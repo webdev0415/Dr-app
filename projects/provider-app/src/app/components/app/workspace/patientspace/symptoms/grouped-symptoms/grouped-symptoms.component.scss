@@ -1,0 +1,23 @@
+@import '../../../../../../../../src/styles/shared/mixins';
+@import '../../../../../../../../src/styles/shared/variables';
+@import '../../../../../../../../src/styles/shared/functions';
+
+.mat-list-item {
+  border-bottom-style: groove;
+  border-bottom-width: thin;
+  padding-left: 0.7em;
+  padding-right: 0.5em;
+}
+
+.list-item {
+  height: auto !important;
+  min-height: 32px;
+  span {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+    width: 100%;
+    text-align: left;
+    font-size: 13px;
+  }
+}

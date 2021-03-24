@@ -1,0 +1,91 @@
+@import 'functions';
+@import '../../../../../node_modules/ng-uikit-pro-standard/assets/scss/core/bootstrap/variables';
+@import 'colors';
+
+
+// system
+$_root_assets_mdb_path: "../../../../node_modules/ng-uikit-pro-standard/assets";
+$roboto-font-path: "#{$_root_assets_mdb_path}/font/roboto/";
+$image-path: "#{$_root_assets_mdb_path}/img";
+
+// responsive
+$grid-breakpoints: map-merge(
+    $grid-breakpoints,
+    (
+      xxl: 1440px,
+      xxxl: 1600px,
+      blg: 1900px,
+      '4k': 2560px
+    )
+);
+
+$container-max-widths: map-merge(
+    $container-max-widths,
+    (
+      xxl: 1370px,
+      xxxl: 1570px,
+      blg: 1870px,
+      '4k': 2560px
+    )
+);
+
+$font-size-xxl: ($font-size-base * 1.3) !default;
+$font-size-xxxl: ($font-size-base * 1.35) !default;
+$font-size-blg: ($font-size-base * 1.4) !default;
+$font-size-4k: ($font-size-base * 1.6) !default;
+
+// other
+$font-family-base: 'Roboto', sans-serif;
+$headings-font-weight: $font-weight-base;
+
+$btn-border-width: rem(1);
+
+$btn-padding-y-basic: rem(7);
+$btn-padding-x-basic: rem(24);
+$btn-font-size-basic: rem(21);
+
+$btn-padding-y-small: rem(6);
+$btn-padding-x-small: rem(24);
+$btn-font-size-small: rem(16);
+
+$btn-padding-y-medium: $btn-padding-y-basic;
+$btn-padding-x-medium: $btn-padding-x-basic;
+$btn-font-size-medium: $btn-font-size-basic;
+
+$btn-outline-padding-y-basic: $btn-padding-y-basic - $btn-border-width;
+$btn-outline-padding-y-medium: $btn-padding-y-medium - $btn-border-width;
+$btn-outline-padding-y-small: $btn-padding-y-small - $btn-border-width;
+
+$header-height: rem(85) !default;
+
+$picker-opened-frame-media-top: calc(10% + #{$header-height});
+
+@import '../../../../../node_modules/ng-uikit-pro-standard/assets/scss/core/variables';
+@import '../../../../../node_modules/ng-uikit-pro-standard/assets/scss/core/variables-pro';
+
+$page-bottom-height: rem(60) !default;
+
+$left-navbar-width: rem(306) !default;
+
+$font-size-12: rem(12) !default;
+$font-size-14: rem(14) !default;
+$font-size-16: rem(16) !default;
+$font-size-18: rem(18) !default;
+$font-size-20: rem(20) !default;
+$font-size-24: rem(24) !default;
+
+%clickable-element {
+  cursor: pointer;
+}
+
+.picker--opened .picker__frame {
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  height: 466px;
+  min-height: 466px;
+}
+
+$ordered-status-color : rgba(190, 100, 193, 0.3);
+$completed-status-color: rgba(135, 202, 140, 0.3);
+$cancelled-status-color: rgb(254, 240, 240);

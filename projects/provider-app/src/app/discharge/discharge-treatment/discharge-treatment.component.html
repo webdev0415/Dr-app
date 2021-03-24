@@ -1,0 +1,91 @@
+<div id="container" class="pt-1 d-flex justify-content-between flex-wrap" *ngIf="discharge">
+
+  <div class="align-items-center mt-4 w-100">
+    <mdb-checkbox #returnIn
+      (change)="update('returnIn', $event.checked, null, inputAmountOf)"
+      (click)="setFocusToElement(inputAmountOf, returnIn.checked)"
+      [default]="true"
+      [disabled]="viewOnly"
+      [checked]="discharge.returnIn">Return In
+    </mdb-checkbox>
+  </div>
+
+  <div class="w-100 follow-up-grid">
+    <div class="align-items-center">
+      <mdb-checkbox #followUp
+        (change)="update('followUp', $event.checked, null, inputAmountOf)"
+        (click)="setFocusToElement(inputAmountOf, followUp.checked)"
+        [default]="true"
+        [disabled]="viewOnly"
+        [checked]="discharge.followUp">Follow Up In
+      </mdb-checkbox>
+    </div>
+    <div class="align-items-center">
+      <mdb-checkbox #followUpWithPCP
+        (change)="update('followUpWith', $event.checked, 'PCP', inputAmountOf)"
+        (click)="setFocusToElement(inputAmountOf, followUpWithPCP.checked)"
+        [default]="true"
+        [disabled]="viewOnly || !discharge.followUp"
+        [checked]="discharge.followUpWith === 'PCP'">PCP
+      </mdb-checkbox>
+    </div>
+    <div class="align-items-center">
+      <mdb-checkbox #followUpWithConsultant
+        (change)="update('followUpWith', $event.checked, 'Consultant', inputAmountOf)"
+        (click)="setFocusToElement(inputAmountOf, followUpWithConsultant.checked)"
+        [default]="true"
+        [disabled]="viewOnly || !discharge.followUp"
+        [checked]="discharge.followUpWith === 'Consultant'">Specialist
+      </mdb-checkbox>
+    </div>
+  </div>
+
+  <div class="w-100 grid">
+    <div class="md-form mt-1 pr-4">
+    <input #inputAmountOf id="input-amount-of" [disabled]="viewOnly || !isReturnTypeSelected"
+             mdbInput class="form-control mb-0"
+             type="text" inputmode="numeric" placeholder="Time Amount" min="1"
+             [mdbValidate]="false"
+             [(ngModel)]="discharge.amountOf"
+             (input)="checkForValidNumberValue(inputAmountOf)"
+             (change)="update('amountOf', getNumberValue(inputAmountOf.value))"/>
+      <mdb-error *ngIf="isInvalidTimeAmountField" class="mt-2">Field required</mdb-error>
+      <mdb-error *ngIf="isTimeAmountOutOfRange" class="mt-2">Must be equal or less than 51</mdb-error>
+    </div>
+    <div class="md-form mt-1 pr-4">
+      <mdb-select (ngModelChange)="update('time', $event)" placeholder="Time Unit" [disabled]="viewOnly || !isReturnTypeSelected" [options]="timeOptions" [allowClear]="!!discharge.time" [(ngModel)]="discharge.time"></mdb-select>
+      <mdb-error *ngIf="isInvalidTimeUnitField" class="mt-2">Field required</mdb-error>
+    </div>
+    <div class="mt-3">
+      <mdb-checkbox
+        (change)="update('ifNotBetter', $event.checked)"
+        [default]="true"
+        [disabled]="viewOnly || !isReturnTypeSelected"
+        [checked]="discharge.ifNotBetter">If Not Better
+      </mdb-checkbox>
+    </div>
+  </div>
+
+  <div class="w-100">
+    <p><strong>Therapies</strong></p>
+  </div>
+
+  <div class="md-form w-100 mb-3 d-flex flex-row justify-content-around" id="therapies">
+    <button *ngFor="let therapy of therapiesOptions" mdbBtn mdbWavesEffect
+            (click)="therapiesUpdate(therapy.value, !discharge.therapies?.includes(therapy.value))"
+            [class.btn-green]="discharge.therapies?.includes(therapy.value)"
+            class="btn-primary rounded btn-sm w-100 px-0">{{therapy.label}}</button>
+  </div>
+
+  <div class="w-100">
+    <p><strong>Other Reasons</strong></p>
+  </div>
+
+  <div class="grid-buttons w-100 justify-content-around">
+    <button *ngFor="let reason of otherReasonOptions" mdbBtn mdbWavesEffect
+            (click)="update('otherReason', discharge.otherReason === reason.value ? '' : reason.value)"
+            [class.btn-green]="discharge.otherReason === reason.value"
+            class="btn-primary rounded btn-sm w-100">{{reason.label}}</button>
+  </div>
+
+</div>

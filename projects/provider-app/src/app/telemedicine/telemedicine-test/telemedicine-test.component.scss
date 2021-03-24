@@ -1,0 +1,53 @@
+::ng-deep .step-content {
+  margin-bottom: 60px;
+  color: rgba(0, 0, 0, .65);
+}
+
+::ng-deep .step-content:before, ::ng-deep .step-content:after {
+  display: none !important;
+}
+
+@media (min-width: 1025px) {
+  ::ng-deep ul.stepper {
+    margin-left: -50% !important;
+  }
+}
+
+.close-container {
+  position: absolute;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+::ng-deep .circle {
+  border: none !important;
+}
+
+.fade-animation {
+  animation:  2s linear 0s infinite alternate fade-in-out;
+}
+
+@keyframes fade-in-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.close-btn {
+  width: 100px;
+  height: 40px;
+  border: none;
+  color: white;
+}
+
+.error {
+  color: red;
+}
+
+::ng-deep .mat-dialog-container {
+  max-height: 100vh !important;
+}

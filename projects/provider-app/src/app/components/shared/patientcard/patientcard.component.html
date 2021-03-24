@@ -1,0 +1,90 @@
+<div *ngIf="socialCard.patientPhoto && isDialog" id="15b6fa48-9330-409a-b9e9-90bd55e922e8" class="photo">
+  <img [src]="socialCard.patientPhoto">
+</div>
+<div [ngClass]="isDialog ? 'data' : ''">
+  <ul *ngIf="socialCard.patientFullName" class="list-unstyled">
+    <li *ngIf="isDialog">
+      <strong>Name:</strong>{{ socialCard.patientFullName }}
+    </li>
+    <li *ngIf="socialCard.patientVisitReason && isDialog">
+      <strong>Reason for Visit:</strong>{{ socialCard.patientVisitReason }}
+    </li>
+    <li *ngIf="socialCard.patientAge && isDialog">
+      <strong>Age:</strong>{{ socialCard.patientAge }}
+    </li>
+    <li *ngIf="socialCard.patientEthnicity">
+      <strong>Ethnicity:</strong>{{ socialCard.patientEthnicity }}
+    </li>
+    <li *ngIf="socialCard.patientHeight && isDialog">
+      <strong>Height:</strong>{{ socialCard.patientHeight }}
+    </li>
+    <li *ngIf="socialCard.patientWeight && isDialog">
+      <strong>Weight:</strong>{{ socialCard.patientWeight }}
+    </li>
+    <li *ngIf="isDialog">
+      <strong>Gender:</strong>{{ socialCard.gender }}
+    </li>
+    <li *ngIf="socialCard.pregnancyStatus && isDialog">
+      <strong>Pregnancy status:</strong>{{ socialCard.pregnancyStatus }}
+    </li>
+    <li *ngIf="socialCard.patientLastPeriodDate && isDialog">
+      <strong>Last menstruation date:</strong>{{ socialCard.patientLastPeriodDate }}
+    </li>
+    <li *ngIf="socialCard.patientOtherMenstrualStatus && isDialog">
+      <strong>Reason for no menstruation:</strong>{{ socialCard.patientOtherMenstrualStatus }}
+    </li>
+  </ul>
+  <div *ngIf="!isDialog" id="a367d0db-9708-4294-ab72-0107083b9d1a" class="row">
+    <div id="b27757ed-3d70-4189-bea1-71dc025188fa" class="col-xs-12"
+         [ngClass]="currentAlcoholSmokingLgClassSize">
+      <ul class="list-unstyled mb-0">
+        <li *ngIf="socialCard.currentSmoking">
+          <strong>Currently Smoking:</strong>{{ socialCard.currentSmoking }}
+        </li>
+        <li *ngIf="visibleLastSmoked && socialCard.lastSmoked">
+          <strong>Last Smoked:</strong>{{ socialCard.lastSmoked }}
+        </li>
+        <li *ngIf="visibleSmokingDurationOrDates && socialCard.smokingDuration">
+          <strong>Smoking duration:</strong>{{ socialCard.smokingDuration }}
+        </li>
+        <li *ngIf="visibleSmokingDurationOrDates && socialCard.smokingDates">
+          <strong>Dates:</strong>{{ socialCard.smokingDates }}
+        </li>
+      </ul>
+    </div>
+    <div *ngIf="!isDialog" id="3b699151-4fc9-47cc-b819-84ff3b946d46" class="col-xs-12 col-lg-9">
+      <ul class="list-unstyled">
+        <li>
+          <strong>Current Alcohol Consumer:</strong>{{ socialCard.alcoholConsumption ? 'Yes' : 'No' }}
+        </li>
+        <li *ngIf="visibleLastDrink && socialCard.lastDrink">
+          <strong>Date Last Drink Consumed:</strong>{{ socialCard.lastDrink }}
+        </li>
+        <li *ngIf="visiblePregnancyStatus">
+          <strong>Pregnancy:</strong>{{ socialCard.pregnancyStatus }}
+        </li>
+        <li *ngIf="socialCard.currentBreastFeeding">
+          <strong>Currently Breast Feeding:</strong> Yes
+        </li>
+        <li>
+          <strong>Current Caffeine Consumer:</strong>{{ socialCard.caffeineConsumption ? 'Yes' : 'No' }}
+        </li>
+        <li *ngIf="socialCard.drugUser">
+          <strong>Drug User: </strong>
+          <ng-container *ngFor="let drug of socialCard.drugTypes; let idx = index">
+            <span *ngIf="idx != 0">, </span>
+            <span>{{ drug }}</span>
+          </ng-container>
+          <span>{{socialCard.drugTypes.length ? ', ' : ''}}{{ socialCard.patientHealthHistory.otherDrugs || '' }}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div *ngIf="socialCard && isDialog" class="thumbnail-container d-flex flex-wrap w-100">
+    <div *ngFor="let image of imgs; let index = index" class="thumbnail m-1">
+      <div class="w-100" (click)="showFullImg(image, index)">
+        <img [src]="image.front.image">
+      </div>
+    </div>
+  </div>
+</div>

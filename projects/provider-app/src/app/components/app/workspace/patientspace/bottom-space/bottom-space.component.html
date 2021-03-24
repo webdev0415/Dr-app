@@ -1,0 +1,201 @@
+<div *ngIf="isShow">
+  <div id="b7ffdf4f-72d7-4273-9975-4f13f77ba93b" class="d-flex page-bottom" *ngIf="switchComponent(Components.PatientData)">
+    <div class="d-flex justify-content-between align-items-center w-100">
+      <div class="ml-auto mr-3">
+        <pa-continue-button></pa-continue-button>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex page-bottom" *ngIf="switchComponent(Components.VitalsMedia)">
+    <div class="d-flex justify-content-end align-items-center w-100">
+      <div class="ml-3">
+        <button mdbBtn type="button" color="primary" size="sm" mdbWavesEffect
+                (click)="clickBottomButton('previous')">
+          Previous
+        </button>
+      </div>
+      <div class="mr-3">
+        <pa-continue-button [defaultOperation]="false" (click)="clickBottomButton('continue')"></pa-continue-button>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex page-bottom" *ngIf="switchComponent(Components.SelectedIllnesses)">
+    <div class="d-flex justify-content-end align-items-center w-100">
+      <div class="ml-3">
+        <button mdbBtn type="button" color="primary" size="sm" mdbWavesEffect
+                (click)="clickBottomButton('previous')">
+          Previous
+        </button>
+      </div>
+      <div class="mr-3">
+        <pa-continue-button [defaultOperation]="false" (click)="clickBottomButton('continue')"></pa-continue-button>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex page-bottom" *ngIf="switchComponent(Components.Symptoms)">
+    <div class="d-flex justify-content-end align-items-center w-100">
+      <div class="ml-3">
+        <button mdbBtn type="button" color="primary" size="sm" mdbWavesEffect
+                (click)="clickBottomButton('previous')">
+          Previous
+        </button>
+      </div>
+      <div class="mr-3">
+        <pa-continue-button [defaultOperation]="false" (click)="clickBottomButton('continue')"></pa-continue-button>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex page-bottom" *ngIf="switchComponent(Components.Surveys)">
+    <div class="d-flex align-items-center justify-content-center w-100">
+      <button
+        mdbBtn
+        type="button"
+        color="primary"
+        size="sm"
+        mdbWavesEffect
+        (click)="clickBottomButton('generatePDF')"
+        [disabled]="isDisabledButton('generatePDF')">
+        Generate PDF
+      </button>
+    </div>
+  </div>
+
+  <div class="page-bottom" *ngIf="switchComponent(Components.Dischargedocs)">
+    <div class="d-flex justify-content-center align-items-center">
+      <div *ngIf="isShowButton('authorizationSpanish')" class="d-flex justify-content-center col-md-6 justify-align-center">
+        <button mdbBtn type="button" color="primary" size="sm" mdbWavesEffect (click)="clickBottomButton('authorizationSpanish')">In
+          Spanish</button>
+      </div>
+      <div *ngIf="isShowButton('authorizationEnglish')" class="d-flex justify-content-center col-md-6 justify-align-center">
+        <button mdbBtn type="button" color="primary" size="sm" mdbWavesEffect (click)="clickBottomButton('authorizationEnglish')">In
+          English</button>
+      </div>
+
+      <div *ngIf="isShowButton('dischargeSpanish')" class="d-flex justify-content-center col-md-6 justify-align-center">
+        <button mdbBtn type="button" color="primary" size="sm" mdbWavesEffect (click)="clickBottomButton('dischargeSpanish')">In Spanish</button>
+      </div>
+      <div *ngIf="isShowButton('dischargeEnglish')" class="d-flex justify-content-center col-md-6 justify-align-center">
+        <button mdbBtn type="button" color="primary" size="sm" mdbWavesEffect (click)="clickBottomButton('dischargeEnglish')">In English</button>
+      </div>
+      <div *ngIf="isShowButton('generatePDF')" id="73cc610d-40b0-4643-8668-ba46b995e8bb" class="d-flex justify-content-center col-md-6">
+        <button mdbBtn type="button" color="primary" size="sm" mdbWavesEffect (click)="clickBottomButton('generatePDF')">Generate PDF</button>
+      </div>
+      <div class="d-flex justify-content-end w-100 mr-3">
+        <button *ngIf="isShowButton('previous')" mdbBtn type="button" color="primary" size="sm" mdbWavesEffect (click)="clickBottomButton('previous')">Previous</button>
+        <button *ngIf="isShowButton('finalize')" mdbBtn type="button" color="primary" size="sm" mdbWavesEffect (click)="clickBottomButton('finalize')">Finalize</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="795218c6-6cfa-4145-b79a-580d124eb6da" class="page-bottom text-center" *ngIf="switchComponent(Components.Labs)">
+    <button mdbBtn type="button" color="primary" size="sm" mdbWavesEffect (click)="clickBottomButton('saveLab')" [disabled]="isDisabledButton('saveLab')">
+      Save Lab Results
+    </button>
+    <button mdbBtn type="button" color="primary" size="sm" mdbWavesEffect (click)="clickBottomButton('saveAndExit')" [disabled]="isDisabledButton('saveAndExit')">
+      Save & Exit Patient
+    </button>
+  </div>
+
+  <div id="8b509b8e-cdbf-4993-8098-bf27df961896" class="text-center w-100 justify-content-center align-items-center page-bottom order-labs-container" *ngIf="switchComponent(Components.Medications) || switchComponent(Components.Injections)">
+    <button mdbBtn type="button" color="primary" size="sm" mdbWavesEffect (click)="clickBottomButton('save')" [disabled]="isDisabledButton('save')" *ngIf="isShowButton('save')">
+      Save {{switchComponent(Components.Medications) ? 'Medications' : 'Injections'}}
+    </button>
+    <pa-continue-button></pa-continue-button>
+  </div>
+
+  <div id="b7ffdf4f-72d7-4273-9975-4f13f7yba93b" class="text-center w-100 align-items-center page-bottom order-labs-container" [class.justify-content-center]="isShowButton('saveLab')"  [class.justify-content-end]="!isShowButton('saveLab')" *ngIf="switchComponent(Components.OrderLabs)">
+    <button mdbBtn type="button" color="primary" size="sm" mdbWavesEffect (click)="clickBottomButton('previous')" [disabled]="isDisabledButton('previous')" *ngIf="isShowButton('previous')">
+      Previous
+    </button>
+    <button mdbBtn type="button" color="primary" size="sm" mdbWavesEffect (click)="clickBottomButton('sendOrder')" [disabled]="isDisabledButton('sendOrder')" *ngIf="isShowButton('sendOrder')">
+      Send order request
+    </button>
+    <button mdbBtn type="button" color="primary" size="sm" mdbWavesEffect (click)="clickBottomButton('saveLab')" [disabled]="isDisabledButton('saveLab')" *ngIf="isShowButton('saveLab')">
+      Save Lab Results
+    </button>
+    <button mdbBtn type="button" color="primary" size="sm" mdbWavesEffect (click)="clickBottomButton('saveAndExit')" [disabled]="isDisabledButton('saveAndExit')" *ngIf="isShowButton('saveAndExit')">
+      Save & Exit Patient
+    </button>
+    <pa-continue-button [defaultOperation]="false" [disabled]="isDisabledButton('continue')" (click)="clickBottomButton('continue')" [class.mr-3]="!isShowButton('saveLab')"></pa-continue-button>
+  </div>
+
+  <div class="d-flex page-bottom" *ngIf="switchComponent(Components.WorkingDiagnosis)">
+    <div class="d-flex justify-content-start align-items-center w-100" *ngIf="isShowButton('editNotes')">
+      <div class="ml-3">
+        <button mdbBtn type="button" color="primary" size="sm" mdbWavesEffect [disabled]="isDisabledButton('editNotes')"
+                (click)="clickBottomButton('editNotes')">
+          Edit Diagnostic Notes
+        </button>
+      </div>
+    </div>
+    <div class="d-flex justify-content-start align-items-center w-100" *ngIf="isShowButton('exitPatient')">
+      <div class="ml-3">
+        <button mdbBtn type="button" color="white" size="sm" class="px-4 pharmacy-bottom" mdbWavesEffect [disabled]="isDisabledButton('exitPatient')"
+                (click)="clickBottomButton('exitPatient')">
+          Exit Patient
+        </button>
+      </div>
+    </div>
+    <div class="d-flex justify-content-center align-items-center w-100" *ngIf="isShowButton('unableToTreat')">
+      <div class="ml-3">
+        <button mdbBtn type="button" color="white" size="sm" class="px-4 pharmacy-bottom" mdbWavesEffect [disabled]="isDisabledButton('unableToTreat')"
+                (click)="clickBottomButton('unableToTreat')">
+          Unable To Treat
+        </button>
+      </div>
+    </div>
+    <div class="d-flex justify-content-center align-items-center w-100" *ngIf="isShowButton('referToClinic')">
+      <div class="mr-3">
+        <button mdbBtn type="button" color="white" size="sm" class="px-4 pharmacy-bottom" mdbWavesEffect [disabled]="isDisabledButton('referToClinic')"
+                (click)="clickBottomButton('referToClinic')">
+          Refer To Clinic
+        </button>
+      </div>
+    </div>
+    <div class="d-flex justify-content-end align-items-center w-100" *ngIf="isShowButton('continueWithTreatment')">
+      <div class="mr-3">
+        <button mdbBtn type="button" color="primary" size="sm" class="px-2" mdbWavesEffect [disabled]="isDisabledButton('continueWithTreatment')"
+                (click)="clickBottomButton('continueWithTreatment')">
+          Continue With Treatment
+        </button>
+      </div>
+    </div>
+    <div class="d-flex justify-content-end align-items-center w-100" *ngIf="isShowButton('continue')">
+      <div class="ml-3" *ngIf="isShowButton('previous')">
+        <button mdbBtn type="button" color="primary" size="sm" mdbWavesEffect [disabled]="isDisabledButton('previous')"
+                (click)="clickBottomButton('previous')">
+          Previous
+        </button>
+      </div>
+      <div class="mr-3">
+        <pa-continue-button [defaultOperation]="false" [disabled]="isDisabledButton('continue')" (click)="clickBottomButton('continue')"></pa-continue-button>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex page-bottom" *ngIf="switchComponent(Components.Treatment)">
+    <div class="d-flex justify-content-end align-items-center w-100">
+      <button mdbBtn type="button" color="primary" size="sm" mdbWavesEffect [disabled]="isDisabledButton('previous')"
+              (click)="clickBottomButton('previous')">
+        Previous
+      </button>
+      <div class="mr-3">
+        <button *ngIf="isShowButton('finalize')" mdbBtn type="button" color="primary" size="sm" mdbWavesEffect
+                (click)="clickBottomButton('finalize')">
+          Finalize Treatment
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="page-bottom" *ngIf="switchComponent(Components.IntakeForm)">
+    <div class="d-flex justify-content-center align-items-center">
+      <div class="d-flex justify-content-end w-100 mr-3">
+        <button *ngIf="isShowButton('previous')" mdbBtn type="button" color="primary" size="sm" mdbWavesEffect (click)="clickBottomButton('previous')">Previous</button>
+        <button *ngIf="isShowButton('finalize')" mdbBtn type="button" color="primary" size="sm" mdbWavesEffect (click)="clickBottomButton('finalize')">Finalize</button>
+      </div>
+    </div>
+  </div>
+</div>

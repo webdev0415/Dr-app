@@ -1,0 +1,73 @@
+<ng-template #mainContentPart>
+  <ng-container [ngTemplateOutlet]="findingsEditable"></ng-container>
+  <ng-container *ngIf="!viewOnly">
+    <div class="subsystems-panel mb-2">
+      <ng-container *ngFor="let subsystem of system.descriptionsArray; let idx = index">
+        <div class="rounded d-flex flex-column button-container m-2" [class.scale]="idx === activeSubsystemIndex">
+          <div mdbWavesEffect class="d-flex flex-row justify-content-center button-header outline-box p-0"
+               [ngClass]="{'normal': subsystemAbnormal(subsystem) === false, 'abnormal': subsystemAbnormal(subsystem) === true, 'outline': idx === activeSubsystemIndex}"
+               [style.font-size]="getButtonTextFontSize(getSubsystemButtonText(subsystem))"
+               *ngIf="subsystem.description !== OrderStateEnum.NONE" (click)="onSubsystemSelect(idx)">
+            <span class="align-self-center text-center">{{ getSubsystemButtonText(subsystem) }}</span>
+          </div>
+          <div class="d-flex flex-row" *ngIf="subsystem.description !== OrderStateEnum.NONE">
+            <button mdbBtn mdbWavesEffect size="sm" type="button" class="subsystem-btn w-50 m-0"
+                    (click)="onSubsystemSelect(idx, true)"
+                    [outline]="subsystemAbnormal(subsystem) !== false" [class.active]="idx === activeSubsystemIndex"
+                    [color]="'green'">
+              Normal
+            </button>
+            <button mdbBtn mdbWavesEffect size="sm" type="button" class="subsystem-btn w-50 m-0"
+                    (click)="onSubsystemSelect(idx, activeSubsystemIndex === idx ? false : null)"
+                    [outline]="subsystemAbnormal(subsystem) !== true" [class.active]="idx === activeSubsystemIndex"
+                    [color]="'red'">
+              Abnormal
+            </button>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+    <div class="break d-flex justify-content-center px-2 my-2" *ngIf="activeSubsystem">
+      <div class="break-line"></div>
+      <img [src]="diamondBreak" class="diamond-logo p-0 m-0">
+    </div>
+    <ng-container *ngIf="activeSubsystem">
+      <div class="findings-panel" *ngIf="!isTmDescriptionSubsystem(activeSubsystem); else tmDescriptionSubSystem">
+        <button mdbBtn mdbWavesEffect size="sm" type="button" class="rounded px-1"
+                *ngFor="let finding of activeSubsystem.mod"
+                [outline]="!finding.selected" [color]="finding.normal ? 'green' : 'red'"
+                [style.font-size]="getButtonTextFontSize(finding.key)"
+                (click)="onFindingSelect(finding)">
+          {{finding.key}}
+        </button>
+      </div>
+    </ng-container>
+  </ng-container>
+
+</ng-template>
+
+<ng-template #tmDescriptionSubSystem>
+  <div class="d-flex flex-column w-100 p-1" *ngIf="activeSubsystem">
+    <div *ngFor="let tmField of tmDescriptionFields" class="membrane-column d-flex w-100 p-1">
+      <span class="field-title">{{ tmField.field }}:</span>
+      <div class="d-flex flex-wrap w-100">
+        <div *ngFor="let finding of getSpecificFindingsByCodes(tmField.code)" class="d-flex col-4 px-1">
+          <mat-checkbox color="primary" class="select-checkbox px-1" [checked]="finding.selected" (click)="onFindingSelect(finding)">
+          </mat-checkbox>
+          <span>{{finding.buttonText ? finding.buttonText : finding.key}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #findingsEditable>
+  <div class="d-flex flex-row justify-content-between align-items-baseline pr-1 pb-1" *ngIf="!viewOnly || findingsEditablePanel">
+    <h4 *ngIf="bodyPart && !separateDisplay" class="body-part-title ml-2 mt-2">{{bodyPart}}:</h4>
+    <ng-container *ngIf="findingsEditablePanel && system.examName === 'ENT'">
+      <ng-container *ngTemplateOutlet="findingsEditablePanel.contentTemplate"></ng-container>
+    </ng-container>
+  </div>
+</ng-template>
+
+<ng-container *ngIf="separateDisplay" [ngTemplateOutlet]="mainContentPart"></ng-container>

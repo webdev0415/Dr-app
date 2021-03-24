@@ -1,0 +1,23 @@
+@import "docs-shared";
+
+.header-container {
+  border: 1px solid #000;
+}
+
+.w-45 {
+  width: 45%;
+}
+
+[type=checkbox]:checked, [type=checkbox]:not(:checked) {
+  opacity: 1;
+  position: inherit;
+}
+
+.insurance-data-line {
+  font-family: monospace;
+  border-bottom: 1px solid black;
+  //margin-left: 5px;
+  margin: 0.25rem 5px 0;
+  //margin-right: 5px;
+  white-space: pre-line;
+}

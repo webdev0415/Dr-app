@@ -1,0 +1,227 @@
+@import '../../../../../src/styles/shared/mixins';
+@import '../../../../../src/styles/shared/functions';
+@import '../../../../../src/styles/shared/variables';
+
+$host-height: $header-height;
+
+.telemed{
+
+    --fa-primary-color: lightgreen;
+    --fa-secondary-color: linen;
+    --fa-secondary-opacity: 1.0;
+}
+
+.menu-button {
+  min-width: 3rem;
+  min-height: $host-height - (rem(12) * 2);
+  span {
+    vertical-align: middle;
+    line-height: rem(24);
+    font-size: rem(21);
+  }
+  .menu-icon {
+    font-size: rem(32);
+  }
+}
+
+.menu-button, .menu-item {
+  &:focus {
+    outline: none;
+  }
+}
+
+.logo {
+  height: rem(31);
+  width: auto;
+}
+
+.avatar-block {
+  display: inline-block;
+  .avatar {
+    width: rem(40);
+    height: rem(40);
+    font-size: rem(26);
+    color: #fff82a;
+    text-align: center;
+    line-height: rem(40);
+    margin: rem(2.5) auto;
+    @extend %clickable-element;
+  }
+}
+
+.full-name-block {
+  display: inline-block;
+  white-space: normal;
+  width: 100%;
+  line-height: 24px;
+  overflow: hidden;
+  @include media-breakpoint-down(lg) {
+    display: none;
+  }
+  i {
+    vertical-align: middle;
+  }
+}
+
+#locfilterarea {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+@media screen and (max-width: 1250px) {
+  #locfilterarea {
+    flex-direction: column;
+    align-items: normal;
+    position: absolute;
+  }
+  #activelocations-label {
+    margin-top: 0.5rem;
+  }
+}
+
+#activelocations-label, #locationfilter {
+  font-size: 15px;
+}
+
+#activelocations-label {
+  margin-right: 10px;
+}
+
+#locationfilter {
+  width: 260px;
+  #filterselector {
+    width: 100%;
+  }
+}
+
+.version-text {
+  display: flex;
+  font-size: 12px;
+  width: 60px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+:host ::ng-deep
+.mat-form-field-underline {
+  background-color: white !important;
+}
+
+:host ::ng-deep
+.mat-select-arrow {
+  color: white !important;
+}
+
+:host ::ng-deep .mat-form-field-infix {
+  border-top: none;
+}
+
+#locationfilter ::ng-deep .mat-select-value {
+  color: #FFF;
+}
+
+.hdr-part-1 {
+  align-items: baseline;
+}
+
+.hdr-part-3 {
+  justify-content: flex-end;
+}
+
+@media screen and (max-width: 830px) {
+  #locationfilter {
+    width: 170px;
+  }
+}
+
+.row {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+::ng-deep .TESTPANELKLASS {
+  position: absolute !important;
+  top: 30px !important;
+  left: 30px !important;
+  .mat-option-text {
+    color: rgba(0, 0, 0, .8);
+  }
+}
+
+@warn "Next lines only MDB migrate";
+.mat-button {
+  &:hover {
+    background-color: #0000000a;
+  }
+}
+
+@warn "Next lines only MDB migrate";
+.menu-icon-middle {
+  vertical-align: middle;
+  line-height: 1.5rem;
+}
+
+.patient-panel {
+  border-radius: 0;
+  color: white;
+  background-color: $blue-250-color;
+  .patient-name {
+    color: white;
+    padding-top: rem(15);
+    @media screen and (max-width: 1280px) {
+      display: none;
+    }
+  }
+  @include media-breakpoint-down(lg) {
+    .television-button-text {
+      display: none;
+    }
+  }
+
+}
+
+.patient-photo-thumbnail {
+  clip-path: url(#thumbnail-clip);
+  -webkit-clip-path: url(#thumbnail-clip);
+}
+
+.photo {
+  margin: {
+    right: rem(20);
+    top: rem(0)
+  }
+}
+
+:host ::ng-deep
+.mat-expansion-indicator::after, .mat-expansion-panel-header { color: white;}
+
+::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
+  color: #004c8b!important;
+}
+::ng-deep .mat-form-field.mat-focused .mat-form-field-ripple {
+  background-color: #004c8b;
+}
+::ng-deep .mat-form-field.mat-focused .mat-form-field-required-marker {
+  color: #004c8b;
+}
+::ng-deep .mat-form-field.mat-focused .mat-input-element {
+  color: #004c8b;
+}
+
+:host ::ng-deep,
+.mat-expansion-indicator::after, .mat-expansion-panel-header {
+  color: white;
+}
+
+.mat-expansion-panel-header:hover {
+  background-color: inherit !important;
+}
+
+::ng-deep .mat-content {
+  overflow: visible !important;
+}
+
+::ng-deep .mat-expansion-panel {
+  overflow: visible !important;
+}

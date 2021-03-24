@@ -1,0 +1,22 @@
+.question {
+  white-space: pre-line;
+}
+
+.btn-container {
+  min-width: 70px!important;
+}
+
+cdk-virtual-scroll-viewport {
+  height: 380px;
+}
+
+.text-container {
+  align-self: flex-end;
+  max-width: 300px;
+  textarea {
+    border: none;
+    overflow: hidden;
+    background: transparent;
+    text-align: end;
+  }
+}

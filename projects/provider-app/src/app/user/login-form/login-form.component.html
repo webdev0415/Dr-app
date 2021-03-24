@@ -1,0 +1,40 @@
+<div id="3ca1c4cf-4991-4004-ae8a-fbc1c09c2bbb" class="auth-wrapper">
+  <div id="wrapper-logo"></div>
+  <div id="e07ebfbd-976b-4413-a251-7c515582882c" [hidden]="!isViewable" class="d-flex flex-column fullscreen justify-content-center align-items-center">
+    <mdb-card role="group" class="login-card">
+      <mdb-card-body>
+        <form class="d-flex flex-column" autocomplete="off" [formGroup]="loginForm">
+          <div id="a0ddc203-dcbc-4d06-aa42-40f8a7774f1d" class="pb-3" *ngIf="isProd">
+            <div id="3cc17a0b-59ac-4266-89c1-54a09d5bfdf5" class="text-center">
+              {{server === 'productionServer' ? 'Production' : 'Pilot'}}
+            </div>
+          </div>
+          <div *ngIf="hasResponseError" class="alert alert-danger mt-2" role="alert">{{ responseMessageError }}</div>
+          <div class="md-form">
+            <input type="text" mdbInput mdbValidate formControlName="loginControl" name="login" id="login"
+                   [validateSuccess]="false" class="form-control fs-20" autocapitalize="none" spellcheck="false"
+                   [attr.disabled]="formDisabled | async" autocomplete="login username" placeholder="Username" #logininput>
+            <label for="login" class="fs-14">Username</label>
+            <mdb-error *ngIf="loginControl.invalid && (loginControl.dirty || loginControl.touched)">Username is required</mdb-error>
+          </div>
+          <div class="md-form">
+            <input type="password" mdbInput mdbValidate formControlName="passwordControl" name="password" id="password"
+                   [validateSuccess]="false" class="form-control fs-20" autocapitalize="none"
+                   [attr.disabled]="formDisabled | async" autocomplete="pa-password" placeholder="Password" #passwordinput>
+            <label for="password" class="fs-14">Password</label>
+            <mdb-error *ngIf="passwordControl.invalid && (passwordControl.dirty || passwordControl.touched)">Password is required</mdb-error>
+          </div>
+          <button mdbBtn color="primary" size="sm" [block]="true" class="mx-0" mdbWavesEffect
+                  [disabled]="isDisabledSubmitButton | async"  type="submit" (click)="doLogin()" >Login</button>
+          <div class="d-flex flex-column justify-content-center">
+            <span class="text-center switch mt-3 fs-14" (click)="resetPassword()">Forgot your password?</span>
+            <span class="text-center mt-1 fs-12">Version: {{ version }}</span>
+          </div>
+        </form>
+      </mdb-card-body>
+    </mdb-card>
+  </div>
+</div>
+<pa-confirm-code-form *ngIf="isResetPassword" [userName]="userName"
+                         (changeShown)="onChangeShownConfirmCodeForm($event)" #confirmForm>
+</pa-confirm-code-form>

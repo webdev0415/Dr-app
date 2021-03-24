@@ -1,0 +1,30 @@
+{
+  "/_api/api/*": {
+    "target": "https://testing2.advinow.net",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "headers": {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "*",
+      "Origin": "http://localhost:4200"
+    },
+    "pathRewrite": {
+      "^/_api/api/": "/api/"
+    }
+  },
+  "/_dev-service/*": {
+    "target": "https://devservices.advinow.net",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "headers": {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "*",
+      "Origin": "http://localhost:4200"
+    },
+    "pathRewrite": {
+      "^/_dev-service/": ""
+    }
+  }
+}

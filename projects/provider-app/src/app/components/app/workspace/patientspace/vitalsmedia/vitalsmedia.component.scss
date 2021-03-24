@@ -1,0 +1,59 @@
+#nomedia {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  background: #EBECF0;
+  color: rgba(24, 24, 24, .3);
+  font-size: 34px;
+  height: 144px;
+}
+
+.vmsectiontitle {
+  display: inline-flex;
+  margin-bottom: 23px;
+}
+
+.page-title {
+  font-size: 34px;
+}
+
+.exam-box {
+  border: 1px solid #ABABAB;
+  padding: 20px;
+  border-radius: 4px;
+  span {
+    font-size: 16px;
+    white-space: normal;
+    text-transform: capitalize;
+  }
+  .exam-item {
+    width: 310px;
+    padding: 0 5px;
+  }
+}
+
+.continue-button {
+  padding-right: 5px;
+}
+
+.systems-panel {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(4, auto);
+  @media screen and (max-width: 1100px) {
+    grid-template-rows: repeat(6, auto);
+  }
+}
+
+mat-card {
+  overflow-anchor: none;
+}
+
+.subsystem-item {
+  width: 30%;
+}
+
+.main-bar-btn {
+  min-width: 130px;
+}

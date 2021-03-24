@@ -1,0 +1,46 @@
+@import '~ng-uikit-pro-standard/assets/scss/core/bootstrap/_functions.scss';
+@import 'config';
+
+$_base-font-size: 16px;
+
+@function rem($pixels, $context: $_base-font-size) {
+  @if (unitless($pixels)) {
+    $pixels: $pixels * 1px;
+  }
+
+  @if (unitless($context)) {
+    $context: $context * 1px;
+  }
+
+  @return $pixels / $context * 1rem;
+}
+
+@function debug-msg($msg, $_var: '') {
+  @if $DEBUG {
+    @return "#{$msg}: #{$_var}";
+  }
+  @return "Disabled debug";
+}
+
+@function is-error($callback-or-state) {
+  $_state: false;
+  @if (type_of($callback-or-state) == "string") {
+    $_state: call(get-function($callback-or-state));
+  }
+  @else {
+    $_state: $callback-or-state;
+  }
+  @return $_state != true;
+}
+
+@mixin media-breakpoint-retina-up() {
+  @media
+  only screen and (-webkit-min-device-pixel-ratio: 2),
+  only screen and (   min--moz-device-pixel-ratio: 2),
+  only screen and (     -o-min-device-pixel-ratio: 2/1),
+  only screen and (        min-device-pixel-ratio: 2),
+  only screen and (                min-resolution: 192dpi),
+  only screen and (                min-resolution: 2dppx) {
+      @content;
+  }
+}

@@ -1,0 +1,24 @@
+<form [formGroup]="orderForm">
+  <div class="d-flex flex-row w-100 py-2 my-2 order-row justify-content-between px-4" [class.ordered]="isOrdered">
+    <div>
+      <mat-radio-group (click)="toggleOrder($event)">
+        <mat-radio-button [value]="true" [checked]="isOrdered"></mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div>
+      <span>{{businessProcedure.name}}</span>
+    </div>
+    <div class="md-form">
+      <mdb-select [formControlName]="'dosage'" [placeholder]="'none'" [options]="businessProcedure.dosages | selectOptions: orderForm?.get('dosage')?.value"></mdb-select>
+      <span class="error-message" *ngIf="orderForm?.controls.dosage?.errors">This field is required.</span>
+    </div>
+    <div class="md-form">
+      <mdb-select [formControlName]="'route'" [placeholder]="'none'" [options]="businessProcedure.routes | selectOptions: orderForm?.get('route')?.value"></mdb-select>
+      <span class="error-message" *ngIf="orderForm?.controls.route?.errors">This field is required.</span>
+    </div>
+    <div class="md-form">
+      <mdb-select [formControlName]="'form'" [placeholder]="'none'" [options]="businessProcedure.forms | selectOptions: orderForm?.get('form')?.value"></mdb-select>
+      <span class="error-message" *ngIf="orderForm?.controls.form?.errors">This field is required.</span>
+    </div>
+  </div>
+</form>

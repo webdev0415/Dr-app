@@ -1,0 +1,30 @@
+@import '../../../../../../src/styles/shared/variables';
+@import '../../../../../../src/styles/shared/functions';
+
+.title {
+  font-size: 24px;
+}
+
+.message {
+  font-size: $font-size-16;
+}
+
+.list {
+  margin: 0px 0px 30px 0px;
+  .mat-list-item.mat-list-item-with-avatar {
+    height: 34px;
+  }
+}
+
+.bullet {
+  color: #F8A72A;
+}
+
+.divider {
+  margin: 20px 0;
+}
+
+.wrapper {
+  padding: 6px 26px;
+  text-align: center;
+}

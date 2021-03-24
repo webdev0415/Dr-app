@@ -1,0 +1,9 @@
+<input #searchInput mdbInput [placeholder]="placeholder"
+       class="completer-input form-control mdb-autocomplete search-input mt-0" [mdbAutoCompleter]="auto" [mdbValidate]="false"
+       [disabled]="viewOnly"/>
+<fa-icon icon="search" class="search-icon"></fa-icon>
+<mdb-auto-completer [clearButton]="false" #auto="mdbAutoCompleter" textNoResults="Nothing Found" (select)="onOptionSelect($event)">
+  <mdb-option *ngFor="let option of searchSubject | async" [value]="option">
+    {{option?.label || option}}
+  </mdb-option>
+</mdb-auto-completer>

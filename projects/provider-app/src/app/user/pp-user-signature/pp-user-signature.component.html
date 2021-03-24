@@ -1,0 +1,16 @@
+<div class="w-100 text-center">
+  <h4>Sign in the box below!</h4>
+</div>
+<div id="34bdcc41-8446-44bc-a7bf-f1083f4c6546" class="signature-field">
+  <canvas-whiteboard #canvasWhiteboard [options]="canvasOptions" (onBatchUpdate)="onBatchUpdate()"></canvas-whiteboard>
+</div>
+<div class="d-flex flex-row signature-buttons-container mt-2">
+  <button mdbBtn type="submit" color="primary" size="sm" [block]="true" class="mx-0 my-1" mdbWavesEffect
+          (click)="clearSignature()" [disabled]="!isSignatureValid">
+    Clear
+  </button>
+  <button mdbBtn type="button" color="danger" size="sm" [block]="true" class="mx-0 my-1" mdbWavesEffect
+          (click)="save()" [disabled]="!isSignatureValid">
+    Approve and sign
+  </button>
+</div>

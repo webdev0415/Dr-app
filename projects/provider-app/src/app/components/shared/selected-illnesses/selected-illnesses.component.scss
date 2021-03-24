@@ -1,0 +1,16 @@
+.flex-row {
+  span {
+    width: 90%;
+  }
+  span:first-of-type {
+    width: 10%;
+  }
+}
+
+h3 {
+  align-self: center;
+}
+
+textarea[disabled] {
+  background: transparent!important;
+}

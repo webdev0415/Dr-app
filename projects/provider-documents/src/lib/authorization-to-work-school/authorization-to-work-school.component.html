@@ -1,0 +1,75 @@
+<!-- authorization section { -->
+<div id="8265ede1-1e88-483c-9002-296e16753258" class="docbody doc">
+  <br><br>
+  <hr class="slim">
+  <h3 class="text-center text-capitalize" id="authorizationHeader">
+    Authorization to Return to {{RTWSInfo.returnTo === 'NONE' ? 'Work/School' : RTWSInfo.returnTo.toLowerCase()}}
+  </h3>
+  <div id="d284f6d4-5977-4ee6-9dd5-2c19581d67d3" class="section">
+    <div id="treatmentDate" class="row">
+      <span><strong class="name">Treatment Date:</strong> {{date}}</span>
+    </div>
+
+    <ng-container *ngIf="!RTWSUsed">
+      <div id="a113b0d1-846f-4fca-9428-469db1659e13" class="row">
+        <label for="doNotFrom">From:</label>
+        <mdb-date-picker id="doNotFrom" [options]="dateOptions" [(ngModel)]="dischargeNotes.donotFrom"
+                         (inputFieldChanged)="documentsService.validateDate(dischargeNotes.donotFrom, dischargeNotes.donotTo)">
+        </mdb-date-picker>
+        <label for="doNotTo">To:</label>
+        <mdb-date-picker id="doNotTo" [options]="dateOptions" [(ngModel)]="dischargeNotes.donotTo"
+                         (inputFieldChanged)="documentsService.validateDate(dischargeNotes.donotFrom, dischargeNotes.donotTo)">
+        </mdb-date-picker>
+        <div class="d-flex align-items-center">
+          <span id="notToGo" class="mr-2">Do not go to:</span>
+          <div>
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" id="work" [(ngModel)]="dischargeNotes.doNotGoToWork">
+              <label class="form-check-label" for="work">Work</label>
+            </div>
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" id="school" [(ngModel)]="dischargeNotes.doNotGoToSchool">
+              <label class="form-check-label" for="school">School</label>
+            </div>
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" id="pe" [(ngModel)]="dischargeNotes.doNotGoToPE">
+              <label class="form-check-label" for="pe">P.E.</label>
+            </div>
+            <mdb-checkbox hidden></mdb-checkbox>
+          </div>
+        </div>
+      </div>
+      <div id="a086054f-d81e-4d66-b2d7-0fac1e5cd055" class="row">
+        <label for="limitedFrom">From:</label>
+        <mdb-date-picker id="limitedFrom" [options]="dateOptions" [(ngModel)]="dischargeNotes.limitedFrom"
+                         (inputFieldChanged)="documentsService.validateDate(dischargeNotes.limitedFrom, dischargeNotes.limitedTo)">
+        </mdb-date-picker>
+        <label for="limitedTo">To:</label>
+        <mdb-date-picker id="limitedTo" [options]="dateOptions" [(ngModel)]="dischargeNotes.limitedTo"
+                         (inputFieldChanged)="documentsService.validateDate(dischargeNotes.limitedFrom, dischargeNotes.limitedTo)">
+        </mdb-date-picker>
+        <span id="limited-duty">Limited Duty or Work Restrictions</span>
+      </div>
+      <div id="8997679b-6520-4e19-b768-35a50a49c769" class="row wr">
+        <span id="restrictions-notes">Notes:</span>
+        <textarea class="area" cdkTextareaAutosize cdkAutosizeMinRows="5" cdkAutosizeMaxRows="43" data-gramm_editor="false" [(ngModel)]="dischargeNotes.notes" (change)="update.emit({section: 'authorization', data: dischargeNotes})"></textarea>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="RTWSUsed">
+      <pa-authorization-notes [RTWSUsed]="RTWSUsed" [RTWSInfo]="RTWSInfo" [dischargeNotes]="dischargeNotes"
+                              (update)="update.emit($event)" [patientName]="patientName"></pa-authorization-notes>
+    </ng-container>
+
+    <br><br><br><br>
+    <div id="81124d97-ffbc-4b89-8ac5-52f5a415d8a0" class="row">
+      <div id="623e3383-201d-488a-a396-4c7a6cdf165b" class="underlabeled subscript">
+        <input type="text" [(ngModel)]="completedDoctor" />
+        <label>NP/PA/DO/MD</label>
+      </div>
+    </div>
+    <br><br><br>
+    <hr>
+  </div>
+</div>
+<!-- } authorization section -->

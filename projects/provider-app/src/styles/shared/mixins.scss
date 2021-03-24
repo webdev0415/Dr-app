@@ -1,0 +1,58 @@
+@import 'functions';
+@import 'variables';
+@import '../../../../../node_modules/ng-uikit-pro-standard/assets/scss/core/mixins';
+
+
+@mixin border-radius($radius: $border-radius-base) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  border-radius: $radius;
+}
+
+@mixin box-shadow($top, $left, $blur, $color, $dilation: 0, $inset: false) {
+  @if $inset {
+    -webkit-box-shadow:inset $top $left $blur $dilation $color;
+    -moz-box-shadow:inset $top $left $blur $dilation $color;
+    box-shadow:inset $top $left $blur $dilation $color;
+  } @else {
+    -webkit-box-shadow: $top $left $blur $dilation $color;
+    -moz-box-shadow: $top $left $blur $dilation $color;
+    box-shadow: $top $left $blur $dilation $color;
+  }
+}
+
+@mixin transition($args...) {
+  -moz-transition: $args;
+  -ms-transition: $args;
+  -o-transition: $args;
+  -webkit-transition: $args;
+  transition: $args;
+}
+
+@mixin full-screen($overflow-hidden: false) {
+  width: 100%;
+  height: 100%;
+  @if ($overflow-hidden) {
+    overflow: hidden;
+  }
+}
+
+@mixin debug($msg, $_var: "") {
+  @if ($DEBUG) {
+    @debug debug-msg($msg, $_var);
+  }
+}
+
+@mixin error($callback-or-state, $msg: "") {
+  $state: is-error($callback-or-state);
+  @if ($state) {
+    @if ($DEBUG and type_of($callback-or-state) == "string") {
+      @debug "#{$callback-or-state} => #{$state}";
+    }
+    @error $msg;
+  }
+}
+
+.btn-primary:focus {
+  box-shadow: none !important;
+}

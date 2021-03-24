@@ -1,0 +1,38 @@
+<div mdbModal #modal="mdbModal" class="modal fade left" id="frameModalTop"
+     tabindex="-1" role="dialog" [config]="{backdrop: false, ignoreBackdropClick: true}" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Enter user & confirmation code</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form [formGroup]="resetForm">
+        <div *ngIf="hasResponseError" class="alert alert-danger mt-2 mb-0 mx-3" role="alert">{{ responseMessageError }}</div>
+        <div class="modal-body mx-3">
+          <div class="md-form mb-5">
+            <input type="text" id="confirmForm-username" class="form-control" formControlName="confirmationFormModalUser"  mdbInput mdbValidate>
+            <label for="confirmForm-username">Username</label>
+          </div>
+          <div class="md-form mb-5">
+            <input  type="text" pattern="\d*" id="confirmForm-code" class="form-control" maxlength="6" (textInput)="onInput($event)"
+                    [validate]="needToValidateCode" formControlName="confirmationFormModalCode" mdbInput mdbValidate>
+            <label for="confirmForm-code">Code</label>
+            <mdb-error *ngIf="needToValidateCode && confirmationFormModalCode.invalid">Wrong</mdb-error>
+            <mdb-success *ngIf="needToValidateCode && confirmationFormModalCode.valid">Success</mdb-success>
+            <div class="text-right">
+              <span id="resend-code" class="blue-text" (click)="resendCode()">Resend Code</span>
+            </div>
+          </div>
+        </div>
+      </form>
+      <div class="modal-footer d-flex justify-content-center">
+        <button mdbBtn color="primary" mdbWavesEffect
+                [disabled]="isConfirmModalDisabledSubmitButton | async" (click)="verifyCode()">
+          Submit
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

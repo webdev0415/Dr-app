@@ -1,0 +1,21 @@
+.sports-table {
+  th {
+    padding: 1px 5px;
+  }
+}
+
+.mat-column-normal {
+  max-width: 3rem;
+}
+
+.mat-column-name {
+  max-width: 15rem;
+}
+
+.mat-column-abnormal {
+  padding-left: 10px;
+}
+
+:host ::ng-deep .black-checkmark .mat-checkbox-checkmark-path {
+  stroke: black !important;
+}

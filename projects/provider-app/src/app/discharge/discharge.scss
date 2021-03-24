@@ -1,0 +1,27 @@
+@import '../../../src/styles/shared/variables';
+
+.btn-green {
+  background-color: $light-green-color !important;
+}
+
+:host ::ng-deep .picker__header {
+  height: unset;
+}
+
+:host ::ng-deep .picker__frame {
+  height: fit-content;
+}
+
+h5 {
+  button {
+    font-size: 20px;
+  }
+}
+
+mdb-error {
+  top: 24px;
+  left: 200px;
+  &.restriction-error {
+    position: static;
+  }
+}

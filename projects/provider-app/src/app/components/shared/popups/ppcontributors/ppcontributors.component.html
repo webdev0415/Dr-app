@@ -1,0 +1,70 @@
+<div class="dialog-wrapper d-flex flex-column" id="popup-contributors">
+  <h4 class="pb-4 mb-0">{{illness?.icdName}}</h4>
+  <div class="content">
+    <mat-table #table *ngIf="contributors" [dataSource]="contributors">
+      <ng-container matColumnDef="probability">
+        <mat-header-cell *matHeaderCellDef><span>{{illnessPresentation === illnessPresentationEnum.CONFIDENCE ? 'Probability' : 'Rank'}}</span></mat-header-cell>
+        <mat-cell *matCellDef="let row" class="light">
+          <div id="2403734e-5cac-43ff-8f3c-d8dfe98873e6" *ngIf="row.hasOwnProperty('confidence') && illnessPresentation === illnessPresentationEnum.CONFIDENCE">
+            {{row['isDoctorAdded'] ? 'DR' : row.confidence !== null ? (row.confidence * 100).toFixed(1) + '%' : ''}}
+          </div>
+          <span *ngIf="row.contribution && illnessPresentation === illnessPresentationEnum.CONFIDENCE">{{row.contribution}}%</span>
+          <span *ngIf="illnessPresentation === illnessPresentationEnum.RANKING">{{row.index}}.</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="criticality">
+        <mat-header-cell *matHeaderCellDef><span>Criticality</span></mat-header-cell>
+        <mat-cell *matCellDef="let row" [ngClass]="helpers.rowsStyler(row.criticality) ? 'danger font-weight-bold' : ''">
+          <span class="d-flex align-items-center justify-content-center">{{row.criticality}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="icdName">
+        <mat-header-cell *matHeaderCellDef><span>Illness</span></mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <div id="9308fd3c-9bff-436f-96d7-b83c365bf396" *ngIf="row.symptomName" class="d-flex justify-content-between align-items-center w-100">
+            {{row.symptomName | filterSymptomName}}{{getTriageValue(row.symptomId)}}
+            <div class="d-flex align-items-center">
+              <div class="presenting-indicator d-flex align-items-center justify-content-center" [class.presenting]="row.response">
+                <span class="font-weight-bold">
+                  {{row.response ? 'A' : 'D'}}
+                </span>
+              </div>
+              <div class="more-info text-center">
+                <span *ngIf="row.source && row.response !== false" class="link primary source-link font-weight-bold"
+                      (click)="toggleInfo(row.symptomName)">
+                  {{expandedElements.includes(row.symptomName) === true ? 'Less info' : 'More info'}}
+                </span>
+              </div>
+            </div>
+          </div>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="expandedDetail">
+        <mat-cell class="info-row" *matCellDef="let row">
+          <div id="9z0sfd3c-9b1f-426f-95d7-b83c3h5uf396"class="d-flex flex-column mt-2">
+            <span class="detail-title">{{illness?.icdName}} is associated with {{row.element.symptomName | filterSymptomName}} according to the following sources:</span>
+            <mat-list>
+              <mat-list-item *ngFor="let item of row.element.source">
+                <a *ngIf="expandedElements.includes(row.element.symptomName) === true" [href]="item.source" target="_blank">{{item.sourceType || item.source}}</a>
+              </mat-list-item>
+            </mat-list>
+          </div>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="['probability', 'criticality', 'icdName']; sticky: true"></mat-header-row>
+
+      <mat-row *matRowDef="let row; columns: ['probability', 'criticality', 'icdName']"
+               [class.expanded]="expandedElements.includes(row.symptomName)">
+      </mat-row>
+      <mat-row class="clickable-row" *matRowDef="let row; columns: ['expandedDetail']; when: isExpansionDetailRow"
+               [@detailExpand]="expandedElements.includes(row.element.symptomName) ? 'expanded' : 'collapsed'"></mat-row>
+    </mat-table>
+  </div>
+  <div id="ef94uu14-1a8c-4ajf-9dca-160b964049f9" class="mt-4 d-flex justify-content-center">
+    <button mdbBtn type="button" color="primary" size="md" mdbWavesEffect class="mx-3" matDialogClose (click)="cancelDialog()">Close</button>
+  </div>
+</div>

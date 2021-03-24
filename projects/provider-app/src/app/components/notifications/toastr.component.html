@@ -1,0 +1,14 @@
+<button *ngIf="options.closeButton" (click)="remove()" class="md-toast-close-button"> &times;</button>
+<div *ngIf="title" class="{{options.titleClass}}" [attr.aria-label]="title">
+  {{title}}
+</div>
+<div *ngIf="message && options.enableHtml" class="{{options.messageClass}}" [innerHTML]="message">
+</div>
+<div *ngIf="message && !options.enableHtml" class="{{options.messageClass}}" [attr.aria-label]="message"> {{message}}
+</div>
+<button *ngIf="options.actionButton" class="btn btn-block md-toast-action mt-2" (click)="onActionClick()">{{
+  options.actionButton }}
+</button>
+<div *ngIf="options.progressBar">
+  <div class="md-toast-progress" [style.width.%]="width"></div>
+</div>

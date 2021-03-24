@@ -1,0 +1,22 @@
+@import "docs-shared";
+
+table td {
+  font-size: 14px;
+}
+
+.gray-background {
+  background-color: #9b9b9b;
+}
+
+[type=checkbox]:checked, [type=checkbox]:not(:checked) {
+  opacity: 1;
+  position: inherit;
+}
+
+.questionnaire-prescription-container {
+  border: 1px solid #000;
+}
+
+.white-space-pre-wrap {
+  white-space: pre-wrap;
+}

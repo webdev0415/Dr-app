@@ -1,0 +1,38 @@
+<div class="my-3" *ngIf="sourceName == 'SymptomsComponent'">
+  <span class="h2 align-middle">Summary</span>
+  <span *ngIf="!viewOnly && !isEditable" class="link primary fs-14 ml-4" (click)="editSummary(); $event.stopPropagation()">EDIT</span>
+  <span *ngIf="!viewOnly && isEditable" class="link primary fs-14 ml-4" [ngClass]="{ 'link-disabled': formControl.invalid }" (click)="saveSummary(); $event.stopPropagation()">SAVE</span>
+</div>
+<div class="d-flex justify-content-between mb-4 card-title" *ngIf="sourceName == 'MainComponent'">
+      <span class="w-100 fs-20">HPI Summary
+        <span *ngIf="!viewOnly && !isEditable" class="link primary fs-14 ml-2" (click)="editSummary(); $event.stopPropagation()">EDIT</span>
+        <span *ngIf="!viewOnly && isEditable" class="link primary fs-14 ml-2" [ngClass]="{ 'link-disabled': formControl.invalid }" (click)="saveSummary(); $event.stopPropagation()">SAVE</span>
+      </span>
+</div>
+<div class="d-flex flex-row justify-content-center" *ngIf="sourceName == 'FinalNotesComponent'">
+  <h3 class="text-center">History of Present Illness</h3>
+  <span *ngIf="!viewOnly && !isEditable" class="link primary fs-14 ml-2" (click)="editSummary(); $event.stopPropagation()">EDIT</span>
+  <span *ngIf="!viewOnly && isEditable" class="link primary fs-14 ml-2" [ngClass]="{ 'link-disabled': formControl.invalid }" (click)="saveSummary(); $event.stopPropagation()">SAVE</span>
+</div>
+<span class="w-100">
+  <div id="8630b02b-fa68-443f-ba67-7d1f87bafbeb" class="d-flex"
+       class="justify-content-between"  *ngIf="!isEditable">
+    <div class="d-flex flex-column text-column">
+      <span class="text-data">{{summary === '' ? 'Patient has not completed the registration' : summary}}</span>
+    </div>
+  </div>
+  <div id="cbd0c00a-e1d2-4d79-b155-3fcc1820ba12" *ngIf="isEditable"
+       class="input-group input-group-sm mb-2">
+              <textarea id="text-input" class="form-control fs-16"
+                        placeholder="" [formControl]="formControl" cdkTextareaAutosize>{{ summary }}</textarea>
+    <div id="bf0da8a5-0f38-4cc3-a898-b23d47bb0032" class="input-group-append">
+      <button mdbBtn (click)="cancel(); $event.stopPropagation()" type="button"
+              class="btn-outline-blue-grey m-0 px-2 py-1 z-depth-0"
+              outline="true"
+              size="lg">
+        <fa-icon icon="times" aria-hidden="true"></fa-icon>
+      </button>
+    </div>
+  </div>
+  <pa-hourglass-loader [loading]="hpiLoading"></pa-hourglass-loader>
+</span>

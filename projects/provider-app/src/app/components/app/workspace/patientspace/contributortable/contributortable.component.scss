@@ -1,0 +1,50 @@
+@import '../../../../../../styles/theme';
+@import '../../../../../../../src/styles/shared/variables';
+@import '../../../../../../../src/styles/shared/mixins';
+
+.contributor-wrapper {
+  margin-top: -1px;
+  margin-bottom: -1px;
+
+  .contributor-column {
+    cursor: default;
+    width: 50%;
+    border: 1px solid mat-color($light-foreground-palette, divider);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+
+    .cell {
+      min-height: 29px;
+    }
+
+    @include media-breakpoint-down(lg) {
+      width: 100%;
+    }
+
+    .one-line {
+      display: inline-flex;
+    }
+  }
+
+  .more-button {
+    cursor: default;
+  }
+
+  .presenting-indicator {
+    width: 25px;
+    height: 25px;
+    background-color: #E7F4E8;
+    border-radius: 20px;
+    margin-left: 0.5rem;
+
+    &.presenting {
+      background-color: #FEEAED;
+    }
+
+    &.lab-icon {
+      background-color: #a139ce;
+    }
+  }
+
+}

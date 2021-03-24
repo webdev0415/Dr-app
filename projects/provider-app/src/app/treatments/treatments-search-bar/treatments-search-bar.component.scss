@@ -1,0 +1,21 @@
+.search-input {
+  margin: 0;
+  padding: 7px 30px 7px 10px;
+  border-radius: 2px;
+
+  &:focus {
+    outline: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    z-index: 0;
+  }
+}
+
+.search-icon {
+  position: absolute;
+  top: calc(8%);
+  font-size: 18px;
+  right: 10px;
+  background-color: inherit !important;
+}

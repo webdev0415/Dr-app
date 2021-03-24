@@ -1,0 +1,15 @@
+{
+  "name": "patient-profile",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^8.2.13",
+    "@angular/core": "^8.2.13"
+  },
+  "dependencies": {
+    "rxjs": "^6.5.3",
+    "ramda": "^0.26.1"
+  },
+  "devDependencies": {
+    "@types/ramda": "^0.26.8"
+  }
+}

@@ -1,0 +1,54 @@
+@import '../../../../../../../src/styles/shared/variables';
+@import '../../../../../../styles/theme';
+
+.clickable-row {
+  @extend %clickable-element;
+  min-height: 58px;
+}
+
+mat-row {
+  align-items: stretch;
+}
+
+.light {
+  background-color: #FAFAFA;
+}
+
+.dark {
+  background-color: #F2F2F2;
+}
+
+.non-present {
+  background-color: #a29f9f;
+}
+
+.source-link {
+  margin-top: auto;
+  margin-bottom: auto;
+  @extend %clickable-element;
+}
+
+i {
+  &:disabled, &.disabled {
+    color: $gray-400-color;
+  }
+}
+
+mat-checkbox {
+  ::ng-deep .mat-checkbox-checked.mat-accent {
+    background-color: mat-color($primary, default)!important;
+  }
+  ::ng-deep &.mat-checkbox-focused{
+    .mat-ink-ripple{
+      background-color: mat-color($primary, default);
+    }
+  }
+}
+
+.mat-column-confidence {
+  padding: 0;
+  justify-content: center;
+  text-decoration: underline;
+  color: #0DA9F2;
+  border-right: 1px solid mat-color($light-foreground-palette, divider);
+}

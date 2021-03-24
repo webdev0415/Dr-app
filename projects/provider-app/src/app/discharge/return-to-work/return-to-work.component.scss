@@ -1,0 +1,11 @@
+@import '../../../../src/styles/shared/variables';
+@import '../discharge';
+
+:host ::ng-deep .md-form {
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+span {
+  white-space: nowrap;
+}

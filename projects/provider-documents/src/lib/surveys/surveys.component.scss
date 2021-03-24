@@ -1,0 +1,31 @@
+@import "../shared";
+
+.mat-column-answer {
+  max-width: 9rem !important;
+}
+
+.borderless {
+  border-bottom-width: 0px !important;
+}
+
+.special {
+  .mat-column-answer {
+    display: none;
+  }
+}
+
+.pdf-container {
+  width: 700px;
+}
+
+span {
+  white-space: normal;
+}
+
+.question-row {
+  max-width: 500px;
+}
+
+:host ::ng-deep .mat-tab-body.mat-tab-body-active {
+  overflow-y: hidden !important;
+}

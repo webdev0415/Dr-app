@@ -1,0 +1,118 @@
+.grid-container {
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: auto;
+  grid-template-areas:
+    "class-search class-search prescription-area prescription-area prescription-area"
+    "class-list class-list prescription-area prescription-area prescription-area"
+    "class-list class-list prescription-area prescription-area prescription-area"
+    ;
+}
+
+::ng-deep .md-accordion .card .card-header a {
+  color: unset !important;
+}
+
+::ng-deep .md-accordion a h5 {
+  font-size: 1rem !important;
+}
+
+.class-search {
+  grid-area: class-search;
+  margin-bottom: 0.5rem;
+}
+
+.class-list {
+  grid-area: class-list;
+  overflow-y: auto;
+  max-height: 300px;
+  margin-bottom: 1.5rem;
+  border: 2px solid #d49f61;
+}
+
+.prescription-area {
+  grid-area: prescription-area;
+}
+
+.dose-container {
+  border: 2px solid #d49f61;
+  border-radius: 5px;
+  margin-bottom: 1.5rem;
+  padding: 1.5rem;
+}
+
+.current-medication-container {
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: auto;
+  grid-template-areas:
+    "current-med-title . . . . . ."
+    "current-med-name current-med-strength current-med-form current-med-sig current-med-quantity current-med-refills current-med-refill-req"
+;
+  border: 2px solid lightskyblue;
+  border-radius: 5px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.current-med-title {
+  grid-area: current-med-title;
+}
+
+.current-med-name {
+  grid-area: current-med-name;
+}
+
+.current-med-strength {
+  grid-area: current-med-strength;
+}
+
+.current-med-form {
+  grid-area: current-med-form;
+}
+
+.current-med-sig {
+  grid-area: current-med-sig;
+}
+
+.current-med-quantity {
+  grid-area: current-med-quantity;
+}
+
+.current-med-refills {
+  grid-area: current-med-refills;
+}
+
+.current-med-refill-req {
+  grid-area: current-med-refill-req;
+  padding: .6rem;
+
+}
+
+.prescription-container {
+  display: flex;
+}
+
+.left {
+  width: 33%;
+  margin-right: 20px;
+}
+
+.right {
+  width: 67%;
+}
+
+@media (max-width: 1400px) {
+  .left, .right {
+    width: 100%;
+    margin-right: 0px;
+  }
+
+  .prescription-container {
+    display: block;
+  }
+
+  .class-list {
+    max-height: 250px;
+  }
+}

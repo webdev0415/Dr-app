@@ -1,0 +1,26 @@
+<h6 class="mt-2" id="patient-history"><strong>Patient History</strong></h6>
+<div class="questionnaire-prescription-container">
+  <div *ngFor="let questionnaire of patientHistoryQuestions" class="my-1">
+    <span *ngIf="questionnaire.answerType.toLowerCase() === 'text'">
+      <label for="rx-date">{{questionnaire.question}}</label>
+      <input id="rx-date" type="text" [ngModel]="questionnaire.answer" [disabled]="true"/>
+    </span>
+    <span class="ml-2 white-space-pre-wrap" *ngIf="questionnaire.answerType === 'boolean'">
+      {{questionnaire.question}}
+      <label>
+        <input type="checkbox" class="mr-2" [disabled]="true" [checked]="questionnaire.answer === pharmacistAnswerEnum.yes">
+        Yes
+      </label>
+      <label>
+        <input type="checkbox" class="mr-2" [disabled]="true" [checked]="!(questionnaire.answer === pharmacistAnswerEnum.yes)
+                                                                        && !(questionnaire.answer === pharmacistAnswerEnum.unknown)">
+        No
+      </label>
+      <label>
+        <input type="checkbox" class="mr-2" [disabled]="true" [checked]="questionnaire.answer === pharmacistAnswerEnum.unknown">
+        Not Answered
+      </label>
+    </span>
+  </div>
+</div>
+<h6 class="text-center mb-3 mt-4"><strong>FOR PHARMACY USE ONLY</strong></h6>

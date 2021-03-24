@@ -1,0 +1,63 @@
+@import 'projects/provider-app/src/styles/shared/mixins';
+@import 'projects/provider-app/src/styles/shared/variables';
+
+:host {
+  overflow: hidden;
+}
+
+.mat-column-name {
+  max-width: 9rem !important;
+}
+
+.eye-select {
+  width: 100px;
+  margin: 0 2px;
+}
+
+.mat-column-name {
+  font-size: 18px;
+}
+
+.lab-btn {
+  button {
+    padding: {
+      top: $btn-padding-y-medium;
+      bottom: $btn-padding-y-medium;
+    };
+  }
+}
+
+.mat-table {
+  display: block;
+  &.order-list {
+    min-width: 380px;
+    flex: 1;
+  }
+}
+
+.mat-row,
+.mat-header-row {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 24px;
+}
+
+.mat-cell,
+.mat-header-cell {
+  flex: 1;
+  overflow: hidden;
+  word-wrap: break-word;
+  &.name {
+    font-size: 18px;
+  }
+  &.chip-cell {
+    max-width: 130px;
+  }
+}
+
+.view-only {
+  button {
+    pointer-events: none;
+  }
+}

@@ -1,0 +1,126 @@
+@import "variables";
+
+#self {
+  z-index: 5;
+}
+
+body, html {
+  background-color: gray;
+  height: 100%;
+}
+
+#videos {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#main {
+  height: 100%;
+  width: 100%;
+}
+
+#subscriber {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+}
+
+#self {
+  position: absolute;
+  width: 100%;
+  height: 20%;
+  bottom: 10px;
+  left: 10px;
+  z-index: 100;
+  border: 3px solid white;
+  border-radius: 3px;
+}
+
+#navigation {
+  position: absolute;
+  width: 100%;
+  height: 60%;
+  left: 10px;
+  top: 10px;
+  z-index: 100;
+  div {
+    border: 3px solid white;
+    border-radius: 3px;
+    height: 30%;
+  }
+}
+
+::ng-deep.telemedicine-wrapper {
+  .mat-dialog-container {
+    padding: 0!important;
+  }
+}
+
+.end-session-icon {
+  color: white;
+  cursor: pointer;
+  position: absolute;
+  z-index: 1000;
+  right: 5px;
+  top: 10px;
+  :hover {
+    border: 3px solid white;
+  }
+}
+
+.share-screen-icon {
+  font-size: 30px;
+  right: 5px;
+  bottom: 5px;
+  :hover {
+    border: 3px solid white;
+  }
+  color: white;
+  cursor: pointer;
+  position: absolute;
+  z-index: 1000;
+}
+
+.icon-black {
+  color: black!important;
+}
+
+#loading-hourglass {
+  width: 3rem;
+  height: 3rem;
+  background-size: 3rem 3rem;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  height: 100% !important;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1000;
+}
+
+.icon-blue {
+  color: $blue-dark-color;
+}
+
+.mat-badge.hide-text .mat-badge-content {
+  color: transparent;
+  width: 12px;
+  height: 12px;
+  line-height: 12px;
+}
+
+.mat-badge {
+  display: flex;
+}
+
+::ng-deep .OT_fit-mode-cover .OT_video-element {
+  object-fit: contain !important;
+}

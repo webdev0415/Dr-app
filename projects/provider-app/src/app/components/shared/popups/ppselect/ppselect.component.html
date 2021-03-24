@@ -1,0 +1,207 @@
+<div class="dialog-wrapper d-flex flex-column">
+  <div class="dialog-wrapper-title d-flex justify-content-between ">
+    <p>{{data.name}}</p>
+    <div class="tablet-buttons">
+      <button mdbBtn type="button" color="primary" class="mx-2 my-0" [outline]="true" size="md" mdbWavesEffect
+              matDialogClose (click)="closeDialog()">Cancel</button>
+      <button mdbBtn type="button" color="primary" class="mx-2 my-0" size="md" mdbWavesEffect (click)="confirm()"
+              [disabled]="confirmButtonDisabled">Confirm</button>
+    </div>
+  </div>
+  <div class="dialog-wrapper-header">
+    <div id="6e02a629-f892-497f-93ca-759ae0800028"
+      *ngIf="data.type==='drugs' || data.type ==='search' || data.type ==='diagnosis' || data.type === 'symptoms'"
+      class="text-center p-2">
+      <div id="d14b84ef-dcdb-4323-b399-ab6aa45a9a1a"
+        class="d-flex justify-content-around align-items-center flex-wrap mb-2">
+        <div class="input-group px-2 flex-nowrap" [ngClass]="data.filters || data.link ? 'w-50 max-width-920' : 'w-100'">
+          <input matInput placeholder="{{data.searchPlaceholder || 'Search'}}" class="form-control popup-input mt-0"
+            id="drug" [formControl]="inputControl" (keyup.enter)="onClickSearch()" />
+          <span class="placeholder-top" *ngIf="formInputControl.value">{{data.searchPlaceholder || 'Search'}}</span>
+          <div class="input-group-append">
+            <span class="input-group-text span-clickable" (click)="onClickSearch()">
+              <fa-icon icon="search"></fa-icon>
+            </span>
+          </div>
+        </div>
+        <div *ngIf="isOtherInput" class="md-form input-group px-2 mt-1 mb-2 flex-nowrap w-100">
+          <input matInput placeholder="Other" class="form-control popup-input mt-0" id="other-cancer"
+            [formControl]="otherInputControl" />
+          <div class="input-group-append">
+            <span class="input-group-text span-clickable other-span" (click)="removeOtherInfo()">
+              <fa-icon icon="times"></fa-icon>
+            </span>
+          </div>
+          <mdb-error *ngIf="otherInputControl.errors?.maxlength" class="p-2">This field can't be more than 40 characters long.</mdb-error>
+          <mdb-error *ngIf="otherInputControl.errors?.pattern" class="p-2">Field invalid.</mdb-error>
+        </div>
+        <div class="px-2 w-50 max-width-920">
+          <div *ngIf="data.filters" class="filter-box d-flex align-items-center w-100 px-2">
+            <span *ngIf="!filters.length" class="gray">Filter</span>
+            <mat-chip-list #chipList>
+              <mat-chip *ngFor="let filter of filters" [selectable]="false" [removable]="true"
+                (removed)="remove(filter)">
+                {{filter.name}}
+                <mat-icon matChipRemove>cancel</mat-icon>
+              </mat-chip>
+            </mat-chip-list>
+          </div>
+          <div *ngIf="data.link" class="d-flex justify-content-end w-100 px-2">
+            <a class="source-link" [href]="sanitize(data.link.link)" target="_blank"><span>{{data.link.name}}</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      *ngIf="data.search && !(data.type==='drugs' || data.type ==='search' || data.type ==='diagnosis' || data.type === 'symptoms')"
+      class="search p-2">
+      <div class="md-form input-group">
+        <input matInput class="form-control input-with-border mt-0 p-2" placeholder="Search"
+          [formControl]="inputControl" (keyup.enter)="onClickSearch()" />
+        <div class="input-group-append">
+          <span class="input-group-text span-clickable" (click)="onClickSearch()">
+            <fa-icon icon="search"></fa-icon>
+          </span>
+        </div>
+        <ng-container *ngIf="isOtherInput">
+          <input matInput class="form-control input-with-border ml-2 mt-0 p-2" placeholder="Other"
+                 [formControl]="otherInputControl" />
+          <div class="input-group-append">
+            <span class="input-group-text span-clickable" (click)="removeOtherInfo()">
+              <fa-icon icon="times"></fa-icon>
+            </span>
+          </div>
+          <mdb-error *ngIf="otherInputControl.errors?.maxlength" class="mdb-error-other-input">This field can't be more than 40 characters long.</mdb-error>
+          <mdb-error *ngIf="otherInputControl.errors?.pattern" class="mdb-error-other-input">Field invalid.</mdb-error>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+  <div class="dialog-wrapper-content" [class.no-overflow]="data.type==='diagnosis' || data.type === 'drugs'"
+    #contentWrapper>
+    <div id="loading-spinner" *ngIf="waitingCounter > 0">
+      <div id="loading-hourglass"></div>
+    </div>
+    <div id="84a7ef6e-567e-4148-8b4c-e377fdbdcbad" class="result-placeholder-container"
+      [hidden]="inputControl.value.trim().replace(' ', '').length >= 3 && isInputValid || (data.list && data.list.length) || data.type==='listmultiple' || data.type ==='search' || data.type === 'immunization'">
+      <div id="e3c4f4d1-05f7-4cf4-917d-d067df3a3879">
+        <p class="result-placeholder faded">Start by Typing In The Search Box</p>
+        <p class="faded">(3 letters are minimum)</p>
+      </div>
+    </div>
+    <div id="84a7ef6e-567e-4148-8b4c-e377fdb94bad" class="result-placeholder-container"
+      *ngIf="waitingCounter === 0 && noResultsDetectionObserver | async">
+      <div id="e3c4f4d1-05f7-4cf4-917d-d067n313879"
+        *ngIf="inputControl.value.trim().replace(' ', '').length >= 3 || data.type==='listmultiple' || data.type ==='search'">
+        <p class="result-placeholder faded">No results found</p>
+      </div>
+    </div>
+    <div id="909860af-3f73-48d0-97b3-21e53cc5725d" class="w-100 d-flex" *ngIf="data.type==='listmultiple'"
+         [ngClass]="isSourceLinks ? 'flex-column' : 'flex-wrap'">
+      <div *ngFor="let s of list; let index = index;" [class]="data.singleColumn ? 'w-100' : 'w-50-extended'">
+        <div class="py-1 px-2 list-item d-flex flex-row justify-content-between" [ngClass]="isSourceLinks ? 'w-50' : ''">
+          <mat-checkbox class="longnames text-left" color="primary" [checked]="selected.includes(s.index)"
+            (change)="toggleItem(index)">
+            {{s.icdDesc || s.listValue || s.name || s.shortName}}
+          </mat-checkbox>
+          <span *ngIf="s.icdCode" class="icd-code text-right">{{s.icdCode}}</span>
+        </div>
+        <div *ngIf="sourceLinks(s)">
+          <span><strong>Sources: </strong></span>
+          <ng-container *ngFor="let link of sourceLinks(s); let idx = index">
+            <a *ngIf="idx < 2" class="source-link" [href]="sanitize(link)">{{ domainOf(link) }}<span *ngIf="idx == 0">,&nbsp;</span></a>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+    <div id="69f7a366-be21-4e76-86dc-ac0efcc4f04e" class="row w-100" *ngIf="data.type==='search'">
+      <div id="892ae7fc-a07f-4296-a5ef-1b0c1837e768" *ngFor="let s of list; let index = index;"
+        class="py-1 col-xl-6 text-left list-item d-flex align-items-center" role="group">
+        <mat-checkbox class="longnames select-checkbox mr-2" color="primary" [checked]="selected.includes(index)"
+          (change)="toggleItem(index)">
+          {{s.name}}
+        </mat-checkbox>
+      </div>
+    </div>
+    <div  class="row w-100" *ngIf="data.type==='immunization'">
+      <mat-radio-group class="w-100">
+        <mat-radio-button class="py-1 col-xl-6 text-left list-item d-flex align-items-center" *ngFor="let s of list; let index = index;" [value]="s.name" [checked]="selected.includes(index)" [class.checked]="selected.includes(index)" (change)="selectItem(index)">{{s.name}}</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div id="69f7a366-be21-4e76-86dc-ac0efcc4f04f" class="row w-100" *ngIf="data.type==='symptoms'">
+      <cdk-virtual-scroll-viewport itemSize="20" minBufferPx="700" maxBufferPx="700" class="virtual-scroll-viewport"
+        *ngIf="data.list && data.list.length !== 0">
+        <div id="892ae7fc-a07f-4296-a5ef-1b0c1837e760" *cdkVirtualFor="let s of data.list; let index = index;"
+          class="py-1 col-12 text-left list-item d-flex align-items-center" role="group">
+          <mat-checkbox class="longnames select-checkbox mr-2" color="primary"
+            [checked]="selected.includes(s.symptomID)" (change)="toggleItem(index)">
+          </mat-checkbox>
+          <div class="w-100 d-flex">
+            <div *ngIf="data.filters && data.filters.length" class="d-flex">
+              <div *ngFor="let filter of data.filters" class="d-flex flex-nowrap">
+                <span class="filter-item" (click)="add(s[filter], filter)">{{s[filter] | titlecase}}</span><span> >
+                </span>
+              </div>
+            </div>
+            <span>{{s.name}}</span>
+          </div>
+        </div>
+      </cdk-virtual-scroll-viewport>
+    </div>
+    <div id="37b1a631-686f-410d-8d5b-b5dadc465699" class="row w-100" *ngIf="data.type==='list'">
+      <div id="b3ae1947-d32a-442e-890a-8eacaa66fbe0" *ngFor="let item of data.list; let index = index;"
+        class="py-1 col-xl-6 text-left list-item">
+        <mat-checkbox class="longnames" color="primary" [checked]="selected.includes(index)"
+          (change)="selectItem(index)">
+          {{item.listValue || item.name || item.shortName}}
+        </mat-checkbox>
+      </div>
+    </div>
+    <div id="d3030ad6-c211-447d-8e78-eec934b9f2a1" class="w-100" *ngIf="data.type==='drugs'">
+      <cdk-virtual-scroll-viewport itemSize="20" minBufferPx="700" maxBufferPx="700" class="virtual-scroll-viewport">
+        <div class="w-100 row">
+          <div id="5167823f-3cc4-4ab8-b2b9-25ed57bbdd01" *cdkVirtualFor="let drug of data.list;"
+            class="col-xl-6 text-left list-item">
+            <mat-checkbox class="longnames" color="primary" [checked]="selected.includes(drug)"
+              (change)="selectItem(drug)">
+              {{drug}}
+            </mat-checkbox>
+          </div>
+        </div>
+      </cdk-virtual-scroll-viewport>
+    </div>
+    <div id="6c25a259-a903-4d21-9f62-e2685817a3d3" class="w-100" *ngIf="data.type==='diagnosis'">
+      <cdk-virtual-scroll-viewport itemSize="20" minBufferPx="700" maxBufferPx="700" class="virtual-scroll-viewport">
+        <div id="dba93557-75aa-4ad6-943c-c03f2d92bce4" *cdkVirtualFor="let node of data.list; let index = index;"
+          class="py-1 px-3 d-flex justify-content-between w-100">
+          <mat-checkbox class="longnames text-left" color="primary" [checked]="selected.includes(index)"
+            (change)="selectItem(index)">
+            {{node.name}}
+          </mat-checkbox>
+          <div class="d-flex justify-content-between icd-code">
+            <span>|</span>
+            <span>{{node.icd10Code}}</span>
+          </div>
+        </div>
+      </cdk-virtual-scroll-viewport>
+    </div>
+    <div id="a3c6ddfd-ab3b-4da1-b88c-b8159f426766" class="row w-100" *ngIf="data.type==='modifiers'">
+      <div id="7aa3abb8-973a-439d-9e09-507470008ac8" *ngFor="let modifier of data.list"
+        class="py-1 col-xl-6 text-left list-item" role="group">
+        <mat-checkbox class="longnames" color="primary" [checked]="selected.includes(modifier)"
+          (change)="toggleItem(modifier)">
+          {{modifier}}
+        </mat-checkbox>
+      </div>
+    </div>
+  </div>
+
+  <div id="6c109846-e21e-43ae-ad39-7563ac968af3" class="popup-btn-group d-flex flex-column justify-content-end desktop-buttons">
+    <div id="ef941114-1a8c-4aff-9dca-160b964049f9" class="d-flex justify-content-center">
+      <button mdbBtn type="button" color="primary" class="mx-2 my-0" [outline]="true" size="md" mdbWavesEffect
+        matDialogClose (click)="closeDialog()">Cancel</button>
+      <button mdbBtn type="button" color="primary" class="mx-2 my-0" size="md" mdbWavesEffect (click)="confirm()"
+        [disabled]="confirmButtonDisabled">Confirm</button>
+    </div>
+  </div>
+</div>

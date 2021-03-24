@@ -1,0 +1,14 @@
+<div id="f7026c6a-6945-4154-8912-591cce419f04" class="d-flex flex-column align-items-center">
+  <p>Treatment Selection</p>
+  <p>{{data.treatments?.length ? 'The following treatments have been selected:' : 'No treatments have been selected.'}}</p>
+  <ul class="treatlist">
+    <li *ngFor="let treatment of data.treatments; let i = index">
+      <div class="w-100" [class.treat-zebra]="i % 2" disabled>{{treatment}}</div>
+    </li>
+  </ul>
+  <div id="35768574-2d70-469b-86d1-f0e8e8015f10" class="d-flex popup-buttons justify-content-around">
+      <button mdbBtn type="button" color="primary" [outline]="true" size="sm" mdbWavesEffect class="my-2" matDialogClose (click)="closeDialog()">Cancel</button>
+      <button mdbBtn type="button" color="primary" size="sm" mdbWavesEffect (click)="editNotes()">Edit Treatment notes</button>
+      <button mdbBtn type="button" color="red" size="sm" mdbWavesEffect matDialogClose (click)="finalize()">Confirm</button>
+  </div>
+</div>

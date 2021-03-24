@@ -1,0 +1,20 @@
+<td class="name single">
+  <span class="name">{{lab.name}}</span>
+  <span class="name ordered" *ngIf="isOrdered"> - ordered</span>
+</td>
+<td>
+  <div class="d-flex flew-row justify-content-flex-start">
+    <button mdbBtn type="button" [color]="'primary'"
+            size="sm" [block]="true" mdbWavesEffect
+            [class.active]="isNil(lab?.value | async)"
+            (click)="removeLabResult()">Not Tested
+    </button>
+    <ng-container *ngFor="let tdEl of labComponent.tdElements">
+      <ng-container [ngTemplateOutlet]="tdEl"></ng-container>
+    </ng-container>
+  </div>
+</td>
+
+
+
+

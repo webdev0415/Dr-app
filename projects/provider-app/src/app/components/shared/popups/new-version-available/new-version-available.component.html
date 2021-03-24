@@ -1,0 +1,6 @@
+<div id="new-version" class="d-flex flex-row justify-content-center align-items-center">
+  <span class="mr-1">New Version Available</span>
+  <span *ngIf="showTimer && countdown" class="mr-3">- Auto updating in: {{ countdown }}</span>
+  <button mdbBtn type="button" color="primary" (click)="updateNow()" class="m-2">Update now</button>
+  <button mdbBtn type="button" color="primary" (click)="updateLater()" class="m-2">Update later</button>
+</div>

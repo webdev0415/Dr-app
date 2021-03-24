@@ -1,0 +1,11 @@
+@import 'mixins';
+
+#loading-spinner {
+  height: 3rem!important;
+  @include full-screen(true);
+  #loading-hourglass {
+    background-size: 3rem!important;
+    width: inherit !important;
+    height: inherit !important;
+  }
+}

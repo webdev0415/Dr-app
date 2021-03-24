@@ -1,0 +1,72 @@
+<div class="d-flex flex-row justify-content-between w-100 mb-2">
+  <div class="d-flex flex-column">
+    <h2 class="my-0">{{businessName}}</h2>
+    <span>{{locationName}}</span>
+    <span><strong>Pharmacist: {{practitionerName}}</strong></span>
+  </div>
+</div>
+
+<h3 class="my-4 text-capitalize">{{visitReasonHeader}}</h3>
+
+<div class="d-flex flex-row w-100 justify-content-between flex-wrap cards-container">
+  <div class="d-flex flex-column w-100">
+    <ph-questionnaires-header class="w-100" [header]="'Patient Information'" [data]="patientInformation$ | async"
+                              [currentDate]="currentDate" [socialCard]="socialCard$ | async">
+    </ph-questionnaires-header>
+    <ph-questionnaires-header class="w-100" [header]="'Insurance Information'"
+                              [data]="patientInsurance$ | async"></ph-questionnaires-header>
+  </div>
+
+  <ng-container [ngSwitch]="questionnaire">
+    <div *ngSwitchCase="PharmacyAssessmentsEnum['FLU-SHOT']" class="w-100 mt-3">
+      <ph-flu-shot
+        [age]="(patientInformation$ | async).source.age.years"
+        [weight]="(socialCard$ | async).patientWeight">
+      </ph-flu-shot>
+    </div>
+    <div *ngSwitchCase="PharmacyAssessmentsEnum['COLD-FLU']" class="w-100 mt-3">
+      <ph-flu-treatment
+        [age]="(patientInformation$ | async).source.age.years"
+        [weight]="(socialCard$ | async).patientWeight">
+      </ph-flu-treatment>
+    </div>
+    <div *ngSwitchCase="PharmacyAssessmentsEnum['STREP-THROAT']" class="w-100 mt-3">
+      <ph-strep-throat
+        [weight]="(socialCard$ | async).patientWeight">
+      </ph-strep-throat>
+    </div>
+    <div *ngSwitchCase="PharmacyAssessmentsEnum.ASTHMA" class="w-100 mt-3">
+      <ph-asthma-refill></ph-asthma-refill>
+    </div>
+    <div *ngSwitchCase="PharmacyAssessmentsEnum['COLD-SORES']" class="w-100 mt-3">
+      <ph-cold-sores></ph-cold-sores>
+    </div>
+    <div *ngSwitchCase="PharmacyAssessmentsEnum.UTI" class="w-100 mt-3">
+      <ph-uti></ph-uti>
+    </div>
+    <div *ngSwitchCase="PharmacyAssessmentsEnum['BIRTH-CONTROL']" class="w-100 mt-3">
+      <ph-birth-refill></ph-birth-refill>
+    </div>
+    <ng-container *ngSwitchDefault>
+      <div class="d-flex flex-column w-100" id="questionnaire">
+        <h3 class="mb-0">Patient Questionnaire</h3>
+        <hr class="my-2">
+        <ph-questionnaires class="w-100" [documentView]="true"></ph-questionnaires>
+      </div>
+      <div class="d-flex flex-column w-100" id="assessments">
+        <h3 class="mb-0">Pharmacist Assessment</h3>
+        <hr class="my-2">
+        <ph-questionnaires class="w-100" [questionnaire]="questionnaire" [documentView]="true"></ph-questionnaires>
+      </div>
+    </ng-container>
+
+  </ng-container>
+
+  <ph-questionnaires-footer class="w-100"
+                            [userSignature]="userSignature" [socialCard$]="socialCard$" [questionnaire]="questionnaire"
+                            [practitionerName]="practitionerName"
+                            [patientInformation$]="patientInformation$" [insuranceCard$]="insuranceCard$">
+  </ph-questionnaires-footer>
+
+</div>
+
