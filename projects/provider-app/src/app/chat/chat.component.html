@@ -1,0 +1,75 @@
+<!-- Main layout -->
+<main class="mt-n5" *ngIf="isShowChat">
+  <div class="container">
+
+    <!-- Grid row -->
+    <div class="row d-flex flex-row-reverse">
+
+      <!-- Grid column -->
+      <div class="col-md-6 mb-4 d-flex flex-row-reverse">
+
+        <mdb-card class="chat-room small-chat wide" id="myForm" style="position: fixed;z-index: 4;right: 19px;bottom: 140px;">
+          <mdb-card-header class="white d-flex justify-content-between p-2" id="toggle" style="cursor: pointer;" >
+            <div class="heading d-flex justify-content-start">
+              <div class="profile-photo avatar-circle">
+                <span class="initials">{{ patientListEntity.patient_name[0] }}</span>
+              </div>
+              <div class="data">
+                <p class="name mb-0"><strong>{{ patientListEntity.patient_name }}</strong></p>
+              </div>
+            </div>
+            <div class="icons grey-text">
+              <a class="feature">
+                <mdb-icon fas icon="chevron-circle-down" class="mr-2" (click)="isMinimized = !isMinimized" *ngIf="!isMinimized"></mdb-icon>
+              </a>
+              <a>
+                <mdb-icon fas icon="chevron-circle-up" class="mr-2" (click)="isMinimized = !isMinimized" *ngIf="isMinimized"></mdb-icon>
+              </a>
+              <a type="button" id="closeButton">
+                <mdb-icon fas icon="times" class="mr-2" (click)="disconnectSocket()"></mdb-icon>
+              </a>
+            </div>
+          </mdb-card-header>
+          <div class="my-custom-scrollbar" *ngIf="!isMinimized">
+            <mdb-card-body class="p-3">
+              <div class="chat-message">
+                <div class="d-flex justify-content-start" *ngFor="let message of messages">
+                  <div class="profile-photo message-photo avatar-circle" *ngIf="message.userType == 'sender'">
+                    <span class="initials">{{ patientListEntity.patient_name[0] }}</span>
+                  </div>
+                  <mdb-card [bgColor]="message.userType == 'sender' ? 'bg-primary' : 'bg-light'" 
+                    [class.float-right]="message.userType == 'sender'"
+                    [class.message-text]="!(message.userType == 'sender')"
+                    class="rounded w-75 z-depth-0 mb-2">
+                    <mdb-card-body class="p-2">
+                      <mdb-card-text [class]="message.userType == 'sender' ? 'text-white' : 'black-text'">{{ message.message }}
+                      </mdb-card-text>
+                    </mdb-card-body>
+                  </mdb-card>
+                  <div class="profile-photo message-photo avatar-circle" *ngIf="!(message.userType == 'sender')">
+                    <span class="initials">CD</span>
+                  </div>
+                </div>
+              </div>
+            </mdb-card-body>
+          </div>
+          <mdb-card-footer class="text-muted white pt-1 pb-2 px-3" *ngIf="!isMinimized">
+
+            <input type="text" [(ngModel)]="message" (keyup)="$event.keyCode == 13 && sendMessage()" class="form-control" placeholder="Type a message..." >
+            <div class="send_icon">
+              <a>
+                <mdb-icon fas icon="paper-plane" class="float-right"></mdb-icon>
+              </a>
+            </div>
+          </mdb-card-footer>
+
+        </mdb-card>
+
+      </div>
+      <!-- Grid column -->
+
+    </div>
+    <!-- Grid row -->
+
+  </div>
+</main>

@@ -1,6 +1,6 @@
 <mat-expansion-panel [disabled]="!currentPatient" hideToggle="true" class="patient-panel" [expanded]="expansionPanel">
 
-  <mat-expansion-panel-header [collapsedHeight]="'auto'" [expandedHeight]="'auto'"  (click)="panelToggle()">
+  <mat-expansion-panel-header [collapsedHeight]="'auto'" [expandedHeight]="'auto'" (click)="panelToggle()" class="p-0">
 
     <div class="container-fluid">
       <div class="row">
@@ -103,15 +103,26 @@
             <img src="/DoctorApp/assets/img/sys/advinowlogo.svg" class="logo">
           </a>
         </div>
-
+        <!--Button Patient-->
+        <div class="col-xl-1 col-sm-1 hdr-part-1 flex flex-row align-items-center" *ngIf="patient && currentPatient && patientLoaded"
+          [matTooltip]="patient && currentPatient ? 'Click to toggle chat app' : null" matTooltipPosition="below"
+          (click)="isShowChat(true); $event.stopPropagation();">
+          <ng-container>
+            <div id="15b6fa48-9330-409a-b9e9-90bd55e922e9">
+              <span class="chat-message">
+                <i class="fa fa-comments" aria-hidden="true"></i>Message Patient
+              </span>
+            </div>
+          </ng-container>
+        </div>
         <!--Button Options-->
         <mat-menu #userMenu="matMenu">
           <button mat-menu-item class="menu-item" (click)="goToPasswordChange()">Change password</button>
           <button mat-menu-item class="menu-item" (click)="quit()">Logout</button>
         </mat-menu>
 
-        <div id="ee677eac-6e3f-40fc-a869-9833988c2ebb" class="col-4 pr-0 text-right flex hdr-part-3">
-          <button class="menu-button ml-1 mat-button d-flex align-items-center" (click)="$event.stopPropagation();"
+        <div id="ee677eac-6e3f-40fc-a869-9833988c2ebb" class="col-3 text-right flex hdr-part-3" style="margin-left: auto;">
+          <button class="menu-button mat-button d-flex align-items-center" (click)="$event.stopPropagation();"
             [matMenuTriggerFor]="userMenu">
             <div class="avatar-block">
               <div class="avatar">

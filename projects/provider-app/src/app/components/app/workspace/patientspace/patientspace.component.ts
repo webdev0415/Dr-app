@@ -52,8 +52,9 @@ export class PatientSpaceComponent implements AfterViewInit, OnDestroy, OnInit {
   private _isShowBottomSpace: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   public examPanelSection: string;
   public viewOnly: boolean;
-  private patientListEntity: PatientListEntity;
-
+  // private patientListEntity: PatientListEntity;
+  public patientListEntity: PatientListEntity;
+  
   readonly isPICBusiness: boolean;
 
   ehrLocations = ['chicagoland', 'rockford', 'indiana', 'wisconsin'];

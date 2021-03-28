@@ -1,0 +1,136 @@
+.chat-room.small-chat {
+  position: fixed;
+  bottom: 0;
+  -webkit-border-bottom-left-radius: 0;
+  border-bottom-left-radius: 0;
+  -webkit-border-bottom-right-radius: 0;
+  border-bottom-right-radius: 0;
+  width: 20rem;
+}
+
+.chat-room.small-chat.slim {
+  height: 3rem;
+}
+
+.chat-room.small-chat.slim .icons .feature {
+  display: none;
+}
+
+.chat-room.small-chat .profile-photo img.avatar {
+  height: 2rem;
+  width: 2rem;
+}
+
+.chat-room.small-chat .profile-photo .state {
+  position: relative;
+  display: block;
+  background-color: #007e33;
+  height: 0.65rem;
+  width: 0.65rem;
+  z-index: 2;
+  margin-left: 1.35rem;
+  left: auto;
+  top: -0.5rem;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  border: 0.1rem solid #fff;
+}
+
+.chat-room.small-chat .profile-photo.message-photo {
+  
+}
+
+.chat-room.small-chat .heading {
+  height: 2.1rem;
+}
+
+.chat-room.small-chat .heading .data {
+  line-height: 1.5;
+  display: flex;
+  align-items: center;
+}
+
+.chat-room.small-chat .heading .data .name {
+  font-size: 0.8rem;
+}
+
+.chat-room.small-chat .heading .data .activity {
+  font-size: 0.75rem;
+}
+
+.chat-room.small-chat .icons {
+  padding-top: 0.45rem;
+}
+
+.chat-room.small-chat .my-custom-scrollbar {
+  position: relative;
+  height: 18rem;
+  overflow: auto;
+}
+
+.chat-room.small-chat .my-custom-scrollbar > .card-body {
+  height: 18rem;
+}
+
+.chat-room.small-chat
+  .my-custom-scrollbar
+  > .card-body
+  .chat-message
+  .media
+  img {
+  width: 3rem;
+}
+
+.chat-room.small-chat
+  .my-custom-scrollbar
+  > .card-body
+  .chat-message
+  .media
+  .media-body
+  p {
+  font-size: 0.7rem;
+}
+
+.chat-room.small-chat
+  .my-custom-scrollbar
+  > .card-body
+  .chat-message
+  .message-text {
+  margin-left: 2.47rem;
+}
+
+.chat-room.small-chat .card-footer .form-control {
+  border: none;
+  padding: 0.375rem 0 0.43rem 0;
+  font-size: 0.9rem;
+}
+
+.chat-room.small-chat .card-footer .form-control:focus {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.avatar-circle {
+  width: 27px;
+  height: 27px;
+  background-color: #4285f4;
+  text-align: center;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  margin: 3px;
+}
+
+.initials {
+  position: relative;
+  font-size: 18px; /* 50% of parent */
+  line-height: 30px; /* 50% of parent */
+  color: #f7f1f1;
+  font-family: "Courier New", monospace;
+  font-weight: bold;
+}
+.send_icon {
+  position: absolute;
+  right: 20px;
+  bottom: 18px;
+}
