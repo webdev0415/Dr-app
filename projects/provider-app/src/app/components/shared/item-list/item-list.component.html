@@ -80,7 +80,7 @@
       <ng-container *ngSwitchDefault>
         <li *ngFor="let item of presentationalData">
           <div class="d-flex flex-row">
-            <span [class.meds-reaction]="item.customFields.length || item.details">{{item.historyItem || item.historyType}}</span>
+            <span [class.meds-reaction]="item.customFields.length || item.details">{{item.historyItem.name || item.historyType}}</span>
             <div *ngIf="item.customFields.length" class="d-flex flex-row w-100 ml-2">
               <mat-divider [vertical]="true" class="h-100 mr-2 divider-width-0"></mat-divider>
               <span class="text-break">{{ item.customFields[0].value }}</span>

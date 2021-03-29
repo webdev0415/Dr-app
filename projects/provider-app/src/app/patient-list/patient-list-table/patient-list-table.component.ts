@@ -44,7 +44,6 @@ import { CloseReasonInterface } from '../interfaces/close-reason-interface';
 import { Sort } from '../store/patients-list.actions';
 import { PatientsTablesState } from '../store/patients-list.state';
 import { TableSorting } from '../table-sorting.interface';
-import { take } from 'rxjs-compat/operator/take';
 
 @Component({
   selector: 'pa-patient-list-table',

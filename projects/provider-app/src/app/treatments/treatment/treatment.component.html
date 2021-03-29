@@ -171,7 +171,7 @@
     <div class="mb-3 item">
       <strong>Currently taking</strong>
       <div class="d-flex flex-column">
-        <span *ngFor="let item of getSection('Medications')">- {{item.historyItem}}</span>
+        <span *ngFor="let item of getSection('Medications')">- {{item.historyItem.name}}</span>
         <span *ngIf="!getSection('Medications').length">No Information Available</span>
       </div>
     </div>

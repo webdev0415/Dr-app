@@ -8,9 +8,9 @@ export class ReactionPipe implements PipeTransform {
 
   transform(value: HistoryItem): string {
     if (!value) return;
-    if (!value.customFields.length) return (value.historyItem as string);
+    if (!value.customFields.length) return (value.historyItem['name'] as string);
 
-    return `${value.historyItem} | ${value.customFields[0].value}`;
+    return `${value.historyItem['name']} | ${value.customFields[0].value}`;
   }
 
 }

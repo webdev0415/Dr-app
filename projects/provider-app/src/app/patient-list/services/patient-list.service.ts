@@ -49,6 +49,7 @@ export class PatientListService {
       });
       return;
     }
+
     // TODO: remove interval when push notifications will be implemented
     if (force || this.patientListState.patientListLastValue === null) {
       const refreshTimer = interval(60000)
@@ -78,6 +79,7 @@ export class PatientListService {
             patient.status = 'GONE';
             return patient;
           }, R.filter(filterGone, this.oldList)));
+
           difList.forEach((patient: PatientListEntity) => {
             let eventType = '';
             switch (patient.status) {
@@ -90,6 +92,7 @@ export class PatientListService {
             }
             this.updateListFromPush(patient);
           });
+          
           this.oldList = response;
         }
       });

@@ -56,7 +56,6 @@ export class PatientListContainerComponent implements AfterViewInit, OnDestroy, 
   @ViewChild('testPatientsTable', { static: true }) testTable: MdbTableDirective
 
   public userRole: string
-
   public selectedNoLocations: boolean
 
   public waiting_patients: PreparedPatientListEntity[]
@@ -147,23 +146,24 @@ export class PatientListContainerComponent implements AfterViewInit, OnDestroy, 
   }
 
   private static getPatientGroup(patient: PatientListEntity): PatientListGroup {
-    switch (patient.status) {
+    const { status: patientStatus, patient_name, appointment_data, telemedicine_mode } = patient
+
+    switch (patientStatus) {
       case patientStatusEnum.complete:
         return 'completed'
       case patientStatusEnum.withDoctor:
         return 'assigned'
-      case patientStatusEnum.waiting:
-        return 'waiting'
       case patientStatusEnum.registered:
+      case patientStatusEnum.waiting:
       case patientStatusEnum.inKiosk:
       case patientStatusEnum.telemedicine:
-        if (patient.patient_name.match(/(.*Test.*\s.*Test.*)|(test pagejump)/i)) return 'test'
-        return 'telemedicine'
+        if (patient_name.match(/(.*Test.*\s.*Test.*)|(test pagejump)/i)) return 'test'
+        if (telemedicine_mode === 'MEMD' || appointment_data.is_telemedicine) return 'telemedicine'
+        return 'waiting'
       default:
         return null
     }
   }
-
   private static prepareDoctorOrClerkNameID(data: PatientListEntity): string {
     if (data.doctor_id !== 0) return `${data.doctor_name}`
     if (data.clerk_id !== 0) return `${data.clerk_name}`

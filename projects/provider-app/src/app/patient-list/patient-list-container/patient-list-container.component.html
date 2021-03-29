@@ -8,19 +8,19 @@
   <div class="d-flex justify-content-between border border-info rounded labs-legend">
     <div class="mt-1 d-flex flex-row">
       <div class="mx-1 my-1 mr-3">
-        <img class="mr-1 status-list status-list-waiting">
+        <img class="mr-1 status-list status-list-waiting" />
         <span class="fs-14">Waiting</span>
       </div>
       <div class="mx-1 my-1 mr-3">
-        <img class="mr-1 status-list status-list-registered">
+        <img class="mr-1 status-list status-list-registered" />
         <span class="fs-14">Registered</span>
       </div>
       <div class="mx-1 my-1 mr-3">
-        <img class="mr-1 status-list status-list-with-provider">
+        <img class="mr-1 status-list status-list-with-provider" />
         <span class="fs-14">Ordered</span>
       </div>
       <div class="mx-1 my-1 mr-2">
-        <img class="mr-1 status-list status-list-completed">
+        <img class="mr-1 status-list status-list-completed" />
         <span class="fs-14">Completed</span>
       </div>
     </div>
@@ -29,12 +29,14 @@
 
 <div [hidden]="selectedNoLocations" class="container-fluid" id="plist-container">
   <mat-accordion [multi]="true">
-    <ng-container *ngFor="let content of tablesContent; trackBy:trackByIndex">
-      <pa-patient-list-table [headers]="getTableHeaders(content.type)" [patientsEntity]="content"
-                             [roomValues]="roomValues"
-                             [isTabletPharmacistView]="!isDesktopDevice && isPharmacistUserRole"
-                             (OpenPatient)="openPatient($event)">
-
+    <ng-container *ngFor="let content of tablesContent; trackBy: trackByIndex">
+      <pa-patient-list-table
+        [headers]="getTableHeaders(content.type)"
+        [patientsEntity]="content"
+        [roomValues]="roomValues"
+        [isTabletPharmacistView]="!isDesktopDevice && isPharmacistUserRole"
+        (OpenPatient)="openPatient($event)"
+      >
       </pa-patient-list-table>
     </ng-container>
   </mat-accordion>
