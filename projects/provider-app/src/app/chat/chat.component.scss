@@ -48,6 +48,9 @@
   line-height: 1.5;
   display: flex;
   align-items: center;
+  & .name {
+    margin-left: .3rem;
+  }
 }
 
 .chat-room.small-chat .heading .data .name {
