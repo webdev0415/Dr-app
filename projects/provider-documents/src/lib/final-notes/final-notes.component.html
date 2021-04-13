@@ -411,6 +411,10 @@
               <td>Refills</td>
               <td>{{item.prescription.refills}}</td>
             </tr>
+            <tr *ngIf="item.prescription.comorbidity">
+              <td>Comorbidity</td>
+              <td>{{item.prescription.comorbidity}}</td>
+            </tr>
             <!-- <tr *ngIf="item.drugInformation.prn">
               <td>PRN</td>
               <td>{{item.drugInformation.prn ? 'Yes' : 'No'}}</td>

@@ -1,12 +1,13 @@
-@import '../../../../../../../src/styles/shared/variables';
-@import '../../../../../../../src/styles/shared/mixins';
-@import '../../../../../../styles/theme';
+@import "../../../../../../../src/styles/shared/variables";
+@import "../../../../../../../src/styles/shared/mixins";
+@import "../../../../../../styles/theme";
 
-$box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12);
+$box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+  0 1px 5px 0 rgba(0, 0, 0, 0.12);
 
 .confirm-banner {
   justify-content: flex-end;
-  background-color: #4E4E4E;
+  background-color: #4e4e4e;
   padding: 0px 32px;
   button {
     color: #ffffff;
@@ -15,7 +16,7 @@ $box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .14), 0
     margin: 0 5px;
   }
   .text {
-    color: #A5A5A5;
+    color: #a5a5a5;
     font-size: 21px;
   }
 }
@@ -67,9 +68,11 @@ $box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .14), 0
   width: 53%;
 }
 
-.defined-container, .diagnosis-container {
-  mat-header-cell:first-of-type, mat-row mat-cell:first-of-type {
-    padding-left: 0!important;
+.defined-container,
+.diagnosis-container {
+  mat-header-cell:first-of-type,
+  mat-row mat-cell:first-of-type {
+    padding-left: 0 !important;
   }
 }
 
@@ -79,7 +82,7 @@ $box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .14), 0
 
 .checklist-container {
   width: 44%;
-  background-color: #0AACDC;
+  background-color: #0aacdc;
   color: #fff;
   border: none;
 
@@ -88,7 +91,7 @@ $box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .14), 0
     font-weight: 400;
   }
 
-  $border-item: 1px solid #009FCE;
+  $border-item: 1px solid #009fce;
   .checklist-item {
     border-top: $border-item;
     padding: 0.75rem 0;
@@ -116,7 +119,7 @@ $box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .14), 0
     justify-content: flex-end;
     text-align: center;
     line-height: 25px;
-    padding-right: 0!important;
+    padding-right: 0 !important;
     mat-checkbox {
       text-align: right;
       margin-right: 4px;
@@ -135,7 +138,8 @@ $box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .14), 0
 }
 
 .selected-table {
-  mat-row, .mat-row {
+  mat-row,
+  .mat-row {
     min-height: 69px;
   }
 }
@@ -169,14 +173,14 @@ $box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .14), 0
 }
 
 ::ng-deep.outline-box {
-  border: 1px solid #ABABAB;
-  padding: 20px!important;
+  border: 1px solid #ababab;
+  padding: 20px !important;
   border-radius: 4px;
 }
 
 .chronic-illnesses-box {
-  border-top: 1px solid #ABABAB;
-  border-bottom: 1px solid #ABABAB;
+  border-top: 1px solid #ababab;
+  border-bottom: 1px solid #ababab;
   padding: 20px 0;
 }
 
@@ -226,17 +230,16 @@ $box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .14), 0
   .virtual-scroll-viewport {
     width: 90%;
   }
-
 }
 
 .no-info {
-  background-color: #F5F5F5;
-  color: #C4C4C4;
+  background-color: #f5f5f5;
+  color: #c4c4c4;
   font-size: 1.25rem;
 }
 
 pa-vitals-field#vitfields.label.vital-field.wd-vitals {
-  width: 60px!important;
+  width: 60px !important;
 }
 
 #labs-recommended {
@@ -258,7 +261,7 @@ pa-vitals-field#vitfields.label.vital-field.wd-vitals {
   color: #fff;
   background-color: #ff3547 !important;
   border-radius: 0.7rem;
-  padding: .25rem 2.14rem;
+  padding: 0.25rem 2.14rem;
   font-size: 1rem;
   width: 120px;
 }
@@ -268,7 +271,7 @@ pa-vitals-field#vitfields.label.vital-field.wd-vitals {
   background-color: #00c851 !important;
   border-radius: 0.7rem;
   width: 120px;
-  padding: .25rem 2.22rem;
+  padding: 0.25rem 2.22rem;
   font-size: 1rem;
 }
 
@@ -280,14 +283,15 @@ pa-vitals-field#vitfields.label.vital-field.wd-vitals {
 }
 
 .pl-06 {
-  padding-left: .6rem;
+  padding-left: 0.6rem;
 }
 
 .pr-06 {
-  padding-right: .6rem;
+  padding-right: 0.6rem;
 }
 
-:host::ng-deep .mat-checkbox-background, :host::ng-deep .mat-checkbox-frame {
+:host::ng-deep .mat-checkbox-background,
+:host::ng-deep .mat-checkbox-frame {
   border-radius: 0.3rem !important;
   border-width: 1px !important;
 }
@@ -295,7 +299,31 @@ pa-vitals-field#vitfields.label.vital-field.wd-vitals {
 .defined-checkbox {
   ::ng-deep mat-checkbox {
     label {
-      margin-bottom: .25rem!important;
+      margin-bottom: 0.25rem !important;
     }
+  }
+}
+
+::ng-deep .mat-grouped-data-tabs {
+  .mat-tab-header {
+    margin-bottom: 5px;
+    border-bottom: 0;
+  }
+
+  .mat-tab-labels {
+    background-color: #004c8b;
+  }
+
+  .mat-tab-label {
+    color: #fff;
+    opacity: 1;
+  }
+
+  .mat-tab-label.mat-tab-label-active {
+    background: #fff;
+    color: #004c8b;
+    border: 1px solid #004c8b;
+    border-radius: 2px;
+    border-bottom: 5px solid #02abc0;
   }
 }
