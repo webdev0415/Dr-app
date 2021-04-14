@@ -50,6 +50,8 @@ import { SplitToBodyPartsPipe } from '../../../../../physical-exam/split-to-body
 import { CustomSubSystem, indexesForSubSystems } from '../../../../../physical-exam/physical-exams.constants';
 import { MeasurementsMediaService } from 'services/measurements-media.service';
 import { PatientdataService } from '../../../../../services/patientdata.service';
+import {InitAccordion} from '../stores/diagnosis-accordion/diagnosis-accordion.actions';
+import {TreatmentsService} from '../../../../../treatments/treatments.service';
 
 @Component({
   selector: 'pa-vitalsmedia',
@@ -109,7 +111,8 @@ export class VitalsmediaComponent extends ContinueButton implements OnDestroy, B
     private measurementsMediaService: MeasurementsMediaService,
     private physicalFindingsService: PhysicalFindingsService,
     private patientDataService: PatientdataService,
-    private symptomsService: SymptomsService
+    private symptomsService: SymptomsService,
+    private treatmentsService: TreatmentsService,
   ) {
     super(userService);
 
@@ -292,7 +295,11 @@ export class VitalsmediaComponent extends ContinueButton implements OnDestroy, B
     // Need to extract the symptoms from this.rawExams
     const updatedSymptoms = this.physicalFindingsService.physicalExamToSymptoms(this.rawExams);
 
-    this.dataService.rerunTriage(updatedSymptoms, patientId, rerunHpi, rerunRos).subscribe();
+    this.dataService.rerunTriage(updatedSymptoms, patientId, rerunHpi, rerunRos).subscribe((response) => {
+      this.store.dispatch(new InitAccordion(response.diagnosticEngine, patient.illnessInformation, response.triage)).subscribe(() => {
+        this.treatmentsService.restoreTreatments(patient, this.patientDataService.getPatientIllness().illness, this.patientDataService.getPatientIllness().primary);
+      });
+    });
   }
 
   onClickBottomButton(nameButton: string): void {
@@ -322,7 +329,6 @@ export class VitalsmediaComponent extends ContinueButton implements OnDestroy, B
   }
 
   public changeExamType(examType: string) {
-
     this.patientDataService.refreshPhysicalExam(examType);
   }
 

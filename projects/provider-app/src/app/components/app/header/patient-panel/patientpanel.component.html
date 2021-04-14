@@ -97,7 +97,7 @@
           <div class="d-flex flex-column mb-4 item">
             <strong>Medications:</strong>
             <div class="d-flex flex-column info-text">
-              <span *ngFor="let item of getSection('Medications')">-&nbsp;{{item.historyItem}}</span>
+              <span *ngFor="let item of getSection('Medications')">-&nbsp;{{item.historyItem.name}}</span>
               <span *ngIf="!getSection('Medications').length">No Information</span>
             </div>
           </div>

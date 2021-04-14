@@ -78,6 +78,7 @@ export class ProviderLabsComponent extends ContinueButton implements BottomButto
   onClickBottomButton(nameButton: string): void {
     switch (nameButton) {
       case 'continue':
+        this.businessLabs.saveResults();
         if (this.isPharmacistUserRole()) {
           this.stateService.patient.tabs.setWorkingDiagnosis(DiagnosisTabsEnum.PHARMACIST_SUMMARY);
           this.stateService.app.setWorkingDiagnosisView('pharmacistDiagnosis');

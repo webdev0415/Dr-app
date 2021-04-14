@@ -7,7 +7,10 @@
       [(ngModel)]="prescribingItem.prescription.drugName"
       (ngModelChange)="drugNameChanged($event)"
     >
-      <mdb-select-option *ngFor="let drugName of drugNames" [value]="drugName.value">
+      <mdb-select-option
+        *ngFor="let drugName of drugNames"
+        [value]="drugName.value"
+      >
         {{ drugName.label }}
       </mdb-select-option>
     </mdb-select-2>
@@ -66,6 +69,24 @@
       </mdb-select-option>
     </mdb-select-2>
   </div>
+  <div class="drug-comorbidity">
+    <label for="drug-comorbidity-input">Comorbidity:</label>
+    <mdb-select-2
+      id="drug-comorbidity-input"
+      placeholder="Drug Comorbidity"
+      [ngModel]="{ value: prescribingItem.prescription.comorbidity }"
+      [compareWith]="compareFn"
+      (ngModelChange)="optionChanged('comorbidity', $event)"
+    >
+      <mdb-select-option
+        *ngFor="let form of comorbidity"
+        [value]="form"
+        [ngClass]="{ 'option-disabled': form.disabled }"
+      >
+        {{ form.label }}
+      </mdb-select-option>
+    </mdb-select-2>
+  </div>
   <div class="drug-quantity">
     <label for="drug-quantity-input">Quantity:</label>
     <input
@@ -93,18 +114,29 @@
     />
   </div>
   <div class="drug-helper">
-    <mdb-icon fas icon="tablets" mdbTooltip="Open Dose Helper" placement="top" (click)="dosageHelper = !dosageHelper"></mdb-icon>
+    <mdb-icon
+      fas
+      icon="tablets"
+      mdbTooltip="Open Dose Helper"
+      placement="top"
+      (click)="dosageHelper = !dosageHelper"
+    ></mdb-icon>
   </div>
-<!--  <div class="drug-information">-->
-<!--    <mdb-icon fas icon="question-circle" size="lg" class="grey-text" [mdbTooltip]="reason" placement="top" ></mdb-icon>-->
-<!--  </div>-->
-<!--  <div class="drug-warnings">-->
-<!--    <mdb-icon fas icon="exclamation-circle" size="lg" [ngClass]="conflictLevel === 'Warning' ? 'red-text' : 'amber-text'" [mdbPopover]="conflictPopover" #pop="bs-mdbPopover" triggers="focus"></mdb-icon>-->
-<!--  </div>-->
+  <!--  <div class="drug-information">-->
+  <!--    <mdb-icon fas icon="question-circle" size="lg" class="grey-text" [mdbTooltip]="reason" placement="top" ></mdb-icon>-->
+  <!--  </div>-->
+  <!--  <div class="drug-warnings">-->
+  <!--    <mdb-icon fas icon="exclamation-circle" size="lg" [ngClass]="conflictLevel === 'Warning' ? 'red-text' : 'amber-text'" [mdbPopover]="conflictPopover" #pop="bs-mdbPopover" triggers="focus"></mdb-icon>-->
+  <!--  </div>-->
   <div class="drug-remove">
-    <mdb-icon fas icon="trash" mdbTooltip="Remove item" placement="top" (click)="removeSingleItem(prescribingItem)"></mdb-icon>
+    <mdb-icon
+      fas
+      icon="trash"
+      mdbTooltip="Remove item"
+      placement="top"
+      (click)="removeSingleItem(prescribingItem)"
+    ></mdb-icon>
   </div>
-
 
   <pa-sig-builder
     *ngIf="dosageHelper"
@@ -121,6 +153,14 @@
 </div>
 
 <ng-template #conflictPopover>
-    <p>{{ conflictMessage }}</p>
-    <button type="button" mdbBtn color="primary" (click)="acknowledgeConflict(); " mdbWavesEffect>Yes</button>
+  <p>{{ conflictMessage }}</p>
+  <button
+    type="button"
+    mdbBtn
+    color="primary"
+    (click)="acknowledgeConflict()"
+    mdbWavesEffect
+  >
+    Yes
+  </button>
 </ng-template>

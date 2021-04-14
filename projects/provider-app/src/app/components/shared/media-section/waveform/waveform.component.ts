@@ -118,7 +118,6 @@ export class WaveformComponent implements OnChanges, AfterViewInit, OnDestroy, O
     const audioURL = audio ? audio['changingThisBreaksApplicationSecurity'] || audio : missing;
 
     this.waveSurferInstance.on('error', (error) => {
-      console.log('Cannot play provided file!', error);
       this.waveSurferInstance.load(missing);
     });
 

@@ -1,5 +1,8 @@
-import { PrescribingItem, Prescription } from 'treatments/prescription/prescription.component';
-import { PopoverDirective} from 'ng-uikit-pro-standard';
+import {
+  PrescribingItem,
+  Prescription,
+} from "treatments/prescription/prescription.component";
+import { PopoverDirective } from "ng-uikit-pro-standard";
 import {
   Component,
   Input,
@@ -8,11 +11,11 @@ import {
   ChangeDetectorRef,
   ChangeDetectionStrategy,
   Output,
-  EventEmitter
-} from '@angular/core';
-import { ProtocolsService } from 'treatments/protocols.service';
-import { MedInfo, SigOption } from 'treatments/treatments.new.interface';
-import { PercentPipe } from '@angular/common';
+  EventEmitter,
+} from "@angular/core";
+import { ProtocolsService } from "treatments/protocols.service";
+import { MedInfo, SigOption } from "treatments/treatments.new.interface";
+import { PercentPipe } from "@angular/common";
 
 export interface Option {
   value: string;
@@ -20,19 +23,20 @@ export interface Option {
   disabled: boolean;
 }
 
-const optionKeys = ['strength', 'form', 'route', 'freq', 'unit'] as const;
+const optionKeys = ["strength", "form", "route", "freq", "unit"] as const;
 type OptionKey = typeof optionKeys[number];
 
 @Component({
-  selector: 'pa-rx-row',
-  templateUrl: './rx-row.component.html',
-  styleUrls: ['./rx-row.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: "pa-rx-row",
+  templateUrl: "./rx-row.component.html",
+  styleUrls: ["./rx-row.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RxRowComponent implements OnInit {
-  @Output() removeItem: EventEmitter<PrescribingItem> = new EventEmitter<PrescribingItem>();
+  @Output()
+  removeItem: EventEmitter<PrescribingItem> = new EventEmitter<PrescribingItem>();
 
-  @ViewChild('pop') pop: PopoverDirective;
+  @ViewChild("pop") pop: PopoverDirective;
 
   drugNames: Option[] = [];
 
@@ -42,25 +46,48 @@ export class RxRowComponent implements OnInit {
   routes: Option[] = [];
   freqs: Option[] = [];
   units: Option[] = [];
+  comorbidity: Option[] = [
+    {
+      value: "Comorbidity 1",
+      label: "Comorbidity 1",
+      disabled: false,
+    },
+    {
+      value: "Comorbidity 2",
+      label: "Comorbidity 2",
+      disabled: false,
+    },
+    {
+      value: "Comorbidity 3",
+      label: "Comorbidity 3",
+      disabled: false,
+    },
+  ];
 
   fPrescriptions: Prescription[] = [];
 
-  conflictLevel = 'Warning';
-  conflictMessage = 'This dose is outside of the recommended range based on the patients age and weight. Are you sure you would like to proceed with this dose?';
+  conflictLevel = "Warning";
+  conflictMessage =
+    "This dose is outside of the recommended range based on the patients age and weight. Are you sure you would like to proceed with this dose?";
   conflictAcknowledged = false;
-  reason = 'This medication is typically used to treat this illness for this specific reason - This is why you should use this. ';
+  reason =
+    "This medication is typically used to treat this illness for this specific reason - This is why you should use this. ";
   dosageHelper = false;
 
   prescribingItem: PrescribingItem;
 
   constructor(
     private protocolsService: ProtocolsService,
-    private changeDetectorRef: ChangeDetectorRef) {
-  }
+    private changeDetectorRef: ChangeDetectorRef
+  ) {}
 
   @Input() set item(item: PrescribingItem) {
     this.prescribingItem = item;
-    this.drugNames = item.drugNames.map(name => ({ value: name.str, label: name.str, disabled: false }));
+    this.drugNames = item.drugNames.map((name) => ({
+      value: name.str,
+      label: name.str,
+      disabled: false,
+    }));
 
     this.initOptions();
 
@@ -70,29 +97,36 @@ export class RxRowComponent implements OnInit {
   @Input() set favoritePrescriptions(favoritePrescriptions: Prescription[]) {
     this.fPrescriptions = favoritePrescriptions;
     this.sigs = favoritePrescriptions
-      .filter(pr => `${pr.rxcui}` === `${this.prescribingItem.prescription.rxcui}`)
-      .map(pr => pr.sig)
-      .map(sig => ({ value: sig, label: sig, disabled: false }));
+      .filter(
+        (pr) => `${pr.rxcui}` === `${this.prescribingItem.prescription.rxcui}`
+      )
+      .map((pr) => pr.sig)
+      .map((sig) => ({ value: sig, label: sig, disabled: false }));
 
     this.changeDetectorRef.detectChanges();
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   initOptions(): void {
-    this.strengths = this.getOptions('strength');
-    this.forms = this.getOptions('form');
-    this.routes = this.getOptions('route');
-    this.freqs = this.getOptions('freq');
-    this.units = this.getOptions('unit');
+    this.strengths = this.getOptions("strength");
+    this.forms = this.getOptions("form");
+    this.routes = this.getOptions("route");
+    this.freqs = this.getOptions("freq");
+    this.units = this.getOptions("unit");
 
-    this.prescribingItem.prescription.EMR_med_name = this.getOptions('EMR_med_name')[0].label;
-    this.prescribingItem.prescription.EMR_med_desc = this.getOptions('EMR_med_desc')[0].label;
+    this.prescribingItem.prescription.EMR_med_name = this.getOptions(
+      "EMR_med_name"
+    )[0].label;
+    this.prescribingItem.prescription.EMR_med_desc = this.getOptions(
+      "EMR_med_desc"
+    )[0].label;
   }
 
   drugNameChanged(drugName: string) {
-    const dName = this.prescribingItem.drugNames.find(d => d.str === drugName);
+    const dName = this.prescribingItem.drugNames.find(
+      (d) => d.str === drugName
+    );
     this.prescribingItem.prescription.daw = dName.isBranded;
 
     this.prescribingItem.prescription.strength = undefined;
@@ -105,45 +139,60 @@ export class RxRowComponent implements OnInit {
   }
 
   setRecommendOptions(prescription: Prescription) {
-    this.prescribingItem.prescription = {...prescription};
+    this.prescribingItem.prescription = { ...prescription };
   }
 
-  optionChanged(key: OptionKey | 'sig', option: Option): void {
+  optionChanged(key: OptionKey | "sig", option: Option): void {
     if (option.disabled) {
-      if (key !== 'sig') {
+      if (key !== "sig") {
         this.resetOptions(key, option.value);
       }
     } else {
       const { prescription } = this.prescribingItem;
       prescription[key] = option.value;
-      if (key === 'sig') {
-        const recommends = this.fPrescriptions.filter(e => e.sig == option.value);
+      if (key === "sig") {
+        const recommends = this.fPrescriptions.filter(
+          (e) => e.sig == option.value
+        );
         if (recommends.length) {
           this.setRecommendOptions(recommends[0]);
         }
-
-      } else if (key === 'strength' || key === 'form' || key === 'route' || key === 'freq' || key === 'unit') {
+      } else if (
+        key === "strength" ||
+        key === "form" ||
+        key === "route" ||
+        key === "freq" ||
+        key === "unit"
+      ) {
         this.rebuildOptions(key);
       }
     }
 
-    this.prescribingItem.prescription.EMR_med_name = this.getOptions('EMR_med_name')[0].label;
-    this.prescribingItem.prescription.EMR_med_desc = this.getOptions('EMR_med_desc')[0].label;
+    this.prescribingItem.prescription.EMR_med_name = this.getOptions(
+      "EMR_med_name"
+    )[0].label;
+    this.prescribingItem.prescription.EMR_med_desc = this.getOptions(
+      "EMR_med_desc"
+    )[0].label;
 
     this.changeDetectorRef.detectChanges();
   }
 
-  resetOptions(excludeKey: OptionKey = null, value: string = '', rowIndex: number = -1): void {
+  resetOptions(
+    excludeKey: OptionKey = null,
+    value: string = "",
+    rowIndex: number = -1
+  ): void {
     const { prescription } = this.prescribingItem;
     prescription.strength = undefined;
     prescription.form = undefined;
     prescription.route = undefined;
 
     if (prescription.dosageHelper?.rows) {
-      prescription.dosageHelper.rows.forEach(row => {
+      prescription.dosageHelper.rows.forEach((row) => {
         row.freq = undefined;
         row.unit = undefined;
-      })
+      });
     }
 
     if (excludeKey) {
@@ -157,7 +206,11 @@ export class RxRowComponent implements OnInit {
     this.rebuildOptions(excludeKey);
   }
 
-  private filterDrugOptions(infos: MedInfo[], filterKeys: OptionKey[], targetKey: OptionKey | 'EMR_med_name' | 'EMR_med_desc'): Option[] {
+  private filterDrugOptions(
+    infos: MedInfo[],
+    filterKeys: OptionKey[],
+    targetKey: OptionKey | "EMR_med_name" | "EMR_med_desc"
+  ): Option[] {
     // const buildStrength = (strengths: string[]): string => {
     //   const buildConstantUnits = (constantStrengths) => {
     //     if (constantStrengths.length === 1) {
@@ -176,53 +229,63 @@ export class RxRowComponent implements OnInit {
     //   return buildConstantUnits(strengths);
     // };
 
-    const filteredInfos = infos.filter(info => {
+    const filteredInfos = infos.filter((info) => {
       const { prescription } = this.prescribingItem;
-      return filterKeys.every(key => {
-        if (key == 'strength' || key === 'form') {
+      return filterKeys.every((key) => {
+        if (key == "strength" || key === "form") {
           if (!prescription[key]) {
             return true;
           }
 
-          const infoValue = key === 'form' ? info.dosage_form_abbr : key === 'strength' ? `${info.strength}${info.strength_uom}` : info[key];
+          const infoValue =
+            key === "form"
+              ? info.dosage_form_abbr
+              : key === "strength"
+              ? `${info.strength}${info.strength_uom}`
+              : info[key];
           return infoValue === prescription[key];
         }
 
-        if (key === 'route') {
+        if (key === "route") {
           if (!prescription[key]) {
             return true;
           }
 
           const routes = info.route_info;
-          return routes.some(r => r.sigtext === prescription[key]);
+          return routes.some((r) => r.sigtext === prescription[key]);
         }
 
-        if (key === 'freq' || key === 'unit') {
+        if (key === "freq" || key === "unit") {
           if (!prescription.dosageHelper?.rows) {
             return true;
           }
 
-          const prescriptionValues = prescription.dosageHelper.rows.map(row => row[key]).filter(Boolean);
-          const infoValues = key === 'freq' ? info.frequency_info.map(i => i.sigtext) : info.dosage_unit;
-          return prescriptionValues.every(p => infoValues.indexOf(p) !== -1);
+          const prescriptionValues = prescription.dosageHelper.rows
+            .map((row) => row[key])
+            .filter(Boolean);
+          const infoValues =
+            key === "freq"
+              ? info.frequency_info.map((i) => i.sigtext)
+              : info.dosage_unit;
+          return prescriptionValues.every((p) => infoValues.indexOf(p) !== -1);
         }
       });
     });
 
     const buildField = (info: MedInfo): string | SigOption[] | string[] => {
-      if (targetKey === 'strength') {
+      if (targetKey === "strength") {
         return `${info.strength}${info.strength_uom}`;
       }
-      if (targetKey === 'form') {
+      if (targetKey === "form") {
         return info.dosage_form_abbr;
       }
-      if (targetKey === 'route') {
+      if (targetKey === "route") {
         return info.route_info;
       }
-      if (targetKey === 'freq') {
+      if (targetKey === "freq") {
         return info.frequency_info;
       }
-      if (targetKey === 'unit') {
+      if (targetKey === "unit") {
         return info.dosage_unit;
       }
 
@@ -231,25 +294,34 @@ export class RxRowComponent implements OnInit {
 
     const filteredValues: Option[] = [];
 
-    const valueExists = value => {
-      return filteredValues.some(v => v.value === value);
-    }
+    const valueExists = (value) => {
+      return filteredValues.some((v) => v.value === value);
+    };
 
-    filteredInfos.forEach(info => {
+    filteredInfos.forEach((info) => {
       const value = buildField(info);
-      if (targetKey === 'strength' || targetKey === 'form' || targetKey === 'EMR_med_name' || targetKey === 'EMR_med_desc') {
+      if (
+        targetKey === "strength" ||
+        targetKey === "form" ||
+        targetKey === "EMR_med_name" ||
+        targetKey === "EMR_med_desc"
+      ) {
         const v = value as string;
         if (!valueExists(v)) {
           filteredValues.push({ value: v, label: v, disabled: false });
         }
-      } else if (targetKey === 'route' || targetKey === 'freq') {
-        (value as SigOption[]).forEach(sOption => {
+      } else if (targetKey === "route" || targetKey === "freq") {
+        (value as SigOption[]).forEach((sOption) => {
           if (!valueExists(sOption.sigtext)) {
-            filteredValues.push({ value: sOption.sigtext, label: sOption.option, disabled: false });
+            filteredValues.push({
+              value: sOption.sigtext,
+              label: sOption.option,
+              disabled: false,
+            });
           }
         });
-      } else if (targetKey === 'unit') {
-        (value as string[]).forEach(s => {
+      } else if (targetKey === "unit") {
+        (value as string[]).forEach((s) => {
           if (!valueExists(s)) {
             filteredValues.push({ value: s, label: s, disabled: false });
           }
@@ -287,31 +359,37 @@ export class RxRowComponent implements OnInit {
   //   return options.length ? options[0].label : null;
   // }
 
-  private getOptions(key: OptionKey | 'EMR_med_name' | 'EMR_med_desc'): Option[] {
-    const otherKeys = optionKeys.filter(k => k !== key);
+  private getOptions(
+    key: OptionKey | "EMR_med_name" | "EMR_med_desc"
+  ): Option[] {
+    const otherKeys = optionKeys.filter((k) => k !== key);
     return this.filterDrugOptions(this.filteredGroups(), otherKeys, key);
   }
 
   private _rebuildOptions(options: Option[], activeOptions: Option[]) {
     const enabledOptions = options
-      .filter(option => !!activeOptions.find(opt => opt.value === option.value))
+      .filter(
+        (option) => !!activeOptions.find((opt) => opt.value === option.value)
+      )
       .map(({ label, value }) => ({ label, value, disabled: false }));
     const disabledOptions = options
-      .filter(option => !activeOptions.find(opt => opt.value === option.value))
+      .filter(
+        (option) => !activeOptions.find((opt) => opt.value === option.value)
+      )
       .map(({ label, value }) => ({ label, value, disabled: true }));
 
     return enabledOptions.concat(disabledOptions);
   }
 
   private rebuildOptions(key?: OptionKey): void {
-    const keys = optionKeys.filter(k => k !== key);
+    const keys = optionKeys.filter((k) => k !== key);
     if (key) {
-      keys.forEach(k => {
+      keys.forEach((k) => {
         this[`${k}s`] = this._rebuildOptions(this[`${k}s`], this.getOptions(k));
       });
     } else {
-      keys.forEach(k => {
-        this[`${k}s`].forEach(i => i.disabled = false);
+      keys.forEach((k) => {
+        this[`${k}s`].forEach((i) => (i.disabled = false));
       });
     }
   }
@@ -320,7 +398,7 @@ export class RxRowComponent implements OnInit {
     const formattedSig: Option = {
       value: sig,
       label: sig,
-      disabled: false
+      disabled: false,
     };
     this.prescribingItem.prescription.sig = sig;
     this.sigs = [...this.sigs, formattedSig];
@@ -329,11 +407,16 @@ export class RxRowComponent implements OnInit {
   }
 
   prescriptionSave(sig: string) {
-    this.protocolsService.createTreatmentProtocol({ ...this.prescribingItem, prescription: { ...this.prescribingItem.prescription, sig } }).subscribe();
+    this.protocolsService
+      .createTreatmentProtocol({
+        ...this.prescribingItem,
+        prescription: { ...this.prescribingItem.prescription, sig },
+      })
+      .subscribe();
   }
 
   acknowledgeConflict() {
-    console.log('The conflict was acknowledged by the doctor');
+    console.log("The conflict was acknowledged by the doctor");
     this.pop.hide();
   }
 

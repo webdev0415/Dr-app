@@ -1,11 +1,12 @@
 .rx-row {
   display: grid;
-  grid-template-columns: calc(25% - 65px) calc(20% - 65px) calc(25% - 65px) calc(25% - 65px) 70px 70px 30px 0 0 30px;
-  column-gap: 5px;
+  grid-template-columns: calc(25% - 65px) calc(20% - 65px) calc(25% - 65px) calc(25% - 65px) 70px 70px 70px 30px 0 0 30px;
+  -moz-column-gap: 5px;
+  column-gap: 3px;
   grid-template-rows: auto;
   grid-template-areas:
-    "drug-name drug-strength drug-form drug-sig drug-quantity drug-refills drug-helper drug-information drug-warnings drug-remove"
-    ". helper helper helper helper helper helper helper helper .";
+      "drug-name drug-strength drug-form drug-sig drug-comorbidity drug-quantity drug-refills drug-helper drug-information drug-warnings drug-remove"
+      ". helper helper helper helper helper helper helper helper helper .";
   margin: 20px 0;
 }
 
@@ -29,6 +30,10 @@
   grid-area: drug-sig;
 }
 
+.drug-comorbidity {
+  grid-area: drug-comorbidity;
+}
+
 .drug-quantity {
   grid-area: drug-quantity;
 }
@@ -46,14 +51,14 @@
 
 .drug-information {
   grid-area: drug-information;
-  padding: .6rem;
+  padding: 0.6rem;
   margin-left: 1rem;
   justify-self: center;
 }
 
 .drug-warnings {
   grid-area: drug-warnings;
-  padding: .6rem;
+  padding: 0.6rem;
   margin-left: 1rem;
   justify-self: center;
 }
@@ -74,7 +79,7 @@
 }
 
 .helper-freq {
-  grid-area: helper-freq
+  grid-area: helper-freq;
 }
 
 .helper-duration {

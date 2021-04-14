@@ -10,7 +10,7 @@ import { UserRolesEnum } from '../../common/enums/user-roles.enum';
 import { Lab } from '../../common/interfaces/labs.interface';
 import { orderedMeasurementsToVitals } from '../../common/models/vitals.model';
 import { PatientDataFacadeService } from '../../patient-core/patient-data-facade.service';
-import { PatientdataService, StateService, SymptomsService } from '../../services';
+import {DataService, PatientdataService, StateService, SymptomsService} from '../../services';
 
 
 import { ServicedataService } from '../../services/servicedata.service';
@@ -22,6 +22,9 @@ import { FormattedTriageLab } from '../interfaces/formatted-triage-lab.interface
 import { staticLabs as constantLabs, staticLabs } from '../static/labs.static';
 import { LabsApiService } from './labs-api.service';
 import { LabsStateService } from './labs-state.service';
+import {InitAccordion} from '../../components/app/workspace/patientspace/stores/diagnosis-accordion/diagnosis-accordion.actions';
+import { Store } from '@ngxs/store';
+import {TreatmentsService} from '../../treatments/treatments.service';
 
 
 @Injectable({
@@ -37,7 +40,10 @@ export class LabsService {
     private stateService: StateService,
     private patientDataService: PatientdataService,
     private symptomsService: SymptomsService,
-    private userService: UserService
+    private userService: UserService,
+    private store: Store,
+    private treatmentsService: TreatmentsService,
+    private dataService: DataService,
   ) { }
 
   public get businessLabs(): BusinessLab[] {
@@ -81,6 +87,7 @@ export class LabsService {
       this.updateTriage(data.triage);
     }));
 
+    const patient = this.dataService.getPatientLastValue();
     let rerunRos = false;
     if (updatedLabs.find(item => item.SymptomID === 'SYMPT0003962' &&
       item.Response === 'OTHER')) rerunRos = true;
@@ -88,6 +95,9 @@ export class LabsService {
       this.updateTriage(data.triage);
       this.labsStateService.orderLabState = this.labsStateService.orderLabState.filter(item => !data.triage.find(triage => triage.symptomId === item));
       labsUpdateResult.updatedLabs = [];
+      this.store.dispatch(new InitAccordion(data.diagnosticEngine, patient.illnessInformation, data.triage)).subscribe(() => {
+        this.treatmentsService.restoreTreatments(patient, this.patientDataService.getPatientIllness().illness, this.patientDataService.getPatientIllness().primary);
+      });
     }));
 
     return forkJoin(

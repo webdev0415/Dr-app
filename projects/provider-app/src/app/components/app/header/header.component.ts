@@ -49,7 +49,6 @@ import { FullNamePipe } from '../../../utils/full-name.pipe';
 import { PpcustomdialogComponent } from '../../shared/popups/ppcustomdialog/ppcustomdialog.component';
 import { PatientPhoneEnum } from '../../../../../../patient-profile/src/lib/enums';
 import { TelemedicineTestComponent } from 'telemedicine/telemedicine-test/telemedicine-test.component';
-import { ChatService } from 'chat/chat.service';
 
 @Component({
   selector: 'pa-header',
@@ -104,8 +103,7 @@ export class HeaderComponent implements OnInit, DoCheck {
     private patientProfileService: PatientProfileService,
     private patientDataService: PatientDataFacadeService,
     private fullNamePipe: FullNamePipe,
-    private notificationsService: NotificationsService,
-    private chatService: ChatService
+    private notificationsService: NotificationsService
   ) {
     this.isPICBusiness = this.userService.isPICModeBusiness;
   }
@@ -182,10 +180,6 @@ export class HeaderComponent implements OnInit, DoCheck {
     })).subscribe();
   }
 
-  isShowChat(isShowChat: boolean) {
-    this.chatService.isShowChat(isShowChat, this.patient.patientId);
-  }
-  
   public get socialCard$(): Observable<SocialCard> {
     return this.patientDataService.socialCard$;
   }

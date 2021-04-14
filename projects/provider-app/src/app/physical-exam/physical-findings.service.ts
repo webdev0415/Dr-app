@@ -93,7 +93,6 @@ export class PhysicalFindingsService {
     result.deletedExams = initialPhysicalExams.filter(item => !examsNames.includes(item.examName));
     result.addedExams = physicalExams.filter(item => !initialExamsNames.includes(item.examName));
     result.editedExams = physicalExams.filter(item => !rawExamsStrings.includes(JSON.stringify(item)) && !result.addedExams.find(exam => exam.examName === item.examName));
-
     return result;
   }
 

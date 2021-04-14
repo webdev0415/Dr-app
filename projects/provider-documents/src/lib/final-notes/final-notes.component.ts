@@ -485,9 +485,9 @@ export class FinalNotesComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   getReasonForMedications(medication) {
-    if (!medication.details || !medication.details.reason) return medication.historyItem;
+    if (!medication.details || !medication.details.reason) return medication.historyItem.name;
 
-    return `${medication.historyItem} | ${medication.details.reason}`;
+    return `${medication.historyItem.name} | ${medication.details.reason}`;
   }
 
   getVitalsByType(type: AuditMeasurementsTypes, measurements: Measurement[] = this.patient.measurements): Measurement[] {

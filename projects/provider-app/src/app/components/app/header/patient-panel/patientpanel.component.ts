@@ -88,7 +88,8 @@ export class PatientPanelComponent implements OnInit {
    * @param {string} section
    */
   getSection(section: string): HistoryItem[] {
-    return this.socialCard ? this.socialCard.patientHealthHistory.historyItem.filter(item => item.historyType === section && (item.historyItem as string).length) : [];
+    return this.socialCard ? this.socialCard.patientHealthHistory.historyItem.filter(item => item.historyType === section) : [];
+    // && (item.historyItem as string).length originally in filter
   }
 
   showFullImg(image: 'patientInsurance' | 'patientIdCard'): void {

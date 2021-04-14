@@ -53,6 +53,7 @@ export interface Prescription {
   EMR_med_name?: string | null;
   EMR_med_desc?: string | null;
   dosageHelper?: DosageHelper;
+  comorbidity?: string;
 }
 
 export interface PrescribingItem {

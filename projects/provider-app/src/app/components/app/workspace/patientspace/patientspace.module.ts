@@ -51,7 +51,7 @@ import { GroupedSymptomsComponent } from './symptoms/grouped-symptoms/grouped-sy
 import { LabsModule } from 'labs/labs.module';
 import { PharmacistSummaryComponent } from './pharmacist-summary/pharmacist-summary.component';
 import { PharmacistModule } from '../../../../../../../pharmacist/src/lib/pharmacist.module';
-import { ChatModule } from 'chat/chat.module';
+
 
 @NgModule({
   imports: [
@@ -71,8 +71,7 @@ import { ChatModule } from 'chat/chat.module';
     TreatmentsModule,
     LabsModule,
     PharmacistModule.forRoot(),
-    PhysicalExamModule,
-    ChatModule
+    PhysicalExamModule
   ],
   declarations: [
     PatientSpaceComponent,
